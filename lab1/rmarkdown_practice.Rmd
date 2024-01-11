@@ -1,0 +1,26 @@
+---
+title: "RMarkdown Practice"
+output: html_document
+date: "2024-01-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## BIS15L 
+### Thurday, Janurary 11th
+#### Hour: 1:28PM
+I am currently in BIS15L learning how to use RMarkdown 
+
+[BIS 15L Webpage](https://jmledford3115.github.io/datascibiol/)
+
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
