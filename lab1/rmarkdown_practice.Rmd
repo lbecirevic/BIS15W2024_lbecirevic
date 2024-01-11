@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## BIS15L 
 ### Thurday, Janurary 11th
 #### Hour: 1:28PM
-I am currently in BIS15L learning how to use RMarkdown 
+I am currently in BIS15L  
+learning how to use RMarkdown.
 
 [BIS 15L Webpage](https://jmledford3115.github.io/datascibiol/)
 
