@@ -14,10 +14,10 @@ Answer the following questions and complete the exercises in RMarkdown. Please e
 Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
 
 1. What is a vector in R?  
-
+Vectors are a way to organize data in R specifically in lists of variables. 
 
 2. What is a data matrix in R?  
-
+Data matrix is a command that tells R how to organize the vectors we made to specific data types arranged in rows and columns. 
 
 3. Below are data collected by three scientists (Jill, Steve, Susan in order) measuring temperatures of eight hot springs. Run this code chunk to create the vectors.  
 ```{r}
@@ -42,23 +42,59 @@ springs_matrix <- matrix(hot_springs, nrow = 8, byrow = T)
 springs_matrix
 ```
 
-
 5. The names of the springs are 1.Bluebell Spring, 2.Opal Spring, 3.Riverside Spring, 4.Too Hot Spring, 5.Mystery Spring, 6.Emerald Spring, 7.Black Spring, 8.Pearl Spring. Name the rows and columns in the data matrix. Start by making two new vectors with the names, then use `colnames()` and `rownames()` to name the columns and rows.
 
+```{r}
+titles <- c("Jill", "Steve", "Susan")
+titles
+```
+
+```{r}
+region <- c("Bluebell Spring", "Opal Spring", "Riverside Spring", "Too Hot Spring", "Mystery Spring", "Emerald Spring", "Black Spring", "Pearl Spring")
+region
+```
+
+```{r}
+colnames(springs_matrix) <- titles
+```
+
+```{r}
+rownames(springs_matrix) <- region
+```
+
+```{r}
+springs_matrix
+```
 
 6. Calculate the mean temperature of all eight springs.
-
+```{r}
+mean_temp <- rowMeans(springs_matrix)
+mean_temp
+```
 
 7. Add this as a new column in the data matrix.  
-
+```{r}
+total_springs_matrix <- cbind(springs_matrix, mean_temp)
+total_springs_matrix
+```
 
 8. Show Susan's value for Opal Spring only.
-
+```{r}
+total_springs_matrix["Opal Spring", "Susan"]
+```
 
 9. Calculate the mean for Jill's column only.  
 
+```{r}
+mean_jill <- total_springs_matrix[ ,"Jill"]
+mean(mean_jill)
+```
 
 10. Use the data matrix to perform one calculation or operation of your interest.
+
+```{r}
+springs_matrix<=35
+```
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.  
