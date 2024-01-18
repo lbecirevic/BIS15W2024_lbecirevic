@@ -5,7 +5,7 @@
 <img align="right" alt="Coding" width="400" src="https://i.pinimg.com/originals/6c/90/28/6c90288d7e10d46d18895f17f420a92c.gif">
 
 
-🌱 I’m currently learning **how to to use RStudio (me ->)**
+🌱 This is me learning how to use R ->
 
 📫 You can reach me @**lbecirevic@ucdavis.edu**
 
