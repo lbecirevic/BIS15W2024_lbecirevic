@@ -508,9 +508,15 @@ mean(sleep_large)</code></pre>
 <ol start="10" style="list-style-type: decimal">
 <li>Which animal is the sleepiest among the entire dataframe?</li>
 </ol>
-<pre class="r"><code>sleepiest &lt;-  sleep$sleep_total[sleep$sleep_total&lt;=2]
-sleepiest</code></pre>
-<pre><code>## [1] 1.9</code></pre>
+<pre class="r"><code>summary(sleep$sleep_total)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.90    7.85   10.10   10.43   13.75   19.90</code></pre>
+<pre class="r"><code>filter(sleep, sleep_total==19.90) #The little brown bat is the sleepiest mammal in the dataset.</code></pre>
+<pre><code>## # A tibble: 1 × 11
+##   name    genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+##   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 Little… Myot… inse… Chir… &lt;NA&gt;                19.9         2         0.2   4.1
+## # ℹ 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
