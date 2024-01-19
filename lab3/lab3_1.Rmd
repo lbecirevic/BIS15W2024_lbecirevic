@@ -148,6 +148,7 @@ hsprings
 temp <- hsprings[,1] #same command as data matrix
 mean(temp)
 ```
+
 ```{r}
 mean(hsprings$temp)
 ```
