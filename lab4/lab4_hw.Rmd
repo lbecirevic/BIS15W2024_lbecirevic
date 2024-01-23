@@ -31,32 +31,51 @@ Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
 
 **1. Load the data into a new object called `homerange`.**
 ```{r}
-
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 **2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.**  
 ```{r}
+dim(homerange)
+```
 
+```{r}
+names(homerange)
+```
+
+```{r}
+str(homerange) #I can see the class of each variable at the bottom
+```
+
+```{r}
+summary(homerange)
 ```
 
 **3. Change the class of the variables `taxon` and `order` to factors and display their levels.**  
 ```{r}
+homerange$taxon <- as.factor(homerange$taxon)
+levels(homerange$taxon)
+```
 
+```{r}
+homerange$order <- as.factor(homerange$order)
+levels(homerange$order)
 ```
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
 ```{r}
-
+taxa <- select(homerange, "taxon", "common.name", "class", "order", "family", "genus", "species")
+taxa
 ```
 
 **5. The variable `taxon` identifies the common name groups of the species represented in `homerange`. Make a table the shows the counts for each of these `taxon`.**  
 ```{r}
-
+table(homerange$taxon)
 ```
 
 **6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild.**  
 ```{r}
-
+table(homerange$trophic.guild)
 ```
 
 # Finish 1-6
