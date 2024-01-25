@@ -616,44 +616,43 @@ carnivores and another that is restricted to herbivores.</strong></p>
 carnviore &lt;- filter(homerange, trophic.guild==&quot;carnivore&quot;)</code></pre>
 <p><strong>8. Do herbivores or carnivores have, on average, a larger
 <code>mean.hra.m2</code>? Remove any NAs from the data.</strong></p>
-<pre class="r"><code>select(herbivores, mean.hra.m2)</code></pre>
-<pre><code>## # A tibble: 227 × 1
-##    mean.hra.m2
-##          &lt;dbl&gt;
-##  1       11.1 
-##  2    32093.  
-##  3    17900   
-##  4        0.52
-##  5    34423   
-##  6        1.13
-##  7       18.5 
-##  8        2.58
-##  9        0.54
-## 10        2.25
-## # ℹ 217 more rows</code></pre>
-<pre class="r"><code>names(homerange)</code></pre>
-<pre><code>##  [1] &quot;taxon&quot;                      &quot;common.name&quot;               
-##  [3] &quot;class&quot;                      &quot;order&quot;                     
-##  [5] &quot;family&quot;                     &quot;genus&quot;                     
-##  [7] &quot;species&quot;                    &quot;primarymethod&quot;             
-##  [9] &quot;N&quot;                          &quot;mean.mass.g&quot;               
-## [11] &quot;log10.mass&quot;                 &quot;alternative.mass.reference&quot;
-## [13] &quot;mean.hra.m2&quot;                &quot;log10.hra&quot;                 
-## [15] &quot;hra.reference&quot;              &quot;realm&quot;                     
-## [17] &quot;thermoregulation&quot;           &quot;locomotion&quot;                
-## [19] &quot;trophic.guild&quot;              &quot;dimension&quot;                 
-## [21] &quot;preymass&quot;                   &quot;log10.preymass&quot;            
-## [23] &quot;PPMR&quot;                       &quot;prey.size.reference&quot;</code></pre>
+<pre class="r"><code>mean(herbivores$mean.hra.m2, na.rm = T)</code></pre>
+<pre><code>## [1] 34137012</code></pre>
+<pre class="r"><code>mean(carnviore$mean.hra.m2, na.rm = T)</code></pre>
+<pre><code>## [1] 13039918</code></pre>
 <p><strong>9. Make a new dataframe <code>owls</code> that is limited to
 the mean mass, log10 mass, family, genus, and species of owls in the
 database. Which is the smallest owl? What is its common name? Do a
 little bit of searching online to see what you can learn about this
 species and provide a link below</strong></p>
 <pre class="r"><code>owls &lt;- filter(homerange, order==&quot;strigiformes&quot;)
-owls_data &lt;- select(owls, &quot;mean.mass.g&quot;, &quot;log10.mass&quot;, &quot;family&quot;, &quot;genus&quot;, &quot;species&quot;)</code></pre>
+owls_data &lt;- select(owls, &quot;mean.mass.g&quot;, &quot;log10.mass&quot;, &quot;family&quot;, &quot;genus&quot;, &quot;species&quot;, &quot;common.name&quot;)
+filter(owls_data, mean.mass.g==61.32) #The smallest owl is the Eurasian pygmy owl and it is found in the boreal forests of Northern and Central Europe to Siberia</code></pre>
+<pre><code>## # A tibble: 1 × 6
+##   mean.mass.g log10.mass family    genus      species    common.name       
+##         &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;             
+## 1        61.3       1.79 strigidae glaucidium passerinum Eurasian pygmy owl</code></pre>
+<p>Reference: Barbaro L, Blache S, Trochard G et al. (2016) Hierarchical
+habitat selection by Eurasian Pygmy Owls Glaucidium passerinum in
+old-growth forests of the southern French Prealps. 157:333–342. <a href="https://doi.org/10.1007/s10336-015-1285-3" class="uri">https://doi.org/10.1007/s10336-015-1285-3</a></p>
 <p><strong>10. As measured by the data, which bird species has the
 largest homerange? Show all of your work, please. Look this species up
 online and tell me about it!</strong>.</p>
+<pre class="r"><code>birds &lt;- filter(homerange, taxon==&quot;birds&quot;)
+max(birds$mean.hra.m2)</code></pre>
+<pre><code>## [1] 2.41e+08</code></pre>
+<pre class="r"><code>filter(birds, mean.hra.m2==2.41e+08) #The bird with the largest homerange is Caracara. They are a non-migratory raptor found from northern South America to the southern United States. </code></pre>
+<pre><code>## # A tibble: 1 × 24
+##   taxon common.name class order         family genus species primarymethod N    
+##   &lt;fct&gt; &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt;         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+## 1 birds caracara    aves  falconiformes falco… cara… cheriw… telemetry     26   
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<p>Reference: Smith J, Dwyer J, Fraser J, Morrison J. (2017) A habitat
+model to aid the conservation of crested caracaras. 81(4):712-719. <a href="https://doi.org/10.1002/jwmg.21239" class="uri">https://doi.org/10.1002/jwmg.21239</a></p>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>
 <p>Please be sure that you check the <code>keep md</code> file in the

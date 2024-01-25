@@ -88,23 +88,31 @@ carnviore <- filter(homerange, trophic.guild=="carnivore")
 
 **8. Do herbivores or carnivores have, on average, a larger `mean.hra.m2`? Remove any NAs from the data.**  
 ```{r}
-select(herbivores, mean.hra.m2)
+mean(herbivores$mean.hra.m2, na.rm = T)
 ```
 
 ```{r}
-names(homerange)
+mean(carnviore$mean.hra.m2, na.rm = T)
 ```
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 ```{r}
 owls <- filter(homerange, order=="strigiformes")
-owls_data <- select(owls, "mean.mass.g", "log10.mass", "family", "genus", "species")
+owls_data <- select(owls, "mean.mass.g", "log10.mass", "family", "genus", "species", "common.name")
+filter(owls_data, mean.mass.g==61.32) #The smallest owl is the Eurasian pygmy owl and it is found in the boreal forests of Northern and Central Europe to Siberia
 ```
+Reference: Barbaro L, Blache S, Trochard G et al. (2016) Hierarchical habitat selection by Eurasian Pygmy Owls Glaucidium passerinum in old-growth forests of the southern French Prealps. 157:333–342. https://doi.org/10.1007/s10336-015-1285-3
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 ```{r}
-
+birds <- filter(homerange, taxon=="birds")
+max(birds$mean.hra.m2)
 ```
+
+```{r}
+filter(birds, mean.hra.m2==2.41e+08) #The bird with the largest homerange is Caracara. They are a non-migratory raptor found from northern South America to the southern United States. 
+```
+Reference: Smith J, Dwyer J, Fraser J, Morrison J. (2017) A habitat model to aid the conservation of crested caracaras. 81(4):712-719. https://doi.org/10.1002/jwmg.21239 
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
