@@ -1,0 +1,54 @@
+---
+title: "lab 5 warmup"
+output: html_document
+date: "2024-01-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Warm-up
+The warm-up will use the fish data from lab 4. These data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth 2006. Environmental Data Initiative.  [link](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=267). 
+
+You will need the tidyverse to complete the warm-up- be sure to load the library.  
+
+```{r}
+library("tidyverse")
+```
+
+### 1. Load the fish data. 
+
+```{r}
+getwd()
+```
+
+```{r}
+fish <- read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+
+```{r}
+names(fish)
+```
+
+### 2. Transform the fish data to only include the variables lakeid and length.  Store this as a new dataframe called "fishlength".   
+
+```{r}
+fishlength <- select(fish,"lakeid", "length")
+fishlength
+```
+
+### 3. Filter the `fish` data to include the samples from lake "BO".  
+```{r}
+filter(fish, lakeid == "BO")
+```
+
+### 4. Calculate the mean length of fish from lake "BO".  
+```{r}
+fish_BO <- filter(fish, lakeid == "BO") 
+```
+
+```{r}
+mean(fish_BO$length)
+```
+
