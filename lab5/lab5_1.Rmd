@@ -64,7 +64,7 @@ filter(fish, lakeid=="LJ")
 ## Using `filter()` on multiple conditions
 You can also use `filter()` to extract data based on multiple conditions. Below we extract only the fish that have lakeid "AL" and length >350.
 ```{r}
-filter(fish, lakeid == "AL" & length > 350) #"And" filter = expclusive 
+filter(fish, lakeid == "AL" & length > 350) #"And" filter = exclusive 
 ```
 
 Notice that the `|` operator generates a different result.

@@ -12,7 +12,7 @@
 
 <meta name="date" content="2024-01-30" />
 
-<title>Transforming data 2: filter() con’t</title>
+<title>mutate(), and if_else()</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1502,22 +1502,24 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">Transforming data 2: <code>filter()</code>
-con’t</h1>
+<h1 class="title toc-ignore"><code>mutate()</code>, and
+<code>if_else()</code></h1>
 <h4 class="date">2024-01-30</h4>
 
 </div>
 
 
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/lab6&quot;</code></pre>
 <div id="learning-goals" class="section level2">
 <h2>Learning Goals</h2>
 <p><em>At the end of this exercise, you will be able to:</em><br />
-1. Use <code>filter()</code> to extract variables of interest.<br />
-2. Use <code>filter()</code> to extract variables of interest under
-multiple conditions.</p>
+1. Use <code>mutate()</code> to add columns in a dataframe.<br />
+2. Use <code>mutate()</code> and <code>if_else()</code> to replace
+values in a dataframe.</p>
 </div>
-<div id="load-the-tidyverse" class="section level2">
-<h2>Load the tidyverse</h2>
+<div id="load-the-libraries" class="section level2">
+<h2>Load the libraries</h2>
 <pre class="r"><code>library(&quot;tidyverse&quot;)
 library(&quot;janitor&quot;)</code></pre>
 </div>
@@ -1525,11 +1527,22 @@ library(&quot;janitor&quot;)</code></pre>
 <h2>Load the data</h2>
 <p>For this lab, we will use the following two datasets:</p>
 <ol style="list-style-type: decimal">
+<li><ol style="list-style-type: decimal">
 <li>Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North
 Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth
 2006. Environmental Data Initiative. <a href="https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&amp;identifier=267">link</a></li>
+</ol></li>
+<li>S. K. Morgan Ernest. 2003. Life history characteristics of placental
+non-volant mammals. Ecology 84:3402. <a href="http://esapubs.org/archive/ecol/E084/093/">link</a></li>
 </ol>
-<pre class="r"><code>fish &lt;- read_csv(&quot;data/Gaeta_etal_CLC_data.csv&quot;)</code></pre>
+</div>
+<div id="pipes" class="section level2">
+<h2>Pipes <code>%&gt;%</code></h2>
+<p>Recall that we use pipes to connect the output of code to a
+subsequent function. This makes our code cleaner and more efficient. One
+way we can use pipes is to attach the <code>clean_names()</code>
+function from janitor to the <code>read_csv()</code> output.</p>
+<pre class="r"><code>fish &lt;- readr::read_csv(&quot;data/Gaeta_etal_CLC_data.csv&quot;) %&gt;% clean_names()</code></pre>
 <pre><code>## Rows: 4033 Columns: 6
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1538,11 +1551,7 @@ Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>S. K. Morgan Ernest. 2003. Life history characteristics of placental
-non-volant mammals. Ecology 84:3402. <a href="http://esapubs.org/archive/ecol/E084/093/">link</a></li>
-</ol>
-<pre class="r"><code>mammals &lt;- read_csv(&quot;data/mammal_lifehistories_v2.csv&quot;)</code></pre>
+<pre class="r"><code>mammals &lt;- read_csv(&quot;data/mammal_lifehistories_v2.csv&quot;) %&gt;% clean_names()</code></pre>
 <pre><code>## Rows: 1440 Columns: 13
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1551,151 +1560,200 @@ non-volant mammals. Ecology 84:3402. <a href="http://esapubs.org/archive/ecol/E0
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Let’s rename some of the <code>mammals</code> variables.</p>
-<pre class="r"><code>mammals &lt;- rename(mammals, genus=&quot;Genus&quot;, wean_mass=&quot;wean mass&quot;, max_life= &quot;max. life&quot;, litter_size=&quot;litter size&quot;, litters_per_year=&quot;litters/year&quot;)</code></pre>
-<p>Do you remember the easier way?</p>
-<pre class="r"><code>mammals &lt;- clean_names(mammals)</code></pre>
+<pre class="r"><code>names(fish)</code></pre>
+<pre><code>## [1] &quot;lakeid&quot;          &quot;fish_id&quot;         &quot;annnumber&quot;       &quot;length&quot;         
+## [5] &quot;radii_length_mm&quot; &quot;scalelength&quot;</code></pre>
+<pre class="r"><code>names(mammals)</code></pre>
+<pre><code>##  [1] &quot;order&quot;        &quot;family&quot;       &quot;genus&quot;        &quot;species&quot;      &quot;mass&quot;        
+##  [6] &quot;gestation&quot;    &quot;newborn&quot;      &quot;weaning&quot;      &quot;wean_mass&quot;    &quot;afr&quot;         
+## [11] &quot;max_life&quot;     &quot;litter_size&quot;  &quot;litters_year&quot;</code></pre>
 </div>
-<div id="review" class="section level2">
-<h2>Review</h2>
-<p>In the warm-up, we practiced extracting observations of interest. For
-example, we can pull out all of the fish from a specific lake.</p>
-<pre class="r"><code>glimpse(fish)</code></pre>
-<pre><code>## Rows: 4,033
-## Columns: 6
-## $ lakeid          &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, …
-## $ fish_id         &lt;dbl&gt; 299, 299, 299, 300, 300, 300, 300, 301, 301, 301, 301,…
-## $ annnumber       &lt;chr&gt; &quot;EDGE&quot;, &quot;2&quot;, &quot;1&quot;, &quot;EDGE&quot;, &quot;3&quot;, &quot;2&quot;, &quot;1&quot;, &quot;EDGE&quot;, &quot;3&quot;, …
-## $ length          &lt;dbl&gt; 167, 167, 167, 175, 175, 175, 175, 194, 194, 194, 194,…
-## $ radii_length_mm &lt;dbl&gt; 2.697443, 2.037518, 1.311795, 3.015477, 2.670733, 2.13…
-## $ scalelength     &lt;dbl&gt; 2.697443, 2.697443, 2.697443, 3.015477, 3.015477, 3.01…</code></pre>
-<p>Let’s convert <code>lakeid</code> to a factor and have a look at
-which states are represented in the data.</p>
-<pre class="r"><code>fish$lakeid &lt;- as.factor(fish$lakeid) #Factor is a variable hat is classified as a factor (carnivore and herbivore)
-levels(fish$lakeid) #All the possible values within that variable</code></pre>
-<pre><code>##  [1] &quot;AL&quot;  &quot;AR&quot;  &quot;BO&quot;  &quot;BR&quot;  &quot;CR&quot;  &quot;DY&quot;  &quot;FD&quot;  &quot;JN&quot;  &quot;LC&quot;  &quot;LJ&quot;  &quot;LR&quot;  &quot;LSG&quot;
-## [13] &quot;MN&quot;  &quot;RD&quot;  &quot;UB&quot;  &quot;WS&quot;</code></pre>
-<p>Now we can pull out any state of interest.</p>
-<pre class="r"><code>filter(fish, lakeid==&quot;LJ&quot;)</code></pre>
-<pre><code>## # A tibble: 181 × 6
-##    lakeid fish_id annnumber length radii_length_mm scalelength
-##    &lt;fct&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-##  1 LJ         239 EDGE         245            4.10        4.10
-##  2 LJ         239 8            245            3.87        4.10
-##  3 LJ         239 7            245            3.63        4.10
-##  4 LJ         239 6            245            3.42        4.10
-##  5 LJ         239 5            245            3.19        4.10
-##  6 LJ         239 4            245            2.84        4.10
-##  7 LJ         239 3            245            2.50        4.10
-##  8 LJ         239 2            245            2.12        4.10
-##  9 LJ         239 1            245            1.33        4.10
-## 10 LJ         240 EDGE         249            4.40        4.40
-## # ℹ 171 more rows</code></pre>
-</div>
-<div id="using-filter-on-multiple-conditions" class="section level2">
-<h2>Using <code>filter()</code> on multiple conditions</h2>
-<p>You can also use <code>filter()</code> to extract data based on
-multiple conditions. Below we extract only the fish that have lakeid
-“AL” and length &gt;350.</p>
-<pre class="r"><code>filter(fish, lakeid == &quot;AL&quot; &amp; length &gt; 350) #&quot;And&quot; filter = exclusive </code></pre>
-<pre><code>## # A tibble: 314 × 6
-##    lakeid fish_id annnumber length radii_length_mm scalelength
-##    &lt;fct&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-##  1 AL         307 EDGE         353            7.55        7.55
-##  2 AL         307 13           353            7.28        7.55
-##  3 AL         307 12           353            6.98        7.55
-##  4 AL         307 11           353            6.73        7.55
-##  5 AL         307 10           353            6.48        7.55
-##  6 AL         307 9            353            6.22        7.55
-##  7 AL         307 8            353            5.92        7.55
-##  8 AL         307 7            353            5.44        7.55
-##  9 AL         307 6            353            5.06        7.55
-## 10 AL         307 5            353            4.37        7.55
-## # ℹ 304 more rows</code></pre>
-<p>Notice that the <code>|</code> operator generates a different
-result.</p>
-<pre class="r"><code>filter(fish, lakeid == &quot;AL&quot; | length &gt; 350) #Stands for &quot;or&quot; = inclusive </code></pre>
-<pre><code>## # A tibble: 948 × 6
-##    lakeid fish_id annnumber length radii_length_mm scalelength
-##    &lt;fct&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-##  1 AL         299 EDGE         167            2.70        2.70
-##  2 AL         299 2            167            2.04        2.70
-##  3 AL         299 1            167            1.31        2.70
-##  4 AL         300 EDGE         175            3.02        3.02
-##  5 AL         300 3            175            2.67        3.02
-##  6 AL         300 2            175            2.14        3.02
-##  7 AL         300 1            175            1.23        3.02
-##  8 AL         301 EDGE         194            3.34        3.34
-##  9 AL         301 3            194            2.97        3.34
-## 10 AL         301 2            194            2.29        3.34
-## # ℹ 938 more rows</code></pre>
-<p>Rules:<br />
-+ <code>filter(condition1, condition2)</code> will return rows where
-both conditions are met.<br />
-+ <code>filter(condition1, !condition2)</code> will return all rows
-where condition one is true but condition 2 is not.<br />
-+ <code>filter(condition1 | condition2)</code> will return rows where
-condition 1 or condition 2 is met.<br />
-+ <code>filter(xor(condition1, condition2)</code> will return all rows
-where only one of the conditions is met, and not when both conditions
-are met.</p>
-<p>In this case, we filter out the fish with a length over 400 and a
-scale length over 11 or a radii length over 8.</p>
-<pre class="r"><code>filter(fish, length &gt; 400, (scalelength &gt; 11 | radii_length_mm &gt; 8))</code></pre>
-<pre><code>## # A tibble: 23 × 6
-##    lakeid fish_id annnumber length radii_length_mm scalelength
-##    &lt;fct&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-##  1 AL         324 EDGE         406            8.21        8.21
-##  2 AL         327 EDGE         413            8.33        8.33
-##  3 AL         327 15           413            8.11        8.33
-##  4 AL         328 EDGE         420            8.71        8.71
-##  5 AL         328 16           420            8.41        8.71
-##  6 AL         328 15           420            8.14        8.71
-##  7 WS         180 EDGE         403           11.0        11.0 
-##  8 WS         180 16           403           10.6        11.0 
-##  9 WS         180 15           403           10.3        11.0 
-## 10 WS         180 14           403            9.93       11.0 
-## # ℹ 13 more rows</code></pre>
+<div id="mutate" class="section level2">
+<h2><code>mutate()</code></h2>
+<p>Mutate allows us to create a new column from existing columns in a
+data frame. We are doing a small introduction here and will add some
+additional functions later. Let’s convert the length variable from cm to
+millimeters and create a new variable called length_mm.</p>
+<pre class="r"><code>fish %&gt;% 
+  mutate(length_mm = length*10) %&gt;% #conversion of length to mm by multiplying by 10
+  select(fish_id, length, length_mm) #variable doesnt go away</code></pre>
+<pre><code>## # A tibble: 4,033 × 3
+##    fish_id length length_mm
+##      &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
+##  1     299    167      1670
+##  2     299    167      1670
+##  3     299    167      1670
+##  4     300    175      1750
+##  5     300    175      1750
+##  6     300    175      1750
+##  7     300    175      1750
+##  8     301    194      1940
+##  9     301    194      1940
+## 10     301    194      1940
+## # ℹ 4,023 more rows</code></pre>
 </div>
 <div id="practice" class="section level2">
 <h2>Practice</h2>
 <ol style="list-style-type: decimal">
-<li>From the <code>mammals</code> data, filter all members of the family
-Bovidae with a mass greater than 450000.</li>
+<li>Use <code>mutate()</code> to make a new column that is the half
+length of each fish: length_half = length/2. Select only fish_id,
+length, and length_half.</li>
 </ol>
-<pre class="r"><code>filter(mammals, family == &quot;Bovidae&quot;, mass &gt; 450000)</code></pre>
-<pre><code>## # A tibble: 7 × 13
-##   order    family genus species   mass gestation newborn weaning wean_mass   afr
-##   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1 Artioda… Bovid… Bison bison   4.98e5      8.93  20000    10.7     157500  29.4
-## 2 Artioda… Bovid… Bison bonasus 5   e5      9.14  23000.    6.6       -999  30.0
-## 3 Artioda… Bovid… Bos   fronta… 8   e5      9.02  23033.    4.5       -999  24.2
-## 4 Artioda… Bovid… Bos   javani… 6.67e5      9.83   -999     9.5       -999  25.5
-## 5 Artioda… Bovid… Buba… bubalis 9.5 e5     10.5   37500     7.5       -999  19.9
-## 6 Artioda… Bovid… Sync… caffer  5.05e5     11.0   42862.    9.18    166000  47.9
-## 7 Artioda… Bovid… Taur… derbia… 6.80e5      8.67   -999  -999         -999  36.4
-## # ℹ 3 more variables: max_life &lt;dbl&gt;, litter_size &lt;dbl&gt;, litters_per_year &lt;dbl&gt;</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>From the <code>mammals</code> data, build a data frame that compares
-<code>mass</code>, <code>gestation</code>, and <code>newborn</code>
-among the primate genera <code>Lophocebus</code>,
-<code>Erythrocebus</code>, and <code>Macaca</code>. Among these genera,
-which species has the smallest <code>newborn</code> mass?</li>
+<pre class="r"><code>fish %&gt;% 
+  mutate(length_half = length/2) %&gt;% 
+  select(fish_id, length, length_half)</code></pre>
+<pre><code>## # A tibble: 4,033 × 3
+##    fish_id length length_half
+##      &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt;
+##  1     299    167        83.5
+##  2     299    167        83.5
+##  3     299    167        83.5
+##  4     300    175        87.5
+##  5     300    175        87.5
+##  6     300    175        87.5
+##  7     300    175        87.5
+##  8     301    194        97  
+##  9     301    194        97  
+## 10     301    194        97  
+## # ℹ 4,023 more rows</code></pre>
+</div>
+<div id="mutate_all" class="section level2">
+<h2><code>mutate_all()</code></h2>
+<p>This last function is super helpful when cleaning data. With “wild”
+data, there are often mixed entries (upper and lowercase), blank spaces,
+odd characters, etc. These all need to be dealt with before
+analysis.</p>
+<p>Here is an example that changes all entries to lowercase (if
+present).</p>
+<pre class="r"><code>mammals</code></pre>
+<pre><code>## # A tibble: 1,440 × 13
+##    order  family genus species   mass gestation newborn weaning wean_mass    afr
+##    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Artio… Antil… Anti… americ… 4.54e4      8.13   3246.    3         8900   13.5
+##  2 Artio… Bovid… Addax nasoma… 1.82e5      9.39   5480     6.5       -999   27.3
+##  3 Artio… Bovid… Aepy… melamp… 4.15e4      6.35   5093     5.63     15900   16.7
+##  4 Artio… Bovid… Alce… busela… 1.5 e5      7.9   10167.    6.5       -999   23.0
+##  5 Artio… Bovid… Ammo… clarkei 2.85e4      6.8    -999  -999         -999 -999  
+##  6 Artio… Bovid… Ammo… lervia  5.55e4      5.08   3810     4         -999   14.9
+##  7 Artio… Bovid… Anti… marsup… 3   e4      5.72   3910     4.04      -999   10.2
+##  8 Artio… Bovid… Anti… cervic… 3.75e4      5.5    3846     2.13      -999   20.1
+##  9 Artio… Bovid… Bison bison   4.98e5      8.93  20000    10.7     157500   29.4
+## 10 Artio… Bovid… Bison bonasus 5   e5      9.14  23000.    6.6       -999   30.0
+## # ℹ 1,430 more rows
+## # ℹ 3 more variables: max_life &lt;dbl&gt;, litter_size &lt;dbl&gt;, litters_year &lt;dbl&gt;</code></pre>
+<pre class="r"><code>mammals %&gt;%
+  mutate_all(tolower) #makes all data lowercase</code></pre>
+<pre><code>## # A tibble: 1,440 × 13
+##    order    family genus species mass  gestation newborn weaning wean_mass afr  
+##    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;
+##  1 artioda… antil… anti… americ… 45375 8.13      3246.36 3       8900      13.53
+##  2 artioda… bovid… addax nasoma… 1823… 9.39      5480    6.5     -999      27.27
+##  3 artioda… bovid… aepy… melamp… 41480 6.35      5093    5.63    15900     16.66
+##  4 artioda… bovid… alce… busela… 1500… 7.9       10166.… 6.5     -999      23.02
+##  5 artioda… bovid… ammo… clarkei 28500 6.8       -999    -999    -999      -999 
+##  6 artioda… bovid… ammo… lervia  55500 5.08      3810    4       -999      14.89
+##  7 artioda… bovid… anti… marsup… 30000 5.72      3910    4.04    -999      10.23
+##  8 artioda… bovid… anti… cervic… 37500 5.5       3846    2.13    -999      20.13
+##  9 artioda… bovid… bison bison   4976… 8.93      20000   10.71   157500    29.45
+## 10 artioda… bovid… bison bonasus 5e+05 9.14      23000.… 6.6     -999      29.99
+## # ℹ 1,430 more rows
+## # ℹ 3 more variables: max_life &lt;chr&gt;, litter_size &lt;chr&gt;, litters_year &lt;chr&gt;</code></pre>
+<p>Using the across function we can specify individual columns.</p>
+<pre class="r"><code>mammals %&gt;% 
+  mutate(across(c(&quot;order&quot;, &quot;family&quot;), tolower)) #makes specific data lowercase</code></pre>
+<pre><code>## # A tibble: 1,440 × 13
+##    order  family genus species   mass gestation newborn weaning wean_mass    afr
+##    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+##  1 artio… antil… Anti… americ… 4.54e4      8.13   3246.    3         8900   13.5
+##  2 artio… bovid… Addax nasoma… 1.82e5      9.39   5480     6.5       -999   27.3
+##  3 artio… bovid… Aepy… melamp… 4.15e4      6.35   5093     5.63     15900   16.7
+##  4 artio… bovid… Alce… busela… 1.5 e5      7.9   10167.    6.5       -999   23.0
+##  5 artio… bovid… Ammo… clarkei 2.85e4      6.8    -999  -999         -999 -999  
+##  6 artio… bovid… Ammo… lervia  5.55e4      5.08   3810     4         -999   14.9
+##  7 artio… bovid… Anti… marsup… 3   e4      5.72   3910     4.04      -999   10.2
+##  8 artio… bovid… Anti… cervic… 3.75e4      5.5    3846     2.13      -999   20.1
+##  9 artio… bovid… Bison bison   4.98e5      8.93  20000    10.7     157500   29.4
+## 10 artio… bovid… Bison bonasus 5   e5      9.14  23000.    6.6       -999   30.0
+## # ℹ 1,430 more rows
+## # ℹ 3 more variables: max_life &lt;dbl&gt;, litter_size &lt;dbl&gt;, litters_year &lt;dbl&gt;</code></pre>
+</div>
+<div id="if_else" class="section level2">
+<h2><code>if_else()</code></h2>
+<p>We will briefly introduce <code>if_else()</code> here because it
+allows us to use <code>mutate()</code> but not have the entire column
+affected in the same way. In a sense, this can function like find and
+replace in a spreadsheet program. With <code>ifelse()</code>, you first
+specify a logical statement, afterwards what needs to happen if the
+statement returns <code>TRUE</code>, and lastly what needs to happen if
+it’s <code>FALSE</code>.</p>
+<p>Have a look at the data from mammals below. Notice that the values
+for newborn include <code>-999.00</code>. This is sometimes used as a
+placeholder for NA (but, is a really bad idea). We can use
+<code>if_else()</code> to replace <code>-999.00</code> with
+<code>NA</code>.</p>
+<pre class="r"><code>mammals %&gt;% 
+  select(genus, species, newborn) %&gt;% 
+  arrange(newborn)</code></pre>
+<pre><code>## # A tibble: 1,440 × 3
+##    genus       species        newborn
+##    &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
+##  1 Ammodorcas  clarkei           -999
+##  2 Bos         javanicus         -999
+##  3 Bubalus     depressicornis    -999
+##  4 Bubalus     mindorensis       -999
+##  5 Capra       falconeri         -999
+##  6 Cephalophus niger             -999
+##  7 Cephalophus nigrifrons        -999
+##  8 Cephalophus natalensis        -999
+##  9 Cephalophus leucogaster       -999
+## 10 Cephalophus ogilbyi           -999
+## # ℹ 1,430 more rows</code></pre>
+<pre class="r"><code>mammals %&gt;% 
+  select(genus, species, newborn) %&gt;% #select only these columns of interest
+  mutate(newborn_new = ifelse(newborn == -999.00, NA, newborn))%&gt;%  #replace those values with na, if else if newborn is -999.00 replace with na and if its not -999 leave it alone. always create a new variable to see changes
+  arrange(newborn)</code></pre>
+<pre><code>## # A tibble: 1,440 × 4
+##    genus       species        newborn newborn_new
+##    &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Ammodorcas  clarkei           -999          NA
+##  2 Bos         javanicus         -999          NA
+##  3 Bubalus     depressicornis    -999          NA
+##  4 Bubalus     mindorensis       -999          NA
+##  5 Capra       falconeri         -999          NA
+##  6 Cephalophus niger             -999          NA
+##  7 Cephalophus nigrifrons        -999          NA
+##  8 Cephalophus natalensis        -999          NA
+##  9 Cephalophus leucogaster       -999          NA
+## 10 Cephalophus ogilbyi           -999          NA
+## # ℹ 1,430 more rows</code></pre>
+</div>
+<div id="practice-1" class="section level2">
+<h2>Practice</h2>
+<ol style="list-style-type: decimal">
+<li>We are interested in the family, genus, species and max life
+variables. Because the max life span for several mammals is unknown, the
+authors have use -999 in place of NA. Replace all of these values with
+NA in a new column titled <code>max_life_new</code>. Finally, sort the
+date in descending order by max_life_new. Which mammal has the oldest
+known life span?</li>
 </ol>
-<pre class="r"><code>select(mammals,&quot;order&quot;,  &quot;genus&quot;, &quot;mass&quot;, &quot;gestation&quot;, &quot;newborn&quot;)</code></pre>
+<pre class="r"><code>mammals %&gt;% 
+  select(family, genus, species, max_life) %&gt;% 
+  mutate(max_life_new = ifelse(max_life == -999.00, NA, max_life)) %&gt;%
+  arrange(desc(max_life))</code></pre>
 <pre><code>## # A tibble: 1,440 × 5
-##    order        genus          mass gestation newborn
-##    &lt;chr&gt;        &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Artiodactyla Antilocapra  45375       8.13   3246.
-##  2 Artiodactyla Addax       182375       9.39   5480 
-##  3 Artiodactyla Aepyceros    41480       6.35   5093 
-##  4 Artiodactyla Alcelaphus  150000       7.9   10167.
-##  5 Artiodactyla Ammodorcas   28500       6.8    -999 
-##  6 Artiodactyla Ammotragus   55500       5.08   3810 
-##  7 Artiodactyla Antidorcas   30000       5.72   3910 
-##  8 Artiodactyla Antilope     37500       5.5    3846 
-##  9 Artiodactyla Bison       497667.      8.93  20000 
-## 10 Artiodactyla Bison       500000       9.14  23000.
+##    family          genus        species      max_life max_life_new
+##    &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Balaenopteridae Balaenoptera physalus         1368         1368
+##  2 Balaenopteridae Balaenoptera musculus         1320         1320
+##  3 Balaenidae      Balaena      mysticetus       1200         1200
+##  4 Delphinidae     Orcinus      orca             1080         1080
+##  5 Ziphiidae       Berardius    bairdii          1008         1008
+##  6 Elephantidae    Elephas      maximus           960          960
+##  7 Balaenopteridae Megaptera    novaeangliae      924          924
+##  8 Physeteridae    Physeter     catodon           924          924
+##  9 Balaenopteridae Balaenoptera borealis          888          888
+## 10 Dugongidae      Dugong       dugon             876          876
 ## # ℹ 1,430 more rows</code></pre>
 </div>
 <div id="thats-it-lets-take-a-break-and-then-move-on-to-part-2" class="section level2">
