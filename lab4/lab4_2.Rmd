@@ -65,12 +65,12 @@ filter(fish, length %in% c(167, 175)) #Pull out all the fish within the length 1
 
 Alternatively, you can use `between` if you are looking for a range of specific values.  
 ```{r}
-filter(fish, between(scalelength, 2.5, 2.55)) #Pull fish with scale length of2.5 and 2.55
+filter(fish, between(scalelength, 2.5, 2.55)) #Pull fish with scale length of 2.5 and 2.55
 ```
 
 You can also extract observations "near" a certain value but you need to specify a tolerance.  
 ```{r}
-filter(fish, near(radii_length_mm, 2, tol = 0.2)) #Pull data nea a certain value, near 2 within 0.2 tolerance 
+filter(fish, near(radii_length_mm, 2, tol = 0.2)) #Pull data near a certain value, near 2 within 0.2 tolerance 
 ```
 
 ## Practice

@@ -41,6 +41,7 @@ fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv") %>% clean_names()
 ```{r}
 mammals <- read_csv("data/mammal_lifehistories_v2.csv") %>% clean_names()
 ```
+
 ```{r}
 names(fish)
 ```

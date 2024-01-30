@@ -187,6 +187,7 @@ select(mammals_new, contains("mass"))
 ```{r}
 select_if(mammals_new, ~is.character(.))
 ```
+
 ```{r}
 select_if(mammals_new, is.character)
 ```
