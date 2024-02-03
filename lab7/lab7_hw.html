@@ -11,7 +11,7 @@
 
 <meta name="author" content="Your Name Here" />
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-02-02" />
 
 <title>Lab 7 Homework</title>
 
@@ -376,11 +376,13 @@ display: none;
 
 <h1 class="title toc-ignore">Lab 7 Homework</h1>
 <h4 class="author">Your Name Here</h4>
-<h4 class="date">2024-02-01</h4>
+<h4 class="date">2024-02-02</h4>
 
 </div>
 
 
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab7&quot;</code></pre>
 <div id="instructions" class="section level2">
 <h2>Instructions</h2>
 <p>Answer the following questions and complete the exercises in
@@ -413,51 +415,1055 @@ titled <code>fisheries</code>.</p>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <ol style="list-style-type: decimal">
-<li><p>Do an exploratory analysis of the data (your choice). What are
-the names of the variables, what are the dimensions, are there any NA’s,
-what are the classes of the variables?</p></li>
-<li><p>Use <code>janitor</code> to rename the columns and make them
-easier to use. As part of this cleaning step, change
-<code>country</code>, <code>isscaap_group_number</code>,
-<code>asfis_species_number</code>, and
-<code>fao_major_fishing_area</code> to data class factor.</p></li>
+<li>Do an exploratory analysis of the data (your choice). What are the
+names of the variables, what are the dimensions, are there any NA’s,
+what are the classes of the variables?</li>
 </ol>
+<pre class="r"><code>dim(fisheries)</code></pre>
+<pre><code>## [1] 17692    71</code></pre>
+<pre class="r"><code>names(fisheries)</code></pre>
+<pre><code>##  [1] &quot;Country&quot;                 &quot;Common name&quot;            
+##  [3] &quot;ISSCAAP group#&quot;          &quot;ISSCAAP taxonomic group&quot;
+##  [5] &quot;ASFIS species#&quot;          &quot;ASFIS species name&quot;     
+##  [7] &quot;FAO major fishing area&quot;  &quot;Measure&quot;                
+##  [9] &quot;1950&quot;                    &quot;1951&quot;                   
+## [11] &quot;1952&quot;                    &quot;1953&quot;                   
+## [13] &quot;1954&quot;                    &quot;1955&quot;                   
+## [15] &quot;1956&quot;                    &quot;1957&quot;                   
+## [17] &quot;1958&quot;                    &quot;1959&quot;                   
+## [19] &quot;1960&quot;                    &quot;1961&quot;                   
+## [21] &quot;1962&quot;                    &quot;1963&quot;                   
+## [23] &quot;1964&quot;                    &quot;1965&quot;                   
+## [25] &quot;1966&quot;                    &quot;1967&quot;                   
+## [27] &quot;1968&quot;                    &quot;1969&quot;                   
+## [29] &quot;1970&quot;                    &quot;1971&quot;                   
+## [31] &quot;1972&quot;                    &quot;1973&quot;                   
+## [33] &quot;1974&quot;                    &quot;1975&quot;                   
+## [35] &quot;1976&quot;                    &quot;1977&quot;                   
+## [37] &quot;1978&quot;                    &quot;1979&quot;                   
+## [39] &quot;1980&quot;                    &quot;1981&quot;                   
+## [41] &quot;1982&quot;                    &quot;1983&quot;                   
+## [43] &quot;1984&quot;                    &quot;1985&quot;                   
+## [45] &quot;1986&quot;                    &quot;1987&quot;                   
+## [47] &quot;1988&quot;                    &quot;1989&quot;                   
+## [49] &quot;1990&quot;                    &quot;1991&quot;                   
+## [51] &quot;1992&quot;                    &quot;1993&quot;                   
+## [53] &quot;1994&quot;                    &quot;1995&quot;                   
+## [55] &quot;1996&quot;                    &quot;1997&quot;                   
+## [57] &quot;1998&quot;                    &quot;1999&quot;                   
+## [59] &quot;2000&quot;                    &quot;2001&quot;                   
+## [61] &quot;2002&quot;                    &quot;2003&quot;                   
+## [63] &quot;2004&quot;                    &quot;2005&quot;                   
+## [65] &quot;2006&quot;                    &quot;2007&quot;                   
+## [67] &quot;2008&quot;                    &quot;2009&quot;                   
+## [69] &quot;2010&quot;                    &quot;2011&quot;                   
+## [71] &quot;2012&quot;</code></pre>
+<pre class="r"><code>anyNA(fisheries)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>skim(fisheries)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">fisheries</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">17692</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">71</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">69</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="12%" />
+<col width="17%" />
+<col width="4%" />
+<col width="4%" />
+<col width="7%" />
+<col width="10%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Country</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">4</td>
+<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">204</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Common name</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">3</td>
+<td align="right">30</td>
+<td align="right">0</td>
+<td align="right">1553</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">ISSCAAP taxonomic group</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">5</td>
+<td align="right">36</td>
+<td align="right">0</td>
+<td align="right">30</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">ASFIS species#</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">10</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">1553</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">ASFIS species name</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">6</td>
+<td align="right">32</td>
+<td align="right">0</td>
+<td align="right">1548</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Measure</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">17</td>
+<td align="right">17</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1950</td>
+<td align="right">15561</td>
+<td align="right">0.12</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">513</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1951</td>
+<td align="right">15550</td>
+<td align="right">0.12</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">536</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1952</td>
+<td align="right">15501</td>
+<td align="right">0.12</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">553</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1953</td>
+<td align="right">15439</td>
+<td align="right">0.13</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">570</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1954</td>
+<td align="right">15417</td>
+<td align="right">0.13</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">588</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1955</td>
+<td align="right">15382</td>
+<td align="right">0.13</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">589</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1956</td>
+<td align="right">15331</td>
+<td align="right">0.13</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">633</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1957</td>
+<td align="right">15253</td>
+<td align="right">0.14</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">627</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1958</td>
+<td align="right">15138</td>
+<td align="right">0.14</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">643</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1959</td>
+<td align="right">15110</td>
+<td align="right">0.15</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">641</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1960</td>
+<td align="right">15016</td>
+<td align="right">0.15</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">673</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1961</td>
+<td align="right">14922</td>
+<td align="right">0.16</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">713</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1962</td>
+<td align="right">14801</td>
+<td align="right">0.16</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">729</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1963</td>
+<td align="right">14707</td>
+<td align="right">0.17</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">760</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1964</td>
+<td align="right">14349</td>
+<td align="right">0.19</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">759</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1965</td>
+<td align="right">14241</td>
+<td align="right">0.20</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">798</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1966</td>
+<td align="right">14187</td>
+<td align="right">0.20</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">801</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1967</td>
+<td align="right">14047</td>
+<td align="right">0.21</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">815</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1968</td>
+<td align="right">13963</td>
+<td align="right">0.21</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">829</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1969</td>
+<td align="right">13920</td>
+<td align="right">0.21</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">853</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1970</td>
+<td align="right">13113</td>
+<td align="right">0.26</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">1225</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1971</td>
+<td align="right">12925</td>
+<td align="right">0.27</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">1326</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1972</td>
+<td align="right">12749</td>
+<td align="right">0.28</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">1372</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1973</td>
+<td align="right">12673</td>
+<td align="right">0.28</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">1432</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1974</td>
+<td align="right">12583</td>
+<td align="right">0.29</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2601</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1975</td>
+<td align="right">12333</td>
+<td align="right">0.30</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2767</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1976</td>
+<td align="right">12177</td>
+<td align="right">0.31</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2804</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1977</td>
+<td align="right">12014</td>
+<td align="right">0.32</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2867</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1978</td>
+<td align="right">11847</td>
+<td align="right">0.33</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2901</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1979</td>
+<td align="right">11820</td>
+<td align="right">0.33</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2932</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1980</td>
+<td align="right">11747</td>
+<td align="right">0.34</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2956</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1981</td>
+<td align="right">11713</td>
+<td align="right">0.34</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">2996</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1982</td>
+<td align="right">11558</td>
+<td align="right">0.35</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3030</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1983</td>
+<td align="right">11453</td>
+<td align="right">0.35</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3031</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1984</td>
+<td align="right">11309</td>
+<td align="right">0.36</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3076</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1985</td>
+<td align="right">11212</td>
+<td align="right">0.37</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3161</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1986</td>
+<td align="right">11086</td>
+<td align="right">0.37</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3242</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1987</td>
+<td align="right">10930</td>
+<td align="right">0.38</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3255</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1988</td>
+<td align="right">10493</td>
+<td align="right">0.41</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3435</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1989</td>
+<td align="right">10435</td>
+<td align="right">0.41</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3425</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1990</td>
+<td align="right">10293</td>
+<td align="right">0.42</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3446</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1991</td>
+<td align="right">10364</td>
+<td align="right">0.41</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3420</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1992</td>
+<td align="right">10435</td>
+<td align="right">0.41</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3322</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1993</td>
+<td align="right">10522</td>
+<td align="right">0.41</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3313</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1994</td>
+<td align="right">10400</td>
+<td align="right">0.41</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3313</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1995</td>
+<td align="right">10148</td>
+<td align="right">0.43</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3329</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1996</td>
+<td align="right">9990</td>
+<td align="right">0.44</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">3358</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1997</td>
+<td align="right">9773</td>
+<td align="right">0.45</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3393</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1998</td>
+<td align="right">9579</td>
+<td align="right">0.46</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3399</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1999</td>
+<td align="right">9265</td>
+<td align="right">0.48</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3428</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2000</td>
+<td align="right">8899</td>
+<td align="right">0.50</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3481</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2001</td>
+<td align="right">8646</td>
+<td align="right">0.51</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3490</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2002</td>
+<td align="right">8590</td>
+<td align="right">0.51</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3507</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2003</td>
+<td align="right">8383</td>
+<td align="right">0.53</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3482</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2004</td>
+<td align="right">7977</td>
+<td align="right">0.55</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3505</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2005</td>
+<td align="right">7822</td>
+<td align="right">0.56</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3532</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2006</td>
+<td align="right">7699</td>
+<td align="right">0.56</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">3565</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2007</td>
+<td align="right">7589</td>
+<td align="right">0.57</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3551</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2008</td>
+<td align="right">7667</td>
+<td align="right">0.57</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3537</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2009</td>
+<td align="right">7573</td>
+<td align="right">0.57</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3572</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2010</td>
+<td align="right">7499</td>
+<td align="right">0.58</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3590</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2011</td>
+<td align="right">7371</td>
+<td align="right">0.58</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3618</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2012</td>
+<td align="right">7336</td>
+<td align="right">0.59</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">3609</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="11%" />
+<col width="16%" />
+<col width="7%" />
+<col width="7%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ISSCAAP group#</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">37.38</td>
+<td align="right">7.88</td>
+<td align="right">11</td>
+<td align="right">33</td>
+<td align="right">36</td>
+<td align="right">38</td>
+<td align="right">77</td>
+<td align="left">▁▇▂▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">FAO major fishing area</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">45.34</td>
+<td align="right">18.33</td>
+<td align="right">18</td>
+<td align="right">31</td>
+<td align="right">37</td>
+<td align="right">57</td>
+<td align="right">88</td>
+<td align="left">▇▇▆▃▃</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <code>janitor</code> to rename the columns and make them easier
+to use. As part of this cleaning step, change <code>country</code>,
+<code>isscaap_group_number</code>, <code>asfis_species_number</code>,
+and <code>fao_major_fishing_area</code> to data class factor.</li>
+</ol>
+<pre class="r"><code>fisheries &lt;- clean_names(fisheries)</code></pre>
 <p>We need to deal with the years because they are being treated as
 characters and start with an X. We also have the problem that the column
 names that are years actually represent data. We haven’t discussed tidy
 data yet, so here is some help. You should run this ugly chunk to
 transform the data for the rest of the homework. It will only work if
 you have used janitor to rename the variables in question 2!</p>
-<pre class="r"><code>#fisheries_tidy &lt;- fisheries %&gt;% 
-#  pivot_longer(-c(country,common_name,isscaap_group_number,isscaap_taxonomic_group,asfi#s_species_number,asfis_species_name,fao_major_fishing_area,measure),
-#               names_to = &quot;year&quot;,
-#               values_to = &quot;catch&quot;,
-#               values_drop_na = TRUE) %&gt;% 
-#  mutate(year= as.numeric(str_replace(year, &#39;x&#39;, &#39;&#39;))) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39; F&#39;), replacement = &#39;&#39;)) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39;...&#39;), replacement = &#39;&#39;)) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39;-&#39;), replacement = &#39;&#39;)) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39;0 0&#39;), replacement = &#39;&#39;))
+<pre class="r"><code>fisheries_tidy &lt;- fisheries %&gt;% 
+pivot_longer(-c(country,common_name,isscaap_group_number,isscaap_taxonomic_group,asfis_species_number,asfis_species_name,fao_major_fishing_area,measure),
+names_to = &quot;year&quot;,
+values_to = &quot;catch&quot;,
+values_drop_na = TRUE) %&gt;% 
+mutate(year= as.numeric(str_replace(year, &#39;x&#39;, &#39;&#39;))) %&gt;% 
+mutate(catch= str_replace(catch, c(&#39; F&#39;), replacement = &#39;&#39;)) %&gt;% 
+mutate(catch= str_replace(catch, c(&#39;...&#39;), replacement = &#39;&#39;)) %&gt;% 
+mutate(catch= str_replace(catch, c(&#39;-&#39;), replacement = &#39;&#39;)) %&gt;% 
+mutate(catch= str_replace(catch, c(&#39;0 0&#39;), replacement = &#39;&#39;))
 
-#fisheries_tidy$catch &lt;- as.numeric(fisheries_tidy$catch)</code></pre>
+fisheries_tidy$catch &lt;- as.numeric(fisheries_tidy$catch)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>How many countries are represented in the data? Provide a count
-and list their names.</p></li>
-<li><p>Refocus the data only to include country,
-isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year,
-catch.</p></li>
-<li><p>Based on the asfis_species_number, how many distinct fish species
-were caught as part of these data?</p></li>
-<li><p>Which country had the largest overall catch in the year
-2000?</p></li>
-<li><p>Which country caught the most sardines (<em>Sardina
-pilchardus</em>) between the years 1990-2000?</p></li>
-<li><p>Which five countries caught the most cephalopods between
-2008-2012?</p></li>
-<li><p>Which species had the highest catch total between 2008-2012?
-(hint: Osteichthyes is not a species)</p></li>
-<li><p>Use the data to do at least one analysis of your choice.</p></li>
+<li>How many countries are represented in the data? Provide a count and
+list their names.</li>
 </ol>
+<pre class="r"><code>fisheries_tidy %&gt;% 
+  group_by(country) %&gt;% 
+  summarize(n=n()) %&gt;% 
+  arrange(desc(n)) #there is 203 countries</code></pre>
+<pre><code>## # A tibble: 203 × 2
+##    country                      n
+##    &lt;chr&gt;                    &lt;int&gt;
+##  1 United States of America 18080
+##  2 Spain                    17482
+##  3 Japan                    15429
+##  4 Portugal                 11570
+##  5 Korea, Republic of       10824
+##  6 France                   10639
+##  7 Taiwan Province of China  9927
+##  8 Indonesia                 9274
+##  9 Australia                 8183
+## 10 Un. Sov. Soc. Rep.        7084
+## # ℹ 193 more rows</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Refocus the data only to include country, isscaap_taxonomic_group,
+asfis_species_name, asfis_species_number, year, catch.</li>
+</ol>
+<pre class="r"><code>fish &lt;- fisheries_tidy %&gt;% 
+  select(country, isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year, catch)</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Based on the asfis_species_number, how many distinct fish species
+were caught as part of these data?</li>
+</ol>
+<pre class="r"><code>fish %&gt;% 
+  group_by(asfis_species_name, asfis_species_number) %&gt;% 
+  summarize(n=n(), .groups= &#39;keep&#39;) %&gt;% 
+  arrange(desc(n)) #there was 1,551 species</code></pre>
+<pre><code>## # A tibble: 1,551 × 3
+## # Groups:   asfis_species_name, asfis_species_number [1,551]
+##    asfis_species_name asfis_species_number     n
+##    &lt;chr&gt;              &lt;chr&gt;                &lt;int&gt;
+##  1 Osteichthyes       199XXXXXXX010        14289
+##  2 Thunnus albacares  1750102610            6866
+##  3 Elasmobranchii     199XXXXXXX054         6405
+##  4 Katsuwonus pelamis 1750102501            5785
+##  5 Thunnus obesus     1750102612            5341
+##  6 Xiphias gladius    1750400301            5143
+##  7 Thunnus alalunga   1750102605            4441
+##  8 Mugilidae          16501XXXXX            4141
+##  9 Rajiformes         110XXXXXXX            3706
+## 10 Mollusca           399XXXXXXX016         3516
+## # ℹ 1,541 more rows</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Which country had the largest overall catch in the year 2000?</li>
+</ol>
+<pre class="r"><code>fish %&gt;% 
+  filter(year==2000) %&gt;% 
+  arrange(desc(catch)) #the country that had the highest catch is China</code></pre>
+<pre><code>## # A tibble: 8,793 × 6
+##    country  isscaap_taxonomic_gr…¹ asfis_species_name asfis_species_number  year
+##    &lt;chr&gt;    &lt;chr&gt;                  &lt;chr&gt;              &lt;chr&gt;                &lt;dbl&gt;
+##  1 China    Marine fishes not ide… Osteichthyes       199XXXXXXX010         2000
+##  2 Peru     Herrings, sardines, a… Engraulis ringens  1210600208            2000
+##  3 Russian… Cods, hakes, haddocks  Theragra chalcogr… 1480401601            2000
+##  4 Viet Nam Marine fishes not ide… Osteichthyes       199XXXXXXX010         2000
+##  5 Chile    Miscellaneous pelagic… Trachurus murphyi  1702300405            2000
+##  6 China    Miscellaneous marine … Mollusca           399XXXXXXX016         2000
+##  7 China    Miscellaneous demersa… Trichiurus leptur… 1750600302            2000
+##  8 United … Cods, hakes, haddocks  Theragra chalcogr… 1480401601            2000
+##  9 China    Miscellaneous marine … Crustacea          299XXXXXXX013         2000
+## 10 Philipp… Miscellaneous pelagic… Decapterus spp     17023043XX            2000
+## # ℹ 8,783 more rows
+## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
+## # ℹ 1 more variable: catch &lt;dbl&gt;</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Which country caught the most sardines (<em>Sardina pilchardus</em>)
+between the years 1990-2000?</li>
+</ol>
+<pre class="r"><code>fish %&gt;% 
+  filter(between(year, 1990, 2000)) %&gt;% 
+  filter(asfis_species_name==&quot;Sardina pilchardus&quot;) %&gt;% 
+  arrange(desc(catch)) #the country that had the most sardines is Morocco</code></pre>
+<pre><code>## # A tibble: 336 × 6
+##    country  isscaap_taxonomic_gr…¹ asfis_species_name asfis_species_number  year
+##    &lt;chr&gt;    &lt;chr&gt;                  &lt;chr&gt;              &lt;chr&gt;                &lt;dbl&gt;
+##  1 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            1994
+##  2 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            1996
+##  3 Spain    Herrings, sardines, a… Sardina pilchardus 1210506401            1996
+##  4 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            2000
+##  5 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            1990
+##  6 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            1991
+##  7 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            1998
+##  8 Morocco  Herrings, sardines, a… Sardina pilchardus 1210506401            1993
+##  9 Russian… Herrings, sardines, a… Sardina pilchardus 1210506401            1992
+## 10 Russian… Herrings, sardines, a… Sardina pilchardus 1210506401            1991
+## # ℹ 326 more rows
+## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
+## # ℹ 1 more variable: catch &lt;dbl&gt;</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Which five countries caught the most cephalopods between
+2008-2012?</li>
+</ol>
+<pre class="r"><code>fish %&gt;% 
+  filter(between(year, 2008, 2012)) %&gt;% 
+  filter(asfis_species_name==&quot;Cephalopoda&quot;) %&gt;% 
+  arrange(desc(catch)) #the five countries that caught the most cephalopods was India, China, Italy, Spain, and Algeria</code></pre>
+<pre><code>## # A tibble: 80 × 6
+##    country isscaap_taxonomic_group asfis_species_name asfis_species_number  year
+##    &lt;chr&gt;   &lt;chr&gt;                   &lt;chr&gt;              &lt;chr&gt;                &lt;dbl&gt;
+##  1 India   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2011
+##  2 India   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2010
+##  3 India   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2012
+##  4 China   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2008
+##  5 China   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2010
+##  6 Italy   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2012
+##  7 India   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2009
+##  8 India   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2009
+##  9 India   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2010
+## 10 Spain   Squids, cuttlefishes, … Cephalopoda        321XXXXXXX            2008
+## # ℹ 70 more rows
+## # ℹ 1 more variable: catch &lt;dbl&gt;</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Which species had the highest catch total between 2008-2012? (hint:
+Osteichthyes is not a species)</li>
+</ol>
+<pre class="r"><code>fish %&gt;% 
+  filter(between(year, 2008, 2012)) %&gt;% 
+  filter(!asfis_species_name==&quot;Osteichthyes&quot;) %&gt;% 
+  arrange(desc(catch)) # the species with the highest catch total was Trichiurus lepturus</code></pre>
+<pre><code>## # A tibble: 49,554 × 6
+##    country  isscaap_taxonomic_gr…¹ asfis_species_name asfis_species_number  year
+##    &lt;chr&gt;    &lt;chr&gt;                  &lt;chr&gt;              &lt;chr&gt;                &lt;dbl&gt;
+##  1 China    Miscellaneous demersa… Trichiurus leptur… 1750600302            2011
+##  2 Russian… Cods, hakes, haddocks  Theragra chalcogr… 1480401601            2012
+##  3 Peru     Herrings, sardines, a… Engraulis ringens  1210600208            2008
+##  4 Norway   Herrings, sardines, a… Clupea harengus    1210500105            2008
+##  5 Norway   Herrings, sardines, a… Clupea harengus    1210500105            2009
+##  6 Peru     Herrings, sardines, a… Engraulis ringens  1210600208            2012
+##  7 China    Miscellaneous demersa… Trichiurus leptur… 1750600302            2010
+##  8 Chile    Herrings, sardines, a… Engraulis ringens  1210600208            2008
+##  9 China    Miscellaneous demersa… Trichiurus leptur… 1750600302            2012
+## 10 Russian… Cods, hakes, haddocks  Theragra chalcogr… 1480401601            2009
+## # ℹ 49,544 more rows
+## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
+## # ℹ 1 more variable: catch &lt;dbl&gt;</code></pre>
+<ol start="10" style="list-style-type: decimal">
+<li>Use the data to do at least one analysis of your choice.</li>
+</ol>
+<pre class="r"><code>bh_fish &lt;- fisheries_tidy %&gt;% 
+  select(country, common_name, year, catch) %&gt;% 
+  filter(country==&quot;Bosnia and Herzegovina&quot;) %&gt;% 
+  filter(between(year, 1992, 1995)) 
+bh_fish</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##   country                common_name        year catch
+##   &lt;chr&gt;                  &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;
+## 1 Bosnia and Herzegovina Marine fishes nei  1992     1
+## 2 Bosnia and Herzegovina Marine fishes nei  1993     1
+## 3 Bosnia and Herzegovina Marine fishes nei  1994     1
+## 4 Bosnia and Herzegovina Marine fishes nei  1995     1</code></pre>
+<pre class="r"><code>hist(bh_fish$year)</code></pre>
+<p><img src="data:image/png;base64,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l9mMGTNaOBu7jwACCCCAAAIIINBYgbIB6Kqrrmrvvvuuvfbaa9a3b18777zzrFu3bjZgwAAbMWKE/frrr41dN8shgAACCCCAAAIItECBsgFoaLLOOuvYFVdcYZ999pndf//9tvDCC9t+++1nXbt2taOOOsref//9MCuPCCCAAAIIIIAAAgjUK5A6AA1LmDx5so0dO9beeOMN++6776xnz572yiuv2CqrrGKnnXZamI1HBBBAAAEEEEAAAQRKCrQtObVo4pdffml33323DRs2zF5++WVbfPHFbZ999vGve/Xq5XMPHz7cdt99d9t5551trbXWKiqBlwgggAACCCCAAAII/K9A2QD0ueees379+vnc22+/vT344IO2zTbbWNu2hYtuu+22Ps8XX3yBLQIIIIAAAggggAAC9QoURpElsnXs2NEuvPBC22uvvWzRRRctkeN/J7Vv396mTZvma0frzcQMBBBAAAEEEEAAgRYvULYNqDofHXnkkfbkk0/axIkTI7DDDjusoOORakR1a56EAAIIIIAAAggggECSQNkAVAv379/f93hXDadSEAR+YPrevXubxgUlIYAAAggggAACCCCQVqBsADphwgR79tlnbfz48danTx9fbqtWrWz06NF26aWX2imnnGKzZ89Ouz7yIYAAAggggAACCLRwgbIB6FNPPWW6Db/CCivUodp7771t1qxZpqGZSAgggAACCCCAAAIIpBEoG4CutNJK9uqrr9qUKVPqlPfQQw9ZmzZt/C8j1ZnJBAQQQAABBBBAAAEESgiUDUA32GADW2KJJfy4n08//bR9+umn9uGHH9qdd95pp556qg0cONDmnXfeEkUzCQEEEEAAAQQQQACBugJlh2Hq0KGDvfjii7bddtvZlltuWVDCbrvtZtdcc03BNF4ggAACCCCAAAIIIJAkUDYA1cJLLbWUvfXWW77288033/S33XVrvkePHkllMw8BBBBAAAEEEEAAgToCqQLQcKnu3bub/kgIIIAAAggggAACCDRWIFUAqlvwGu9T7T9LDbk0ZsyYxq6f5RBAAAEEEEAAAQRamEDZAFS937feemvr3LmzbbjhhrbAAgu0MCJ2FwEEEEAAAQQQQCBLgbIBqMYBbd26tW8D2qVLlyzXTVkIIIAAAggggAACLVCg7DBM+tlNtfsk+GyBZwe7jAACCCCAAAIINIFA2QB08803t4kTJ9o777zTBKunSAQQQAABBBBAAIGWJlD2FrzGAR08eLBtuummNmjQIF8bql8/iqcTTjgh/pLnCCCAAAIIIIAAAgjUK1A2AB03bpwNHz7cFzBs2LCSBRGAlmRhIgIIIIAAAggggEAJgbIBaP/+/e3bb78tsSiTEEAAAQQQQAABBBBouEDZNqDxIn/88UffG/6HH36wX375JT6L5wgggAACCCCAAAIIpBJIFYBqAHr97vv8889vq6++ur377rt24okn2nHHHWezZs1KtSIyIYAAAggggAACCCAggbIBqH75aMcdd7QPPvjAhg4dah07dvRym2yyid1444121FFHIYkAAggggAACCCCAQGqBsm1AR40aZVOnTvUBqH4N6YwzzvCF77rrrv5XkYYMGWIaK7RVq1apV0pGBBBAAAEEEEAAgZYrULYGdMKECdarVy//U5zFTOuuu659/vnnNmnSpOJZvEYAAQQQQAABBBBAoKRA2QC0R48eNnr0aJsxY0adAu666y5r27atdevWrc48JiCAAAIIIIAAAgggUEqg7C34LbbYwg8+v+2229oxxxxjc+bMMdWKjhw50q677jo/SP0888xTqmymIYAAAggggAACCCBQR6BsAKqe7yNGjLD99tvPB5sqYe+99/YFDRgwwC6//PI6hTIBAQQQQAABBBBAAIH6BMoGoFpwtdVWszFjxtjrr7/uaz9V46l2oSuvvHJ95TIdAQQQQAABBBBAAIGSAqkCUC3ZunVrU6cj/ZEQQAABBBBAAAEEEGisQNkA9OWXX7aTTjopsfxnnnkmcT4zEUAAAQQQQAABBBAIBcoGoO3bt7cll1wyzO8fv/vuO3v//fdNv5BU6YHo11lnHf9LTAUbVM+LXXbZxYYNG1bP3NKTf/rpJ/vmm29Kz4xN1QD9v/32W2wKTxFoGQIa9/frr7+2zz77rGXsMHtZtQIan1rnKwmBvAssuuii1q5du7xvZqbbVzYAXXPNNe3OO++ss1Jd1EcccYRNnjy5zrymnKBfY9Ig+AoATz31VN80oL71rbDCCvXNqnf6gw8+aEcffXS988MZX375pX344Ye28cYbh5N4RKBFCGjcX33xPO+881rE/rKT1Sug4QO7dOnihwus3r1gy2tdQOfpgQceaDfccEOt72rB/pUNQAtyx17om6V+C3655ZbzaOotX4mknwB94YUXbI011rDff//db0OW6x00aJDpr1zacMMNbaWVViqXjfkI1JyA7hKcfvrptt1229XcvrFDtSXQp08fe+CBB6xDhw61tWPsTU0JKKZ54oknamqf0uxM2YHokwr54osvfBD47bffJmXLfJ5qNs855xw799xz7auvvsq8fApEAAEEEEAAAQQQaDqBsjWgut2m29LxpJrHmTNn+ppP1QI2xy8h6RbgWmut5QPg+LbxHAEEEEAAAQQQQCDfAmUD0HfffdeOP/74Onsx33zz+dvgzTUQfZs2bWzzzTevs11MQAABBBBAAAEEEMi3QNkAVD/B+csvv+R7L9g6BBBAAAEEEEAAgaoRmKs2oFWzl2woAggggAACCCCAQG4EytaAphmIPr43N998s/Xs2TM+iecIIIAAAggggAACCEQCZWtANYbavPPOa88995wfJHX11Vc3DZg6btw4e/bZZ/04nBqoPvxr27ZsTButnCcIIIAAAggggAACLU+gbLSo8T3ffPNNGzVqlG2xxRaRkHrCH3744fb222+XHKg+ysgTBBBAAAEEEEAAAQRiAmUDUA2Oql9DigefWl690PVLRN27d7fPP/+8zs91xtbBUwQQQAABBBBAAAEEIoGyt+AXWGABe/XVV+2HH36IFgqfTJs2zd+Cr9SvIIXr5REBBBBAAAEEEECgegXKBqD9+vWzn3/+2fbff3/f7lOB6PTp0+3++++3gQMH2u67726dOnWqXgG2HAEEEEAAAQQQQKCiAmVvwXfu3NlGjx5tO+ywgx94Pr51Cj6vv/76+CSeI4AAAggggAACCCCQKFA2ANXS6vn+0Ucf2TvvvOM7JOlXkFZddVXTz3CSEEAAAQQQQAABBBBoiECqAFQFtmvXzpZffnnf5lPjfOo1CQEEEEAAAQQQQACBhgqUbQOqAj/99FPbbbfdTJ2NVBuq34c/8cQT7bjjjrNZs2Y1dJ3kRwABBBBAAAEEEGjBAmUD0NmzZ9uOO+5oH3zwgQ0dOtQ6duzouTbZZBO78cYb7aijjmrBfOw6AggggAACCCCAQEMFyt6C1wD0U6dO9QGoOiSdccYZfh277rqraYimIUOGWBAE1qpVq4aum/wIIIAAAggggAACLVCgbA3ohAkTrFevXqbgszitu+66fhD6SZMmFc/iNQIIIIAAAggggAACJQXKBqA9evTw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AQQQQAABBBBAIEGAADQBh1kIIIAAAggggAAC2QsQgGZvSokIIIAAAggggAACCQIEoAk4zEIAAQQQQAABBBDIXoAANHtTSkQAAQQQQAABBBBIECAATcBhFgIIIIAAAggggED2AgSg2ZtSIgIIIIAAAggggECCAAFoAk65Wb///rvNnj273mxBENQ7L5yRJs+cOXPC7A16TFN2gwqsUOaffvqp3jWl2ac0ebSCxrrWu3E5nqHzVOdrfSmNWVZ5irchTbnFy+ThdaWu/2r1aewxqtT135jtq9ZjUanrvzGm1bpMpa7/xvpUw7lKANrIo6vgZYcddrCDDz64Tgn//ve/rXfv3ta+fXvbcMMN7corr2xUnjvvvDMqp0uXLjZo0CD79NNP65QVn/DDDz/YiSeeaMsvv7wttNBCtssuu9hXX30Vz5Lr5zfddJMtssgidbbx448/tu22284WWGAB69Gjh/35z3+2r7/+uiBfmjzvvvuubbvttr6cjh072jrrrGNPPvlkQTnFL3788UdbeeWVbaWVVir4O+igg4qz5vK1XLp27WqPPfZYwfb98ssvdtJJJ1m3bt2sc+fO/lwZPXp0g/P8+uuvNnToUNtggw1s/vnnt0033dReeeWVgnJKvRg7dqzttddepnO7Z8+eds4555TKlstplbj+dbwGDhxonTp1sl69ennjchj33XdfwTkanrOaXg2pqa//uMGzzz5rrVu3tueeey4+ueTzf/7zn7bZZpuZ3jPWW289+89//lMyXx4nNvX1H99nvVcut9xydvjhh8cnl3yu98/w/Iw/qoy8p0pc/43xqbrPfxclkxoo8PPPPwfu5FD1ZjBkyJCCpZ944gk/fauttgr0/KKLLgpcQBVce+21Ub40eR588EFfzv777x+4N8jgxhtvDJZddtlg1VVXDVzgEJVV/OSII44I3BtA8NRTTwXPP/98sMYaawSrr7564C6Y4qy5e+0+JIN55pknmHfeeQu27fvvvw+6d+8eLLPMMsF1110XuAA/cB8CgYx/++03nzdNHheIBy4QC1zQGbjgPnCBZ+C+RARt27YNxowZU7DO+IuXXnrJH4tjjz02OOOMM6K/22+/PZ4tl88/+uijwAUvfvsfeuihgm3UOdyhQ4fgqKOO8ufKH//4x8AFg8GECROifGnyXHXVVYELYP05Lqs999wzcB/UgQv2o3KKn7gPmcAFncHgwYMDF4gGt956q1/m7LPPLs6au9eVuP4/+eSTwH2BDf70pz8Fr776anDppZcG7dq18+8nSSDHHHNMsNRSS0XnaHi+vvHGG0mL5WJeU1//8Z10H9T+/NN7uAtE47PqPNd8vS9dffXVwZtvvhkcdthh/rrR87ynSlz/cQMXePr3GldBEJ9c8rnO06233rrOuZr0+VayoApPrMT1r11qjE+1ff5bhY9d1a9OgYqrDQsWXHDBYLHFFqsTgG688cY+4AwDI+3wBRdc4D88PvvsM7//afL0798/cDV9BV533323v7jre8McN25c4L7RBw888EC03HvvveeXefTRR6NpeXvyzTff+EBEHwYrrrhinQD08ssv9/uggDFMEydO9NOuueYaPylNHle74pfRB3qYvvvuu8DV2gV646wvXX/99T5PNQTx8X3QB+Z8883nTWUbD0CnTp0atGrVKnA1+PFFgrXXXjvYfPPN/bQ0eWbNmhUsscQSwQknnBCVI1Ot99xzz42mFT85/fTTA1ebHbjbrdEsBZ/6sqY3+LymSl3/Bx54oP/C6W7zRRTubob/MhlNKPGkX79+wX777VdiTn4nVer6jwsoiAy/mNX3fhrm1/u9q6kPX/pHd4crOOCAAwqm5e1FJa7/+D4//fTTwcILL+y/5JcLQGfOnOnfix9++OF4Ebl/XqnrvzE+1fj5zy1498nckORqIv0tS1ej4G8bFi87fvx4fyuzTZs20awBAwaYblO6Nzo/LU0eVb+7WtOoDD3RrWelb7/91j8W/3O1nua+qds222wTzdKtjRVWWMEeeeSRaFrensjyhRdesBEjRtghhxxiLjAq2ER5LbroouYCo2i6LFZbbTUbNWqUn5Ymz5prrmkuYLV11103Kke3N3XL330IRtOKn7z11lvmapH9drl3yOLZuX39t7/9zd8KK3Xs33nnHX35tN13371g+3feeWd/LFwQaGnyuNpqk8+pp54alaOmEbq9r3OxvuTuApir/TBXAxtl2XHHHe3LL7+01157LZqWtyeVuv7VbEe3hnWLOExffPGFuVrQ8GXJR/chZDrPlarlXK3U9R+CuUDJ1LzJfWkNJ9X7qCZP7ku86bqIp5122inX76na1kpc/6GJbv26gNwuueQS3/Sr+D08zBc+6j1DqdrO1Upd/43xqcbP//97dwvP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" /><!-- --></p>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>
