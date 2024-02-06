@@ -250,7 +250,7 @@ str(hbirds)
 
 **Use lowercase names when we create the data frame**
 ```{r}
-hbirds <- data_frame(sex=Sex, length=Length, weight_g=Weight)
+hbirds <- data.frame(sex=Sex, length=Length, weight_g=Weight)
 ```
 
 ```{r}
