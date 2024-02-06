@@ -3,7 +3,8 @@ title: "Midterm 1 Master Notes"
 author: "Lejla Becirevic"
 date: "2024-02-04"
 output:
-  html_document: default
+  html_document: 
+    keep_md: true
   pdf_document: default
 ---
 
@@ -26,7 +27,7 @@ Github is a developer platform that allows people to create, store, manage and s
 getwd()
 ```
 
-**Making a vector and calulate mean, median, and standard deviation**
+**Making a vector and calculate mean, median, and standard deviation**
 ```{r}
 x <- c(1, 2, 3, 4, 5)
 ```
@@ -295,7 +296,7 @@ ncol(hot_springs)
 head(hot_springs)
 ```
 
-**`tail()` prinst the last n rows of the data frame**
+**`tail()` prints the last n rows of the data frame**
 ```{r}
 tail(hot_springs)
 ```
@@ -315,15 +316,15 @@ hot_springs$scientist <- as.factor(hot_springs$scientist)
 hot_springs$spring <- as.factor(hot_springs$spring)
 ```
  
-**Levels tell you how many factors you have in a catagory**
+**Levels tell you how many factors you have in a category**
 ```{r}
 levels(hot_springs$scientist)
 levels(hot_springs$spring)
 ```
 
 ## LAB 4
-Data matix has one class of data and a data frame have multiple classes of data.
-**Every variable in its own column and every observation is in its own row and each cell had one value = tidydata (lab4_1**
+Data matrix has one class of data and a data frame have multiple classes of data.
+**Every variable in its own column and every observation is in its own row and each cell had one value = tidy data (lab4_1**
 
 ### Load the data
 ```{r}
@@ -424,7 +425,7 @@ not_AL <- filter(fish, lakeid != "AL") #Pull out all fish not "AL"
 
 **Filtering multiple values within the same variable requires the `%in%`**   
 ```{r}
-filter(fish, length %in% c(167, 175)) #Pull out all the fish within the length 167 to 175 (%in%); for multiple values within datset
+filter(fish, length %in% c(167, 175)) #Pull out all the fish within the length 167 to 175 (%in%); for multiple values within dataset
 ```
 
 **Alternatively, you can use `between` if you are looking for a range of specific values**
@@ -482,7 +483,7 @@ filter(owls_data, mean.mass.g==61.32)
 ```
 
 ## LAB 5
-Tidyverse is a library, dplyr is used to transform data, within dpyr filter and select are commands. Select is used to select variables (columns) of interest and filter is used to filter values (rows) of interest.
+Tidyverse is a library, dplyr is used to transform data, within dplyr filter and select are commands. Select is used to select variables (columns) of interest and filter is used to filter values (rows) of interest.
 
 **Rename the variables**
 ```{r}
@@ -617,6 +618,7 @@ msleep %>%
   filter(bodywt > 200) %>% 
   summarize(mean_sleep_lg=mean(sleep_total))
 ```
+
 ```{r}
 msleep %>% 
   filter(bodywt < 10) %>% 
@@ -691,10 +693,7 @@ msleep %>%
   select(order, genus, brainwt)
 ```
 
-
-
-
-**As biologists, a good question that we may ask is how do the measured variables differ by island on avergae (on which island has the greatest body weight)**
+**As biologists, a good question that we may ask is how do the measured variables differ by island on average (on which island has the greatest body weight)**
 ```{r}
 penguins %>% 
   group_by(island) %>% 
