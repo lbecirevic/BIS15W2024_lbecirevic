@@ -368,7 +368,7 @@ manage and share their code.</p>
 <p><strong>Check current working director</strong></p>
 <pre class="r"><code>getwd()</code></pre>
 <pre><code>## [1] &quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/midterm_notes&quot;</code></pre>
-<p><strong>Making a vector and calulate mean, median, and standard
+<p><strong>Making a vector and calculate mean, median, and standard
 deviation</strong></p>
 <pre class="r"><code>x &lt;- c(1, 2, 3, 4, 5)</code></pre>
 <pre class="r"><code>mean(x)</code></pre>
@@ -647,7 +647,7 @@ frame</strong></p>
 ## 4   35.2 Jill      Benton      3.21
 ## 5   35.4 Susan     Benton      3.23
 ## 6   33.4 Steve     Benton      3.2</code></pre>
-<p><strong><code>tail()</code> prinst the last n rows of the data
+<p><strong><code>tail()</code> prints the last n rows of the data
 frame</strong></p>
 <pre class="r"><code>tail(hot_springs)</code></pre>
 <pre><code>## # A tibble: 6 × 4
@@ -672,7 +672,7 @@ un-limitless</strong></p>
 <pre class="r"><code>hot_springs$scientist &lt;- as.factor(hot_springs$scientist)
 hot_springs$spring &lt;- as.factor(hot_springs$spring)</code></pre>
 <p><strong>Levels tell you how many factors you have in a
-catagory</strong></p>
+category</strong></p>
 <pre class="r"><code>levels(hot_springs$scientist)</code></pre>
 <pre><code>## [1] &quot;Jill&quot;  &quot;Steve&quot; &quot;Susan&quot;</code></pre>
 <pre class="r"><code>levels(hot_springs$spring)</code></pre>
@@ -681,9 +681,9 @@ catagory</strong></p>
 </div>
 <div id="lab-4" class="section level2">
 <h2>LAB 4</h2>
-<p>Data matix has one class of data and a data frame have multiple
+<p>Data matrix has one class of data and a data frame have multiple
 classes of data. <strong>Every variable in its own column and every
-observation is in its own row and each cell had one value = tidydata
+observation is in its own row and each cell had one value = tidy data
 (lab4_1</strong></p>
 <div id="load-the-data" class="section level3">
 <h3>Load the data</h3>
@@ -980,7 +980,7 @@ observations</strong></p>
 <pre class="r"><code>not_AL &lt;- filter(fish, lakeid != &quot;AL&quot;) #Pull out all fish not &quot;AL&quot; </code></pre>
 <p><strong>Filtering multiple values within the same variable requires
 the <code>%in%</code></strong></p>
-<pre class="r"><code>filter(fish, length %in% c(167, 175)) #Pull out all the fish within the length 167 to 175 (%in%); for multiple values within datset</code></pre>
+<pre class="r"><code>filter(fish, length %in% c(167, 175)) #Pull out all the fish within the length 167 to 175 (%in%); for multiple values within dataset</code></pre>
 <pre><code>## # A tibble: 18 × 6
 ##    lakeid fish_id annnumber length radii_length_mm scalelength
 ##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;
@@ -1153,7 +1153,7 @@ filter(owls_data, mean.mass.g==61.32) </code></pre>
 </div>
 <div id="lab-5" class="section level2">
 <h2>LAB 5</h2>
-<p>Tidyverse is a library, dplyr is used to transform data, within dpyr
+<p>Tidyverse is a library, dplyr is used to transform data, within dplyr
 filter and select are commands. Select is used to select variables
 (columns) of interest and filter is used to filter values (rows) of
 interest.</p>
@@ -1734,7 +1734,7 @@ to Carnivora.</li>
 ## 2 Cetacea Phocoena           NA
 ## 3 Cetacea Tursiops           NA</code></pre>
 <p><strong>As biologists, a good question that we may ask is how do the
-measured variables differ by island on avergae (on which island has the
+measured variables differ by island on average (on which island has the
 greatest body weight)</strong></p>
 <pre class="r"><code>penguins %&gt;% 
   group_by(island) %&gt;% 
@@ -1774,8 +1774,8 @@ species and island</strong></p>
 ## 4 Chinstrap Dream        68
 ## 5 Gentoo    Biscoe      124</code></pre>
 </div>
-<div id="counts" class="section level3">
-<h3>Counts</h3>
+<div id="count" class="section level3">
+<h3>count</h3>
 <p><strong><code>count()</code> is an easy way of determining how many
 observations you have within a column. It acts like a combination of
 <code>group_by()</code> and <code>n()</code></strong></p>
