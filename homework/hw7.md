@@ -267,7 +267,7 @@ glimpse(amphibio)
 
 ```r
 amniota %>% 
-  map_df(~ sum(is.na(.))) #This shows that there is no NAs in the data set. This doesn't make sense since there should be some NAs. When looking at the data set, there is a bunch of -999.00 which represents NAs for this data set.
+  map_df(~ sum(is.na(.))) 
 ```
 
 ```
@@ -283,11 +283,12 @@ amniota %>%
 ## #   male_maturity_d <int>, inter_litter_or_interbirth_interval_y <int>,
 ## #   female_body_mass_g <int>, male_body_mass_g <int>, …
 ```
+**This shows that there is no NAs in the data set. This doesn't make sense since there should be some NAs. When looking at the data set, there is a bunch of -999.00 which represents NAs for this data set.** 
 
 
 ```r
 amphibio %>% 
-  map_df(~ sum(is.na(.))) #This shows that there is some NAs in parts of the data set, specifically the non-character columns. 
+  map_df(~ sum(is.na(.)))  
 ```
 
 ```
@@ -303,6 +304,8 @@ amphibio %>%
 ## #   longevity_max_y <int>, litter_size_min_n <int>, litter_size_max_n <int>,
 ## #   reproductive_output_y <int>, offspring_size_min_mm <int>, …
 ```
+**This shows that there is some NAs in parts of the data set, specifically the non-character columns.**
+
 
 **5. Make any necessary replacements in the data such that all NA's appear as "NA".**   
 
@@ -383,7 +386,7 @@ amphibio %>%
 amniota_na %>% 
   group_by(class) %>% 
   select(class, egg_mass_g) %>% 
-  miss_var_summary(egg_mass_g=F) #These results makes sense because it says that there is 100% missing egg mass data for mammals since mammals don't lay eggs. Only half missing variables in birds since they lay eggs and a decent amount of missing eggs in reptiles, maybe due to no egg mass recorded.
+  miss_var_summary(egg_mass_g=F) 
 ```
 
 ```
@@ -395,13 +398,15 @@ amniota_na %>%
 ## 2 Mammalia egg_mass_g   4953    100  
 ## 3 Reptilia egg_mass_g   6040     92.0
 ```
+**These results makes sense because it says that there is 100% missing egg mass data for mammals since mammals don't lay eggs. Only half missing variables in birds since they lay eggs and a decent amount of missing eggs in reptiles, maybe due to no egg mass recorded.**
+
 
 **9. The `amphibio` data have variables that classify species as fossorial (burrowing), terrestrial, aquatic, or arboreal.Calculate the number of NA's in each of these variables. Do you think that the authors intend us to think that there are NA's in these columns or could they represent something else? Explain.**
 
 ```r
 amphibio %>% 
   select(fos, ter, aqu, arb) %>% 
-  map_df(~ sum(is.na(.))) #I think the NAs for this data set represents not applicable since some species might be aquatic but not terrestrial. It wasn't that data was missing but instead it doesn't apply to the specific species. 
+  map_df(~ sum(is.na(.)))  
 ```
 
 ```
@@ -410,6 +415,7 @@ amphibio %>%
 ##   <int> <int> <int> <int>
 ## 1  6053  1104  2810  4347
 ```
+**I think the NAs for this data set represents not applicable since some species might be aquatic but not terrestrial. It wasn't that data was missing but instead it doesn't apply to the specific species.**
 
 
 **10. Now that we know how NA's are represented in the `amniota` data, how would you load the data such that the values which represent NA's are automatically converted?**

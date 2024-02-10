@@ -587,7 +587,7 @@ NA’s are represented in the data.</strong></p>
 <p><strong>4. How many total NA’s are in each data set? Do these values
 make sense? Are NA’s represented by values?</strong></p>
 <pre class="r"><code>amniota %&gt;% 
-  map_df(~ sum(is.na(.))) #This shows that there is no NAs in the data set. This doesn&#39;t make sense since there should be some NAs. When looking at the data set, there is a bunch of -999.00 which represents NAs for this data set.</code></pre>
+  map_df(~ sum(is.na(.))) </code></pre>
 <pre><code>## # A tibble: 1 × 36
 ##   class order family genus species subspecies common_name female_maturity_d
 ##   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;   &lt;int&gt;      &lt;int&gt;       &lt;int&gt;             &lt;int&gt;
@@ -599,8 +599,12 @@ make sense? Are NA’s represented by values?</strong></p>
 ## #   incubation_d &lt;int&gt;, fledging_age_d &lt;int&gt;, longevity_y &lt;int&gt;,
 ## #   male_maturity_d &lt;int&gt;, inter_litter_or_interbirth_interval_y &lt;int&gt;,
 ## #   female_body_mass_g &lt;int&gt;, male_body_mass_g &lt;int&gt;, …</code></pre>
+<p><strong>This shows that there is no NAs in the data set. This doesn’t
+make sense since there should be some NAs. When looking at the data set,
+there is a bunch of -999.00 which represents NAs for this data
+set.</strong></p>
 <pre class="r"><code>amphibio %&gt;% 
-  map_df(~ sum(is.na(.))) #This shows that there is some NAs in parts of the data set, specifically the non-character columns. </code></pre>
+  map_df(~ sum(is.na(.)))  </code></pre>
 <pre><code>## # A tibble: 1 × 38
 ##      id order family genus species   fos   ter   aqu   arb leaves flowers seeds
 ##   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
@@ -612,6 +616,8 @@ make sense? Are NA’s represented by values?</strong></p>
 ## #   size_at_maturity_min_mm &lt;int&gt;, size_at_maturity_max_mm &lt;int&gt;,
 ## #   longevity_max_y &lt;int&gt;, litter_size_min_n &lt;int&gt;, litter_size_max_n &lt;int&gt;,
 ## #   reproductive_output_y &lt;int&gt;, offspring_size_min_mm &lt;int&gt;, …</code></pre>
+<p><strong>This shows that there is some NAs in parts of the data set,
+specifically the non-character columns.</strong></p>
 <p><strong>5. Make any necessary replacements in the data such that all
 NA’s appear as “NA”.</strong></p>
 <pre class="r"><code>amniota_na &lt;- read_csv(&quot;data/amniota.csv&quot;, na=&quot;-999&quot;) #I had to do it this way because it was too long to write all the columns</code></pre>
@@ -674,7 +680,7 @@ How do these results affect your interpretation of NA’s?</strong></p>
 <pre class="r"><code>amniota_na %&gt;% 
   group_by(class) %&gt;% 
   select(class, egg_mass_g) %&gt;% 
-  miss_var_summary(egg_mass_g=F) #These results makes sense because it says that there is 100% missing egg mass data for mammals since mammals don&#39;t lay eggs. Only half missing variables in birds since they lay eggs and a decent amount of missing eggs in reptiles, maybe due to no egg mass recorded.</code></pre>
+  miss_var_summary(egg_mass_g=F) </code></pre>
 <pre><code>## # A tibble: 3 × 4
 ## # Groups:   class [3]
 ##   class    variable   n_miss pct_miss
@@ -682,6 +688,11 @@ How do these results affect your interpretation of NA’s?</strong></p>
 ## 1 Aves     egg_mass_g   4914     50.1
 ## 2 Mammalia egg_mass_g   4953    100  
 ## 3 Reptilia egg_mass_g   6040     92.0</code></pre>
+<p><strong>These results makes sense because it says that there is 100%
+missing egg mass data for mammals since mammals don’t lay eggs. Only
+half missing variables in birds since they lay eggs and a decent amount
+of missing eggs in reptiles, maybe due to no egg mass
+recorded.</strong></p>
 <p><strong>9. The <code>amphibio</code> data have variables that
 classify species as fossorial (burrowing), terrestrial, aquatic, or
 arboreal.Calculate the number of NA’s in each of these variables. Do you
@@ -689,11 +700,15 @@ think that the authors intend us to think that there are NA’s in these
 columns or could they represent something else? Explain.</strong></p>
 <pre class="r"><code>amphibio %&gt;% 
   select(fos, ter, aqu, arb) %&gt;% 
-  map_df(~ sum(is.na(.))) #I think the NAs for this data set represents not applicable since some species might be aquatic but not terrestrial. It wasn&#39;t that data was missing but instead it doesn&#39;t apply to the specific species. </code></pre>
+  map_df(~ sum(is.na(.)))  </code></pre>
 <pre><code>## # A tibble: 1 × 4
 ##     fos   ter   aqu   arb
 ##   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 ## 1  6053  1104  2810  4347</code></pre>
+<p><strong>I think the NAs for this data set represents not applicable
+since some species might be aquatic but not terrestrial. It wasn’t that
+data was missing but instead it doesn’t apply to the specific
+species.</strong></p>
 <p><strong>10. Now that we know how NA’s are represented in the
 <code>amniota</code> data, how would you load the data such that the
 values which represent NA’s are automatically converted?</strong></p>
