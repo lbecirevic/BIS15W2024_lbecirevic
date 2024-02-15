@@ -11,7 +11,7 @@
 
 <meta name="author" content="Please Add Your Name Here" />
 
-<meta name="date" content="2024-02-11" />
+<meta name="date" content="2024-02-15" />
 
 <title>Homework 9</title>
 
@@ -376,7 +376,7 @@ display: none;
 
 <h1 class="title toc-ignore">Homework 9</h1>
 <h4 class="author">Please Add Your Name Here</h4>
-<h4 class="date">2024-02-11</h4>
+<h4 class="date">2024-02-15</h4>
 
 </div>
 
@@ -403,6 +403,15 @@ use data about California colleges. These data are a subset of the
 national college scorecard (<a href="https://collegescorecard.ed.gov/data/" class="uri">https://collegescorecard.ed.gov/data/</a>). Load the
 <code>ca_college_data.csv</code> as a new object called
 <code>colleges</code>.</p>
+<pre class="r"><code>colleges &lt;- read_csv(&quot;/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/lab10/data/ca_college_data.csv&quot;) %&gt;% clean_names()</code></pre>
+<pre><code>## Rows: 341 Columns: 10
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (4): INSTNM, CITY, STABBR, ZIP
+## dbl (6): ADM_RATE, SAT_AVG, PCIP26, COSTT4_A, C150_4_POOLED, PFTFTUG1_EF
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>The variables are a bit hard to decipher, here is a key:</p>
 <p>INSTNM: Institution name<br />
 CITY: California city<br />
@@ -417,12 +426,47 @@ C150_4_POOLED: 4-year completion rate<br />
 PFTFTUG1_EF: Percentage of undergraduate students who are first-time,
 full-time degree/certificate-seeking undergraduate students</p>
 <ol style="list-style-type: decimal">
-<li><p>Use your preferred function(s) to have a look at the data and get
-an idea of its structure. Make sure you summarize NA’s and determine
+<li>Use your preferred function(s) to have a look at the data and get an
+idea of its structure. Make sure you summarize NA’s and determine
 whether or not the data are tidy. You may also consider dealing with any
-naming issues.</p></li>
-<li><p>Which cities in California have the highest number of
-colleges?</p></li>
+naming issues.</li>
+</ol>
+<pre class="r"><code>glimpse(colleges)</code></pre>
+<pre><code>## Rows: 341
+## Columns: 10
+## $ instnm        &lt;chr&gt; &quot;Grossmont College&quot;, &quot;College of the Sequoias&quot;, &quot;College…
+## $ city          &lt;chr&gt; &quot;El Cajon&quot;, &quot;Visalia&quot;, &quot;San Mateo&quot;, &quot;Ventura&quot;, &quot;Oxnard&quot;,…
+## $ stabbr        &lt;chr&gt; &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;CA&quot;, &quot;C…
+## $ zip           &lt;chr&gt; &quot;92020-1799&quot;, &quot;93277-2214&quot;, &quot;94402-3784&quot;, &quot;93003-3872&quot;, …
+## $ adm_rate      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ sat_avg       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ pcip26        &lt;dbl&gt; 0.0016, 0.0066, 0.0038, 0.0035, 0.0085, 0.0151, 0.0000, …
+## $ costt4_a      &lt;dbl&gt; 7956, 8109, 8278, 8407, 8516, 8577, 8580, 9181, 9281, 93…
+## $ c150_4_pooled &lt;dbl&gt; NA, NA, NA, NA, NA, NA, 0.2334, NA, NA, NA, NA, 0.1704, …
+## $ pftftug1_ef   &lt;dbl&gt; 0.3546, 0.5413, 0.3567, 0.3824, 0.2753, 0.4286, 0.2307, …</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Which cities in California have the highest number of colleges?</li>
+</ol>
+<pre class="r"><code>colleges %&gt;% 
+  group_by(city) %&gt;% 
+  count() %&gt;% 
+  arrange(-n)</code></pre>
+<pre><code>## # A tibble: 161 × 2
+## # Groups:   city [161]
+##    city              n
+##    &lt;chr&gt;         &lt;int&gt;
+##  1 Los Angeles      24
+##  2 San Diego        18
+##  3 San Francisco    15
+##  4 Sacramento       10
+##  5 Berkeley          9
+##  6 Oakland           9
+##  7 Claremont         7
+##  8 Pasadena          6
+##  9 Fresno            5
+## 10 Irvine            5
+## # ℹ 151 more rows</code></pre>
+<ol start="3" style="list-style-type: decimal">
 <li><p>Based on your answer to #2, make a plot that shows the number of
 colleges in the top 10 cities.</p></li>
 <li><p>The column <code>COSTT4_A</code> is the annual cost of each
