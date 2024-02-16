@@ -15,13 +15,16 @@ library(janitor)
 library(skimr)
 library(naniar)
 library(visdat)
+library(here)
+library(palmerpenguins)
+
 ``` 
 
 ## LAB 8
 
 **summarize() and group_by() are powerful tools that we can use to produce clean summaries of data. Especially when used together, we can quickly group variables of interest and save time**
 ```{r}
-?penguins
+print(penguins)
 ```
 
 **Produce a summary of the mean for bill_length_mm, bill_depth_mm, flipper_length_mm, and body_mass_g within Adelie penguins only. Be sure to provide the number of samples**
@@ -92,9 +95,13 @@ penguins %>%
             n=n())
 ```
 
+```{r}
+getwd()
+```
+
 **Load the mammals life history data and clean the names**
 ```{r}
-life_history <- read_csv("data/mammal_lifehistories_v3.csv") %>% clean_names()
+life_history <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/mammal_lifehistories_v3.csv") %>% clean_names()
 ```
 
 **Here is a new one for you using the `purrr` package. This will give you a quick summary of the number of NA's in each variable.**
@@ -105,7 +112,7 @@ life_history %>%
 
 **A single approach to deal with NA's in this data set**
 ```{r}
-life_history <- read_csv("data/mammal_lifehistories_v3.csv", na= c("NA", " ", ".", "-999", "not measured")) %>% clean_names() # you nee to know how the NAs are represented in the data; you dont want to do this by default
+life_history <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/mammal_lifehistories_v3.csv", na= c("NA", " ", ".", "-999", "not measured")) %>% clean_names() # you nee to know how the NAs are represented in the data; you dont want to do this by default
 ```
 
 ### naniar
@@ -147,7 +154,7 @@ miss_var_summary() #makes replacement of NAs specific with variable
 
 **Import the data and do a little exploration. Be sure to clean the names if necessary.
 ```{r}
-cites <- read_csv("data/cites.csv") %>% clean_names()
+cites <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/cites.csv") %>% clean_names()
 ```
 
 **Try using `group_by()` with `naniar`. Look specifically at class and `exporter_reported_quantity`. For which taxonomic classes do we have a high proportion of missing export data?**
@@ -172,7 +179,7 @@ vis_miss(life_history)
 **If you are sure that you know how NA's are treated in the data, then you can deal with them in advance using `na()` as part of the `readr` package.**
 ```{r}
 life_history_advance <- 
-  readr::read_csv(file = "data/mammal_lifehistories_v3.csv", 
+  readr::read_csv(file = "/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/mammal_lifehistories_v3.csv", 
                   na = c("NA", " ", ".", "-999")) #all NA, blank spaces, .,and -999 are treated as NA
 ```
 
@@ -193,6 +200,11 @@ life_history_advance <-
 (3) each value has its own cell?  
   
 **To fix this problem, we need to reshape the table to long format while keeping track of column names and values. We do this using `pivot_longer()`. Notice that the dimensions of the data frame change.**
+
+```{r}
+heartrate <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/heartrate.csv")
+```
+
 ```{r}
 heartrate %>% 
   pivot_longer(-patient, #patient will not move
@@ -204,7 +216,7 @@ heartrate %>%
 **Examples**
 Import the file `relig_income.csv` and store it as a new object `relig_income`.  
 ```{r}
-relig_income <- read_csv("data/relig_income.csv")
+relig_income <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/relig_income.csv")
 ```
 
 Use `pivot_longer()` to make the data tidy.  
@@ -217,7 +229,7 @@ relig_income %>%
 
 Some (but not all) of the column names are data. We also have NA's.
 ```{r}
-billboard <- read_csv("data/billboard.csv")
+billboard <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/billboard.csv")
 ```
 
 Solution 1: specify a range of columns that you want to pivot.
@@ -255,7 +267,7 @@ billboard %>%
 
 Import `plant_data.csv` as a new object `plant_data`.  
 ```{r}
-plant_data <- read_csv("data/plant_data.csv")
+plant_data <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/plant_data.csv")
 ```
 
 Use `pivot_longer()` to make the data tidy. Focus the data only on genotype, water_sched_prog, and greenhouse.  
@@ -278,11 +290,9 @@ Here we add a new column of expenditure types, which are stored as rownames abov
 expenditures <- USPersonalExpenditure %>% 
   as_tibble() %>% #this transforms the matrix into a data frame
   mutate(expenditure = rownames(USPersonalExpenditure))
-expenditures
 ```
 
-## Practice
-1. Are these data tidy? Please use `pivot_longer()` to tidy the data.
+Are these data tidy? Please use `pivot_longer()` to tidy the data.
 ```{r}
 expenditures %>% 
   pivot_longer(-expenditure, #not moving expenditure 
@@ -290,7 +300,7 @@ expenditures %>%
                values_to = "bn_dollars") #moving values into bn_dollars
 ```
 
-2. Restrict the data to medical and health expenditures only. Sort in ascending order.
+Restrict the data to medical and health expenditures only. Sort in ascending order.
 ```{r}
 expenditures %>% 
   pivot_longer(-expenditure,
@@ -311,6 +321,10 @@ expenditures %>%
 ### names_sep 
 **Helps pull these apart, but we still have "exp" and "rep" to deal with.**  
 ```{r}
+qpcr_untidy <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/qpcr_untidy.csv")
+```
+
+```{r}
 qpcr_untidy %>% 
   pivot_longer(
     exp1_rep1:exp3_rep3, #range
@@ -322,7 +336,7 @@ qpcr_untidy %>%
 ### separate
 In this new heart rate example, we have the sex of each patient included with their name. Are these data tidy? No, there is more than one value per cell in the patient column and the columns a, b, c, d once again represent values.
 ```{r}
-heartrate2 <- read_csv("data/heartrate2.csv")
+heartrate2 <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/heartrate2.csv")
 heartrate2
 ```
 
@@ -332,8 +346,8 @@ heartrate2 %>%
   separate(patient, into= c("patient", "sex"), sep = "_") #seperate patient from sex with the _
 ```
 
-## Practice
-1. Re-examine `heartrate2`. Use `separate()` for the sexes, `pivot_longer()` to tidy, and `arrange()` to organize by patient and drug. Store this as a new object `heartrate3`.  
+**Examples**
+Re-examine `heartrate2`. Use `separate()` for the sexes, `pivot_longer()` to tidy, and `arrange()` to organize by patient and drug. Store this as a new object `heartrate3`.  
 ```{r}
 heartrate3 <- heartrate2 %>% 
   separate(patient, into=c("patient", "sex"), sep="_") %>% 
@@ -359,8 +373,7 @@ Rules:
 + `values_from` - Cell values will be taken from the `values_from` column  
 
 ```{r}
-tb_data <- read_csv("data/tb_data.csv") #value column is not represented of single variable 
-tb_data
+tb_data <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/tb_data.csv") #value column is not represented of single variable 
 ```
 
 When using `pivot_wider()` we use `names_from` to identify the variables (new column names) and `values_from` to identify the values associated with the new columns.
@@ -370,11 +383,10 @@ tb_data %>%
               values_from = "value") #the values under value will be moved to the new columns
 ```
 
-## Practice
-1. Load the `gene_exp.csv` data as a new object `gene_exp`. Are these data tidy? Use `pivot_wider()` to tidy the data.
+**Examples**
+Load the `gene_exp.csv` data as a new object `gene_exp`. Are these data tidy? Use `pivot_wider()` to tidy the data.
 ```{r}
-gene_exp <- read_csv("data/gene_exp.csv")
-gene_exp
+gene_exp <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/gene_exp.csv")
 ```
 
 ```{r}
@@ -383,24 +395,19 @@ gene_exp %>%
               values_from = "L4_values")
 ```
 
-## Practice
-For the last practice example, I will use data from the awesome [R Ladies Sydney](https://rladiessydney.org/courses/ryouwithme/02-cleanitup-5/) blog. This data set is compiled by the NSW Office of Environment and Heritage contains the enterococci counts in water samples obtained from Sydney beaches as part of the Beachwatch Water Quality Program! The data set we’ll be working with is current as of October 13th 2018.  
-
-1. Load the beachbugs data and have a look.
+Load the beachbugs data and have a look.
 ```{r}
-beachbugs <- read_csv("data/beachbugs_long.csv")
-beachbugs
+beachbugs <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/beachbugs_long.csv")
 ```
 
-2. Use `pivot_wider` to transform the data into wide format.
+Use `pivot_wider` to transform the data into wide format.
 ```{r}
 beachbugs_wide <- beachbugs %>% 
   pivot_wider(names_from = site,
               values_from = buglevels)
-beachbugs_wide
 ```
 
-3. Now, use `pivot_longer` to transform them back to long!
+Now, use `pivot_longer` to transform them back to long!
 ```{r}
 beachbugs_wide %>% 
   pivot_longer(-year,
@@ -408,4 +415,268 @@ beachbugs_wide %>%
                values_to = "buglevels") %>% 
   arrange(desc(buglevels))
 ```
+
+## LAB 10
+### Grammar of Graphics
+The ability to quickly produce and edit graphs and charts is a strength of R. These data visualizations are produced by the package `ggplot2` and it is a core part of the tidyverse. The syntax for using ggplot is specific and common to all of the plots. This is what Hadley Wickham calls a [Grammar of Graphics](http://vita.had.co.nz/papers/layered-grammar.pdf). The "gg" in `ggplot` stands for grammar of graphics.
+
+### Philosophy
+What makes a good chart? In my opinion a good chart is elegant in its simplicity. It provides a clean, clear visual of the data without being overwhelming to the reader. This can be hard to do and takes some careful thinking. Always keep in mind that the reader will almost never know the data as well as you do so you need to be mindful about presenting the facts.  
+
+### Data Types
+We first need to define some of the data types we will use to build plots.  
+
++ `discrete` quantitative data that only contains integers
++ `continuous` quantitative data that can take any numerical value
++ `categorical` qualitative data that can take on a limited number of values
+
+### Basics
+The syntax used by ggplot takes some practice to get used to, especially for customizing plots, but the basic elements are the same. It is helpful to think of plots as being built up in layers.  
+
+In short, **plot= data + geom_ + aesthetics**.  
+
+We start by calling the ggplot function, identifying the data, and specifying the axes. We then add the `geom` type to describe how we want our data represented. Each `geom_` works with specific types of data and R is capable of building plots of single variables, multiple variables, and even maps. Lastly, we add aesthetics.
+
+**Example**
+To make things easy, let's start with some built in data.
+```{r}
+names(iris)
+```
+
+```{r}
+glimpse(iris)
+```
+
+To make a plot, we need to first specify the data and map the aesthetics. The aesthetics include how each variable in our data set will be used. In the example below, I am using the aes() function to identify the x and y variables in the plot.
+```{r}
+ggplot(data=iris, #specify the data
+       mapping=aes(x=Species, y=Petal.Length)) #map the aesthetics
+```
+
+Notice that we have a nice background, labeled axes, and even a value range of our variables on the y-axis- but no plot. This is because we need to tell ggplot how we want our data represented. This is called the geometry or `geom()`. There are many types of `geom`, see the ggplot [cheatsheet](https://posit.co/resources/cheatsheets/).
+
+Here we specify that we want a boxplot, indicated by `geom_boxplot()`.
+```{r}
+ggplot(data=iris, #specify the data
+       mapping=aes(x=Species, y=Petal.Length))+ #map the aesthetics
+  geom_boxplot() #add the plot type
+```
+
+
+Use the iris data to build a scatterplot that compares sepal length vs. sepal width. Use the cheat sheet for help to find the correct `geom_` for a scatterplot.
+```{r}
+names(iris)
+```
+
+```{r}
+ggplot(data=iris,
+       mapping = aes(x=Sepal.Length, y=Sepal.Width))+
+  geom_point()
+```
+
+
+### Scatter Plots
+Scatter plots are good at revealing relationships that are not readily visible in the raw data. For now, we will not add regression aka. "best of fit" lines or calculate any r^2^ values.  
+
+In the case below, we are exploring whether or not there is a relationship between animal mass and home range. We are using the **log transformed values** because there is a large difference in mass and home range among the different species in the data.
+
+Now that we have a general idea of the syntax, let's start by working with two common plots: 1) scatter plots and 2) bar plots.
+```{r}
+homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/Tamburelloetal_HomeRangeDatabase.csv")
+```
+
+What is the structure of the `homerange` data? Does it have any NA's? Is it tidy? Do a quick exploratory analysis of your choice below.
+```{r}
+glimpse(homerange)
+```
+
+```{r}
+names(homerange)
+```
+
+```{r}
+ggplot(data=homerange, #specify the data
+       mapping=aes(x=log10.mass, y=log10.hra))+ #map the aesthetics
+  geom_point() #add the plot type
+```
+
+In big data sets with lots of overlapping values, over-plotting can be an issue. `geom_jitter()` is similar to `geom_point()` but it helps with over plotting by adding some random noise to the data and separating some of the individual points.
+```{r}
+ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
+  geom_jitter() #if you have really big data set (over plotting) => adds some random noise
+```
+
+To add a regression (best of fit) line, we just add another layer.
+```{r}
+ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
+  geom_point()+
+  geom_smooth(method=lm, se=T) #add a regression line
+```
+
+**Examples**
+What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
+```{r}
+ggplot(data=homerange,
+       mapping = aes(x=log10.hra, y=log10.preymass))+
+  geom_point(na.rm=T)+
+  geom_smooth(method=lm, se=T, na.rm = T)
+```
+
+### Bar Plot: geom_bar
+The simplest type of bar plot counts the number of observations in a categorical variable. In this case, we want to know how many observations are present in the variable `trophic.guild`. Notice that we do not specify a y-axis because it is count by default.  
+
+```{r}
+names(homerange)
+```
+
+```{r}
+homerange %>% 
+  count(trophic.guild)
+```
+
+Also notice that we can use pipes! The `mapping=` function is implied by `aes` and so is often left out. 
+```{r}
+homerange %>% 
+  ggplot(aes(trophic.guild)) +  #don't need to use x since we are counting one variable
+  geom_bar() #good for counts and categorical data not continuous 
+```
+
+### Bar Plot: geom_col
+Unlike `geom_bar()`, `geom_col()` allows us to specify an x-axis and a y-axis.
+```{r}
+homerange %>% 
+  filter(family=="salmonidae") %>%
+  select(common.name, log10.mass) %>% 
+  ggplot(aes(y=common.name, x=log10.mass))+ #notice the switch in x and y => specified the y first
+  geom_col()
+```
+
+`geom_bar()` with `stat="identity"`
+`stat="identity"` allows us to map a variable to the y-axis so that we aren't restricted to counts.
+```{r}
+homerange %>% 
+  filter(family=="salmonidae") %>% 
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_bar(stat="identity") #only use when you want a count
+```
+
+**Examples**
+Filter the `homerange` data to include `mammals` only.
+```{r}
+homerange %>% 
+  filter(class=="mammalia")
+```
+
+Are there more herbivores or carnivores in mammals? Make a bar plot that shows their relative numbers.
+```{r}
+homerange %>% 
+  select(class, trophic.guild) %>% 
+  filter(class=="mammalia") %>% 
+  ggplot(aes(trophic.guild))+
+  geom_bar()
+```
+
+Make a bar plot that shows the masses of the top 10 smallest mammals.
+```{r}
+homerange %>% 
+  filter(class=="mammalia") %>% 
+  top_n(-10, log10.mass) %>% 
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_col()+ #use when you have x and y axis
+  coord_flip()
+```
+
+**Examples**
+```{r}
+penguins
+```
+
+In a previous lab, we asked how many penguins were measured on each island.
+```{r}
+penguins %>% 
+  count(island)
+```
+
+Make this output more visual by adding a plot...
+```{r}
+penguins %>% 
+  count(island) %>% 
+  ggplot(aes(x=island, y=n))+
+  geom_col()
+```
+
+```{r}
+names(penguins)
+```
+
+What if we wanted a plot that showed the number of measured penguins for each species?
+```{r}
+penguins %>% 
+  count(species) %>% 
+  ggplot(aes(x=species, y=n))+
+  geom_col()
+```
+
+```{r}
+penguins %>% 
+  ggplot(aes(species))+
+  geom_bar()
+```
+
+How about average bill length by sex?
+```{r}
+penguins %>% 
+  filter(sex!="NA") %>% 
+  group_by(sex) %>% 
+  summarise(avg_bill_lenth_mm=mean(bill_length_mm)) %>% 
+  ggplot(aes(x=sex, y=avg_bill_lenth_mm))+
+  geom_col()
+```
+
+### Box Plots
+For the next series of examples, we will use the `homerange` data.  
+
+```{r message=FALSE, warning=FALSE}
+homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/Tamburelloetal_HomeRangeDatabase.csv")
+```
+
+Boxplots help us visualize a range of values. So, on the x-axis we typically have something categorical and the y-axis is the range. In the case below, we are plotting `log10.mass` by taxonomic class in the `homerange` data. `geom_boxplot()` is the geom type for a standard box plot. The center line in each box represents the median, not the mean.
+
+Let's look at the variable `log10.mass` grouped by taxonomic class.
+```{r}
+homerange %>% 
+  group_by(class) %>% 
+  summarize(min_log10.mass=min(log10.mass),
+            max_log10.mass=max(log10.mass),
+            median_log10.mass=median(log10.mass))
+```
+
+```{r}
+homerange %>% 
+  ggplot(aes(x = class, y = log10.mass)) +
+  geom_boxplot()
+```
+
+**Examples**
+There are more herbivores than carnivores in the homerange data, but how do their masses compare? Make a summary and boxplot that compares their masses. Use `log10.mass`.
+```{r}
+homerange %>% 
+  select(trophic.guild, log10.mass) %>% 
+  ggplot(aes(x=trophic.guild, y=log10.mass))+
+  geom_boxplot()
+```
+
+Now use a boxplot to visualize the range of log10.mass by family of mammalian carnivore.
+```{r}
+homerange %>% 
+  filter(trophic.guild=="carnivore" & class=="mammalia") %>% 
+  ggplot(aes(x=family, y=log10.mass))+
+  geom_boxplot()+
+  coord_flip()
+```
+
+
+
+
+
 
