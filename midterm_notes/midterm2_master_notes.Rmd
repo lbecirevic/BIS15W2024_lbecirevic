@@ -5,6 +5,10 @@ date: "2024-02-10"
 output: html_document
 ---
 
+```{r}
+getwd()
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -101,7 +105,7 @@ getwd()
 
 **Load the mammals life history data and clean the names**
 ```{r}
-life_history <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/mammal_lifehistories_v3.csv") %>% clean_names()
+life_history <- read_csv("data/mammal_lifehistories_v3.csv") %>% clean_names()
 ```
 
 **Here is a new one for you using the `purrr` package. This will give you a quick summary of the number of NA's in each variable.**
@@ -112,7 +116,7 @@ life_history %>%
 
 **A single approach to deal with NA's in this data set**
 ```{r}
-life_history <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/mammal_lifehistories_v3.csv", na= c("NA", " ", ".", "-999", "not measured")) %>% clean_names() # you nee to know how the NAs are represented in the data; you dont want to do this by default
+life_history <- read_csv("data/mammal_lifehistories_v3.csv", na= c("NA", " ", ".", "-999", "not measured")) %>% clean_names() # you nee to know how the NAs are represented in the data; you dont want to do this by default
 ```
 
 ### naniar
@@ -154,7 +158,7 @@ miss_var_summary() #makes replacement of NAs specific with variable
 
 **Import the data and do a little exploration. Be sure to clean the names if necessary.
 ```{r}
-cites <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/cites.csv") %>% clean_names()
+cites <- read_csv("data/cites.csv") %>% clean_names()
 ```
 
 **Try using `group_by()` with `naniar`. Look specifically at class and `exporter_reported_quantity`. For which taxonomic classes do we have a high proportion of missing export data?**
@@ -179,7 +183,7 @@ vis_miss(life_history)
 **If you are sure that you know how NA's are treated in the data, then you can deal with them in advance using `na()` as part of the `readr` package.**
 ```{r}
 life_history_advance <- 
-  readr::read_csv(file = "/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/mammal_lifehistories_v3.csv", 
+  readr::read_csv(file = "data/mammal_lifehistories_v3.csv", 
                   na = c("NA", " ", ".", "-999")) #all NA, blank spaces, .,and -999 are treated as NA
 ```
 
@@ -202,7 +206,7 @@ life_history_advance <-
 **To fix this problem, we need to reshape the table to long format while keeping track of column names and values. We do this using `pivot_longer()`. Notice that the dimensions of the data frame change.**
 
 ```{r}
-heartrate <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/heartrate.csv")
+heartrate <- read_csv("data/heartrate.csv")
 ```
 
 ```{r}
@@ -216,7 +220,7 @@ heartrate %>%
 **Examples**
 Import the file `relig_income.csv` and store it as a new object `relig_income`.  
 ```{r}
-relig_income <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/relig_income.csv")
+relig_income <- read_csv("data/relig_income.csv")
 ```
 
 Use `pivot_longer()` to make the data tidy.  
@@ -229,7 +233,7 @@ relig_income %>%
 
 Some (but not all) of the column names are data. We also have NA's.
 ```{r}
-billboard <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/billboard.csv")
+billboard <- read_csv("data/billboard.csv")
 ```
 
 Solution 1: specify a range of columns that you want to pivot.
@@ -267,7 +271,7 @@ billboard %>%
 
 Import `plant_data.csv` as a new object `plant_data`.  
 ```{r}
-plant_data <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/plant_data.csv")
+plant_data <- read_csv("data/plant_data.csv")
 ```
 
 Use `pivot_longer()` to make the data tidy. Focus the data only on genotype, water_sched_prog, and greenhouse.  
@@ -321,7 +325,7 @@ expenditures %>%
 ### names_sep 
 **Helps pull these apart, but we still have "exp" and "rep" to deal with.**  
 ```{r}
-qpcr_untidy <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/qpcr_untidy.csv")
+qpcr_untidy <- read_csv("data/qpcr_untidy.csv")
 ```
 
 ```{r}
@@ -336,7 +340,7 @@ qpcr_untidy %>%
 ### separate
 In this new heart rate example, we have the sex of each patient included with their name. Are these data tidy? No, there is more than one value per cell in the patient column and the columns a, b, c, d once again represent values.
 ```{r}
-heartrate2 <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/heartrate2.csv")
+heartrate2 <- read_csv("data/heartrate2.csv")
 heartrate2
 ```
 
@@ -373,7 +377,7 @@ Rules:
 + `values_from` - Cell values will be taken from the `values_from` column  
 
 ```{r}
-tb_data <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/tb_data.csv") #value column is not represented of single variable 
+tb_data <- read_csv("data/tb_data.csv") #value column is not represented of single variable 
 ```
 
 When using `pivot_wider()` we use `names_from` to identify the variables (new column names) and `values_from` to identify the values associated with the new columns.
@@ -386,7 +390,7 @@ tb_data %>%
 **Examples**
 Load the `gene_exp.csv` data as a new object `gene_exp`. Are these data tidy? Use `pivot_wider()` to tidy the data.
 ```{r}
-gene_exp <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/gene_exp.csv")
+gene_exp <- read_csv("data/gene_exp.csv")
 ```
 
 ```{r}
@@ -397,7 +401,7 @@ gene_exp %>%
 
 Load the beachbugs data and have a look.
 ```{r}
-beachbugs <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/beachbugs_long.csv")
+beachbugs <- read_csv("data/beachbugs_long.csv")
 ```
 
 Use `pivot_wider` to transform the data into wide format.
@@ -482,7 +486,7 @@ In the case below, we are exploring whether or not there is a relationship betwe
 
 Now that we have a general idea of the syntax, let's start by working with two common plots: 1) scatter plots and 2) bar plots.
 ```{r}
-homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/Tamburelloetal_HomeRangeDatabase.csv")
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 What is the structure of the `homerange` data? Does it have any NA's? Is it tidy? Do a quick exploratory analysis of your choice below.
@@ -513,6 +517,20 @@ ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
   geom_smooth(method=lm, se=T) #add a regression line
 ```
 
+```{r}
+life_history %>% 
+  ggplot(aes(x=gestation, y=wean_mass))+
+  geom_jitter(na.rm = T) #prevents over plotting 
+```
+
+```{r}
+life_history %>% 
+  select(gestation, wean_mass) %>% 
+  ggplot(aes(x=gestation, y=wean_mass))+
+  geom_point(na.rm = T)+
+  scale_y_log10()
+```
+
 **Examples**
 What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
 ```{r}
@@ -541,6 +559,17 @@ homerange %>%
   geom_bar() #good for counts and categorical data not continuous 
 ```
 
+```{r message=FALSE, warning=FALSE}
+life_history <- read_csv("data/mammal_lifehistories_v2.csv", na="-999") %>% clean_names()
+```
+
+```{r}
+life_history %>% 
+  ggplot(aes(x=order))+ #counting observations in a catagorical variable 
+  geom_bar()+
+  coord_flip()
+```
+
 ### Bar Plot: geom_col
 Unlike `geom_bar()`, `geom_col()` allows us to specify an x-axis and a y-axis.
 ```{r}
@@ -558,6 +587,55 @@ homerange %>%
   filter(family=="salmonidae") %>% 
   ggplot(aes(x=common.name, y=log10.mass))+
   geom_bar(stat="identity") #only use when you want a count
+```
+
+
+```{r message=FALSE, warning=FALSE}
+life_history <- read_csv("data/mammal_lifehistories_v2.csv", na="-999") %>% clean_names()
+```
+
+```{r}
+life_history %>% 
+  count(order, sort = T) %>% #sort = T is the same as arrange 
+  ggplot(aes(x=order, y=n))+
+  geom_col()+ #specify an x and y
+  coord_flip()
+```
+
+```{r}
+life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=order, y=mean_mass))+
+  geom_col()+
+  coord_flip()
+```
+
+There are a few problems here. First, the y-axis is in scientific notation. We can fix this by adjusting the options for the session.
+```{r}
+options(scipen=999) #cancels scientific notation for the session
+```
+
+Next, the y-axis is not on a log scale. We can fix this by adding `scale_y_log10()`.
+```{r}
+life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=order, y=mean_mass))+
+  geom_col()+
+  coord_flip()+
+  scale_y_log10()
+```
+
+Lastly, we can adjust the x-axis labels to make them more readable. We do this using `reorder`.
+```{r}
+life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=reorder(order, mean_mass), y=mean_mass))+ #this orders x axis by mean mass
+  geom_col()+
+  coord_flip()+
+  scale_y_log10()
 ```
 
 **Examples**
@@ -637,7 +715,7 @@ penguins %>%
 For the next series of examples, we will use the `homerange` data.  
 
 ```{r message=FALSE, warning=FALSE}
-homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/homework/data/Tamburelloetal_HomeRangeDatabase.csv")
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 Boxplots help us visualize a range of values. So, on the x-axis we typically have something categorical and the y-axis is the range. In the case below, we are plotting `log10.mass` by taxonomic class in the `homerange` data. `geom_boxplot()` is the geom type for a standard box plot. The center line in each box represents the median, not the mean.
@@ -675,8 +753,66 @@ homerange %>%
   coord_flip()
 ```
 
+```{r}
+life_history %>% 
+  ggplot(aes(x=order, y=mass))+
+  geom_boxplot(na.rm = T)+
+  coord_flip()+
+  scale_y_log10()
+```
 
+## LAB 11
 
+### Aesthetics: Labels
+```{r}
+elephants <- read_csv("data/elephantsMF.csv") %>% clean_names()
+```
+
+Make a plot that compares age and height of elephants.
+```{r}
+elephants %>% 
+  ggplot(aes(x=age, y=height))+
+  geom_point()+ #compares two continuous variables 
+  geom_smooth(method = lm, se=F)
+```
+
+The plot looks clean, but it is incomplete. A reader unfamiliar with the data might have a difficult time interpreting the labels. To add custom labels, we use the `labs` command.
+```{r}
+elephants %>% 
+  ggplot(aes(x=age, y=height)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=F)+
+  labs(title="Elephant Age vs. Height", #adds a title
+       x="Age (years)", #adds names on axis
+       y="Height (cm)")
+```
+
+We can improve the plot further by adjusting the size and face of the text. We do this using `theme()`. The `rel()` option changes the relative size of the title to keep things consistent. Adding `hjust` allows control of title position.
+```{r}
+elephants %>% 
+  ggplot(aes(x=age, y=height)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=F)+
+  labs(title="Elephant Age vs. Height", #adds a title
+       x="Age (years)", #adds names on axis
+       y="Height (cm)")+
+  theme(plot.title = element_text(size=rel(1.5), hjust=0.5)) #size changes the size of the title, hjust changes the location of the title, 0=left, 0.5=middle, 1=right
+```
+
+### Other Aesthetics
+There are lots of options for aesthetics. An aesthetic can be assigned to either numeric or categorical data. `fill` is a common grouping option; notice that an appropriate key is displayed when you use one of these options.
+```{r}
+elephants %>% 
+  ggplot(aes(x=sex, fill=sex))+ #fill is a grouping option, color in bar by sex
+  geom_bar()
+```
+
+`size` adjusts the size of points relative to a continuous variable.
+```{r}
+life_history %>% 
+  ggplot(aes(x=gestation, y=log10(mass), size=mass))+ #can adjust the size of point relative to the mass
+  geom_point(na.rm=T)
+```
 
 
 
