@@ -2,7 +2,9 @@
 title: "Midterm 2 Master Notes"
 author: "Lejla Becirevic"
 date: "2024-02-10"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r}
@@ -1006,3 +1008,408 @@ homerange %>%
 ```
 
 
+## LAB 12
+
+```{r message=FALSE, warning=FALSE}
+deserts <- read_csv("data/surveys_complete.csv")
+```
+
+```{r message=FALSE, warning=FALSE}
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv", na = c("", "NA", "\\"))
+```
+
+### Line plots **ON MIDTERM 2**
+Line plots are great when you need to show changes over time. Here we look at the number of samples for species DM and DS over the years represented in the `deserts` data. This takes some careful thought- we want to know how sampling has changed over time for these two species.    
+
+Let's start by making a clear x and y so we know what we are going to plot.
+```{r}
+deserts %>% 
+  filter(species_id=="DM" | species_id=="DS") %>% 
+  mutate(year=as.factor(year)) %>% #change to factor because this represents data points
+  group_by(year, species_id) %>% 
+  summarise(n=n(), .groups = "keep") %>% 
+  pivot_wider(names_from = species_id, values_from = n)
+```
+
+```{r}
+deserts %>% 
+  filter(species_id=="DM" | species_id=="DS") %>% 
+  mutate(year=as.factor(year)) %>% #change to factor because this represents data points
+  group_by(year, species_id) %>% 
+  summarise(n=n(), .groups = "keep") %>% 
+  ggplot(aes(x=year, y=n, group=species_id, color=species_id))+
+  geom_line()+
+  geom_point(shape=10)+ #can experiement with shapes
+  theme(axis.text.x = element_text(angle=60, hjust=1))+
+  labs(title="Number of Samples for Species DM and DS",
+       x="Year",
+       y="n")
+```
+
+### Histograms
+Histograms are frequently used by biologists; they show the distribution of continuous variables. As students, you have seen histograms of grade distributions. A histogram `bins` the data and you specify the number of bins that encompass a range of observations. For something like grades, this is easy because the number of bins corresponds to the grades A-F. By default, R uses a formula to calculate the number of bins but some adjustment may be required.  
+
+What does the distribution of body mass look like in the `homerange` data?
+```{r}
+homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_histogram(bins = 20)+ #we can adjust the number of bins with the bins argument
+  labs(title = "Distribution of Body Mass")
+```
+
+Let's play with the colors. This shows all 657 of R's built-in colors. Notice that `color` and `fill` do different things!
+```{r}
+#grDevices::colors()
+```
+
+Let's rebuild the histogram, but this time we will specify the color and fill. Do a little experimentation on your own with the different colors.
+```{r}
+homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_histogram(color = "black", fill = "papayawhip", bins=10)+
+  labs(title = "Distribution of Body Mass")
+```
+
+### Density plots  
+Density plots are similar to histograms but they use a smoothing function to make the distribution more even and clean looking. They do not use bins.
+```{r}
+homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_density(fill="deepskyblue4", alpha  =0.4, color = "black")+ #alpha is the transparency, show continuous variables 
+  labs(title = "Distribution of Body Mass")
+```
+
+I like to see both the histogram and the density curve so I often plot them together. Note that I assign the density plot a different color.
+```{r message=FALSE}
+homerange %>% 
+  ggplot(aes(x=log10.mass)) +
+  geom_histogram(aes(y = after_stat(density)), fill = "deepskyblue4", alpha = 0.4, color = "black")+
+  geom_density(color = "red")+
+  labs(title = "Distribution of Body Mass")
+```
+
+**Examples**
+1. Make a histogram of `log10.hra`. Make sure to add a title.
+```{r}
+homerange %>% 
+  ggplot(aes(x=log10.hra)) + #only need to specify x
+  geom_histogram(color = "black", fill = "salmon")+
+  labs(title = "Histogram of Homerange")
+```
+
+2. Now plot the same variable using `geom_density()`.
+```{r}
+homerange %>% 
+  ggplot(aes(x=log10.hra)) +
+  geom_density(fill = "salmon", alpha=0.6, color = "black")+
+  labs(title = "Histogram of Homerange")
+```
+
+3. Combine them both!
+```{r}
+homerange %>% 
+  ggplot(aes(x=log10.hra))+
+  geom_histogram(aes(y=after_stat(density)), fill="violetred4", alpha=0.3, color="black")+
+  geom_density(color="salmon")+
+  labs(title = "Histogram of Homerange")
+```
+
+### Create Categories with mutate and case_when() **ON MIDTERM 2**
+`case_when()` is a very handy function from `dplyr` which allows us to calculate a new variable from other variables. We use `case_when()` within `mutate()` to do this.`case_when()` allows us to specify multiple conditions. Let's reclassify the body mass variable into a new factor variable with small, medium, and large animals. In this case, we are making a continuous variable into a categorical variable.  
+```{r}
+glimpse(homerange)
+```
+
+```{r}
+homerange %>% 
+  select(log10.mass) %>% 
+  summarize(min=min(log10.mass),
+            max=max(log10.mass))
+```
+
+```{r}
+summary(homerange$log10.mass)
+```
+
+```{r}
+homerange %>% #ON MIDTERM 2
+  mutate(mass_category=case_when(log10.mass<=1.75 ~ "small",
+                                 log10.mass>1.75 & log10.mass<=2.75 ~ "medium",
+                                 log10.mass>2.75 ~ "large")) %>% 
+  select(mass_category)
+```
+
+Here we check how the newly created body mass categories compare across `trophic.guild`. 
+```{r}
+homerange %>% #ON MIDTERM 2
+  mutate(mass_category=case_when(log10.mass<=1.75 ~ "small",
+                                 log10.mass>1.75 & log10.mass<=2.75 ~ "medium",
+                                 log10.mass>2.75 ~ "large")) %>% 
+  ggplot(aes(x=mass_category, fill=trophic.guild))+
+  geom_bar(position = "dodge")
+```
+
+**Examples**
+1. Use case_when() to make a new column `range_category` that breaks down `log10.hra` into very small, small, medium, and large classes based on quartile.
+```{r}
+library(gtools)
+#install.packages("gtools")
+```
+
+```{r}
+summary(homerange$log10.mass)
+```
+
+```{r}
+quartiles <- quantcut(homerange$log10.hra)
+table(quartiles)
+```
+
+```{r}
+homerange %>% 
+  mutate(range_category=case_when(log10.hra<3.65 ~"very small",
+                                  log10.hra>=3.65 & log10.hra<=4.59 ~ "small",
+                                  log10.hra>4.59 & log10.hra<=6.02 ~ "medium",
+                                  log10.hra>=6.02 ~ "large"))
+```
+
+2. Make a plot that shows how many and which taxonomic classes are represented in each `range_category`.   
+```{r}
+homerange %>% 
+  mutate(range_category=case_when(log10.hra<3.65 ~"very small",
+                                  log10.hra>=3.65 & log10.hra<=4.59 ~ "small",
+                                  log10.hra>4.59 & log10.hra<=6.02 ~ "medium",
+                                  log10.hra>=6.02 ~ "large")) %>% 
+  ggplot(aes(x=range_category, fill=class))+
+  geom_bar(position = "dodge", alpha=0.6, color="black")
+```
+
+3. Isolate the small `range_category` and plot the range of `log10.mass` by taxonomic class.
+```{r}
+homerange %>% 
+  mutate(range_category=case_when(log10.hra<3.65 ~"very small",
+                                  log10.hra>=3.65 & log10.hra<=4.59 ~ "small",
+                                  log10.hra>4.59 & log10.hra<=6.02 ~ "medium",
+                                  log10.hra>=6.02 ~ "large")) %>% 
+  filter(range_category=="small") %>% 
+  ggplot(aes(x=class, y=log10.mass, fill=class))+
+  geom_boxplot()
+```
+
+
+## Data
+For this tutorial, we will use:  
+[Homerange](http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1). The data are from: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211. http://dx.doi.org/10.1086/682070.  
+```{r message=FALSE, warning=FALSE}
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv", na = c("", "NA", "\\"))
+```
+
+### ggplot themes
+There are many options to change the theme of your plots within ggplot. Have a look [here]https://ggplot2.tidyverse.org/reference/ggtheme.html) for a list of the themes.  
+
+Let's start by building a simple barplot.  
+```{r}
+p <- homerange %>% 
+  ggplot(aes(x=taxon, fill=trophic.guild))+
+  geom_bar(na.rm=T, position="dodge")
+p
+```
+
+Have a look at the `linedraw` theme; I am adding it as another layer.
+```{r}
+p + theme_linedraw()+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+**Examples**
+1. Build a scatterplot that compares `log10.mass` and `log10.preymass`. Color the points by `taxon`. Store this plot as object `q`.
+```{r}
+q <- homerange %>% 
+  ggplot(aes(x=log10.mass, y=log10.preymass, color=taxon))+
+  geom_point(na.rm = T)
+q
+```
+
+2. Use plot `q` but add the classic theme.
+```{r}
+q + theme_classic()
+```
+
+```{r}
+q + theme_minimal()
+```
+
+### Legends
+There are lots of options to manipulate legends. Have a look [here](http://www.sthda.com/english/wiki/ggplot2-legend-easy-steps-to-change-the-position-and-the-appearance-of-a-graph-legend-in-r-software).
+```{r}
+p+theme_linedraw()+
+  theme(legend.position = "left", #moves the legend to differ location
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL, #removes label from x axis
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+### ggthemes
+There are many packages that include additional themes, one of which is [ggthemes](https://yutannihilation.github.io/allYourFigureAreBelongToUs/). Some of these are nice because they are designed to mimic the look of popular publications.
+```{r}
+#install.packages("ggthemes")
+library(ggthemes)
+```
+
+Here is a list of the `ggthemes`
+```{r}
+#ls("package:ggthemes")[grepl("theme_", ls("package:ggthemes"))]
+```
+
+```{r}
+p + 
+  theme_fivethirtyeight()+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+**Example**
+1. Use plot `q` and try the `theme_economist()` theme.
+```{r}
+p + 
+  theme_economist()+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=0))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+### RColorBrewer
+The default colors used by ggplot are often uninspiring. They don't make plots pop out in presentations or publications, and you may want to use a customized palette to make things visually consistent.  
+
+Access the help for `RColorBrewer`.
+```{r}
+?RColorBrewer #There are 3 types of palettes, sequential, diverging, and qualitative
+```
+1. Sequential palettes are suited to ordered data that progress from low to high. Lightness steps dominate the look of these schemes, with light colors for low data values to dark colors for high data values.
+2. Diverging palettes put equal emphasis on mid-range critical values and extremes at both ends of the data range. The critical class or break in the middle of the legend is emphasized with light colors and low and high extremes are emphasized with dark colors that have contrasting hues.
+3. Qualitative palettes do not imply magnitude differences between legend classes, and hues are used to create the primary visual differences between classes. Qualitative schemes are best suited to representing nominal or categorical data.
+The thing to notice is that there are three different color palettes: 1) sequential, 2) diverging, and 3) qualitative. Within each of these there are several selections. You can bring up the colors by using `display.brewer.pal()`. Specify the number of colors that you want and the palette name.
+
+```{r}
+#display.brewer.pal(9,"BuPu") #sequential palette
+```
+
+The [R Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website is very helpful for getting an idea of the color palettes. To make things easy, use these two guidelines:
+
++`scale_colour_brewer()` is for points  
++`scale_fill_brewer()` is for fills  
+
+Here I chose the `Paired` palette. Take a moment and experiment with other options.
+```{r}
+p+scale_fill_brewer(palette = "Paired")+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+**Example**
+1. Keep using the `same `q` plot, but test out one of R Color Brewer palettes.
+```{r}
+q + scale_colour_brewer(palette = "RdYlBu")+
+  theme_solarized()+
+  theme(legend.position = "left",
+        axis.text.x = element_text(angle = 60, hjust=0))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+### Manually Setting Colors
+You can also use `paleteer` to build a custom palette for consistency. To access the `paleteer` collection, I add it to a new object.
+```{r}
+colors <- paletteer::palettes_d_names
+```
+
+```{r}
+colors
+```
+
+Now we can display the palettes. Assign the palette to `my_palette` and then build this base R bar plot. There are a lot of options; `paleteer` is a collection of popular palettes. I really like the [`ggsci` package] (https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html)
+```{r}
+#my_palette <- paletteer_d("ggsci::default_igv")
+```
+
+```{r}
+#barplot(rep(1,6), axes=FALSE, col=my_palette)
+```
+
+Now we just identify `my_palette` as part of `scale_fill_manual()`
+```{r}
+#p+scale_fill_manual(values=my_palette)+
+  #theme(legend.position = "bottom",
+        #axis.text.x = element_text(angle = 60, hjust=1))+
+  #labs(title = "Observations by Taxon in Homerange Data",
+       #x = NULL,
+       #y= "n",
+       #fill= "Trophic Guild")
+```
+
+## Practice
+1. Keep using the `same `q` plot, but test out one of `paleteer` themes.
+```{r}
+#q+theme_classic()+scale_colour_manual(values=my_palette)+
+  #theme(legend.position = "bottom",
+        #axis.text.x = element_text(angle = 60, hjust=1))+
+  #labs(title = "Observations by Taxon in Homerange Data",
+       #x = NULL,
+       #y= "n",
+       #fill= "Trophic Guild")
+```
+
+## Faceting
+[Faceting](https://ggplot2-book.org/facet.html) is one of the amazing features of ggplot. It allows us to make multi-panel plots for easy comparison.  Here is a boxplot that shows the range of log10.mass by taxon.
+```{r}
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_wrap(~trophic.guild)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+```
+
+There are other categorical variables that might be interesting to overlay. `facet_wrap()` makes a ribbon of panels by a specified categorical variable and allows you to control how you want them arranged.  
+```{r}
+
+```
+
+`facet_grid()` allows control over the faceted variable; it can be arranged in rows or columns. rows~columns. 
+```{r}
+
+```
+
+`facet_grid()` will also allow the comparison of two categorical variables, just remember a~b where a is rows and b is columns.  
+```{r}
+
+```
+
+## Practice
+1. Use facet_wrap to compare the distribution of `log10.mass` by `thermoregulation`.
+```{r}
+
+```
+
+2. Use facet_grid to compare the distribution of `log10.mass` by `locomotion`.
+```{r}
+
+```
