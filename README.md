@@ -7,5 +7,7 @@
 
 🌱 This is me learning how to use R ->
 
-📫 You can reach me @**lbecirevic@ucdavis.edu**
+📫 You can reach me @lbecirevic@ucdavis.edu
+
+**Homework can be found in "homework" folder**
 

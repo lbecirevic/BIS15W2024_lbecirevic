@@ -1,0 +1,815 @@
+---
+title: "Midterm 1 Master Notes"
+author: "Lejla Becirevic"
+date: "2024-02-04"
+output:
+  html_document: 
+    keep_md: true
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+library("tidyverse")
+library("janitor")
+library("skimr")
+library("palmerpenguins")
+```
+
+## LAB 1
+Github is a developer platform that allows people to create, store, manage and share their code.
+
+**Check current working director**
+```{r}
+getwd()
+```
+
+**Making a vector and calculate mean, median, and standard deviation**
+```{r}
+x <- c(1, 2, 3, 4, 5)
+```
+
+```{r}
+mean(x)
+median(x)
+sd(x)
+```
+
+## LAB 2
+RStudio is a user interface for R that organizes the windows you see while using R. R markdown is text-based formatting that allows you to embed code and explanatory text in the same document. 
+
+### Types of Data
+There are five frequently used `classes` of data: 1. numeric, 2. integer, 3. character, 4. logical, 5. complex.
+```{r}
+my_numeric <- 42
+my_integer <- 2L #adding an L automatically denotes an integer
+my_character <- "universe"
+my_logical <- FALSE
+my_complex <- 2+4i
+```
+
+**Use class() to identify the type of data**
+```{r}
+class(my_numeric) #can also use $ to focus on specific column
+```
+
+**Use the is() to clarify and as() specify a type of data**
+```{r}
+is.integer(my_numeric) #is my_numeric an integer?
+```
+
+```{r}
+is.numeric(my_numeric)
+```
+
+```{r}
+my_integer <- 
+  as.integer(my_numeric) #create a new object specified as an integer
+```
+
+```{r}
+is.integer(my_integer) #is my_numeric an integer?
+```
+
+```{r}
+practice_integer <- 50L
+is.integer(practice_integer)
+```
+
+```{r}
+practice_integer <- as.numeric(practice_integer)
+is.integer(practice_integer)
+```
+
+### NA 
+**is.na() or anyNA() or na.rm=T are useful functions when dealing with NAs in data**
+```{r}
+my_missing <- NA
+```
+
+```{r}
+is.na(my_missing)
+```
+
+```{r}
+anyNA(my_missing)
+```
+
+```{r}
+new_NA_practice <- c(10, NA, 20)
+```
+
+```{r}
+is.na(new_NA_practice)
+```
+
+```{r}
+anyNA(new_NA_practice)
+```
+
+```{r}
+new_vector <- c(7, 6.2, 5, 9, NA, 4, 9.8, 7, 3, 2)
+mean(new_vector, na.rm=T) #na.rm removes the NA values in the vector
+```
+
+### Identifying vector elements
+```{r}
+my_vector <- c(10, 20, 30)
+days_of_the_week <- c("Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday", "Sunday")
+my_vector_sequence <- c(1:100)
+```
+
+**Use `[]` to only get the values and < (less than), > (more than), ==, <=, >=**
+```{r}
+days_of_the_week[4]
+my_vector_sequence[10]
+my_vector_sequence==15
+my_vector_sequence<=10 
+my_vector_sequence[my_vector_sequence<=10] 
+```
+
+### Data Matrices
+```{r}
+Philosophers_Stone <- c(317.5, 657.1)
+Chamber_of_Secrets <- c(261.9, 616.9)
+Prisoner_of_Azkaban <- c(249.5, 547.1)
+Goblet_of_Fire <- c(290.0, 606.8)
+Order_of_the_Phoenix <- c(292.0, 647.8)
+Half_Blood_Prince <- c(301.9, 632.4)
+Deathly_Hallows_1 <- c(295.9, 664.3)
+Deathly_Hallows_2 <- c(381.0, 960.5)
+```
+
+```{r}
+box_office <- c(Philosophers_Stone, Chamber_of_Secrets, Prisoner_of_Azkaban, Goblet_of_Fire, Order_of_the_Phoenix, Half_Blood_Prince, Deathly_Hallows_1, Deathly_Hallows_2)
+```
+
+**Using the `matrix()` command and the `nrow` and `byrow` commands.**
+```{r}
+harry_potter_matrix <- matrix(box_office, nrow = 8, byrow = T)
+```
+
+**Name the rows and columns**
+```{r}
+region <- c("US", "non-US")
+titles <- c("Philosophers_Stone", "Chamber_of_Secrets", "Prisoner_of_Azkaban", "Goblet_of_Fire", "Order_of_the_Phoenix", "Half_Blood_Prince", "Deathly_Hallows_1", "Deathly_Hallows_2")
+```
+
+**Name the columns using `colnames()` with the vector region**
+```{r}
+colnames(harry_potter_matrix) <- region
+```
+
+**Name the rows using `rownames()` with the vector titles**
+```{r}
+rownames(harry_potter_matrix) <- titles
+```
+
+**Print `harry_potter_matrix`**
+```{r}
+harry_potter_matrix
+```
+
+**Using a data matrix**
+```{r}
+global <- rowSums(harry_potter_matrix)
+```
+
+**Use `cbind()` to adds columns**
+```{r}
+all_harry_potter_matrix <- cbind(harry_potter_matrix, global) #can also use rbind for rows
+```
+
+```{r}
+all_harry_potter_matrix
+```
+
+**The following selects the value in the first column, second row**
+```{r}
+harry_potter_matrix[2,1] #can also use for characters
+```
+
+**Adding a colon `:` selects the specified elements in a column**
+```{r}
+harry_potter_matrix[1:4]
+```
+
+**Select values in an entire row or column**
+```{r}
+non_us_earnings <- all_harry_potter_matrix[ ,2]
+mean(non_us_earnings)
+```
+
+**Full example**
+```{r}
+plant_height <- c(30.7, 37.6, 28.4, NA, 33.2)
+plant_weight <- c(4, 5.2, 3.7, NA, 4.6)
+samples <- c("plant1", "plant2", "plant3", "plant4", "plant5")
+measured <- c("height", "weight")
+plant_experiment <- c(plant_height, plant_weight)
+plant_experiment_matrix <- matrix(plant_experiment, nrow = 5, byrow = F)
+colnames(plant_experiment_matrix) <- measured
+rownames(plant_experiment_matrix) <- samples
+plant_means <- colMeans(plant_experiment_matrix, na.rm=T)
+plant_experiment_matrix_final <- rbind(plant_experiment_matrix, plant_means)
+plant_experiment_matrix_final
+```
+
+## LAB 3
+A vector is a linear array of quantities. A matrix is a 2-dimensional array of quantities.
+
+### Data Frames
+```{r}
+Sex <- c("male", "female", "male")
+Length <- c(3.2, 3.7, 3.4)
+Weight <- c(2.9, 4.0, 3.1)
+```
+
+**Create a data frame with the function `data.frame()`**
+```{r}
+hbirds <- data.frame(sex=Sex, length=Length, weight=Weight)
+hbirds
+```
+
+**The column names of our data frame**
+```{r}
+names(hbirds) 
+```
+
+**The `dim()` and `str()` commands provide the dimension of the dataframe** 
+```{r}
+dim(hbirds)
+```
+
+```{r}
+str(hbirds)
+```
+
+**Use lowercase names when we create the data frame**
+```{r}
+hbirds <- data.frame(sex=Sex, length=Length, weight_g=Weight)
+```
+
+```{r}
+hbirds
+```
+
+### Accessing Data Frame Columns and Rows 
+**The first row**
+```{r}
+hbirds[1,]
+```
+
+**The third column** 
+```{r}
+hbirds[ ,3]
+```
+
+**Select values in an entire column using the `$` sign**
+```{r}
+w <- hbirds$weight_g
+mean(w)
+```
+
+### Writing Data to File
+**Here we write our data frame to a csv file. We use `row.names = FALSE` to avoid row numbers from printing out**
+```{r}
+write.csv(hbirds, "hbirds_data.csv", row.names = FALSE) #comma separated value
+```
+
+### Loading the data from files
+```{r}
+hot_springs <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv")
+```
+
+**Count the number of rows and number of columns**
+```{r}
+nrow(hot_springs)
+ncol(hot_springs)
+```
+
+**`head()` prints the first n rows of the data frame**
+```{r}
+head(hot_springs)
+```
+
+**`tail()` prints the last n rows of the data frame**
+```{r}
+tail(hot_springs)
+```
+
+**`table()` is useful when you have a limited number of categorical variables**
+```{r}
+table(hot_springs$spring)
+```
+
+```{r}
+#View(hot_springs)
+```
+
+**Replace scientists in hot_springs data with scientists as factor. Factor is when you have repeated sets of a specific type, not un-limitless**
+```{r}
+hot_springs$scientist <- as.factor(hot_springs$scientist)
+hot_springs$spring <- as.factor(hot_springs$spring)
+```
+ 
+**Levels tell you how many factors you have in a category**
+```{r}
+levels(hot_springs$scientist)
+levels(hot_springs$spring)
+```
+
+## LAB 4
+Data matrix has one class of data and a data frame have multiple classes of data.
+**Every variable in its own column and every observation is in its own row and each cell had one value = tidy data (lab4_1**
+
+### Load the data
+```{r}
+fish <- readr::read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Gaeta_etal_CLC_data.csv") #readr means read package
+```
+
+```{r}
+mammals <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/mammal_lifehistories_v2.csv")
+```
+
+### dplyr
+The first package that we will use that is part of the tidyverse is `dplyr`. `dplyr` is used to transform data frames by extracting, rearranging, and summarizing data such that they are focused on a question of interest. This is very helpful,  especially when wrangling large data, and makes dplyr one of most frequently used packages in the tidyverse. The two functions we will use most are `select()` and `filter()`.  
+
+### select 
+**Allows you to pull out columns of interest from a dataframe**
+```{r}
+select(fish, "lakeid", "scalelength") #The function is select(name of data frame, then variables of interest). Note: fish is an object
+```
+
+**To add a range of columns use `start_col:end_col`**
+```{r}
+select(fish, fish_id:length)
+```
+
+**The - operator allows us to select everything except the specified variables**
+```{r}
+select(fish, -"fish_id", -"annnumber", -"length", -"radii_length_mm") #Use minus operator (-), remove variables you don't want
+```
+
+Options to select columns based on a specific criteria include:  
+1. ends_with() = Select columns that end with a character string  
+2. contains() = Select columns that contain a character string  
+3. matches() = Select columns that match a regular expression  
+4. one_of() = Select columns names that are from a group of names
+
+```{r}
+select(fish, contains("length")) #Look into fish data and pull all variables with something to do with length
+```
+
+```{r}
+select(fish, starts_with("radii")) #Pull out all the variables that starts_with or ends_with
+```
+
+```{r}
+select(fish, ends_with("id"))
+```
+
+```{r}
+select(fish, matches("a.+er")) #Handy bit of code for project; look at variables of interest with "a" and ends with "er"
+```
+
+```{r}
+select_if(fish, is.numeric) #pull all numerics
+```
+```{r}
+select_if(mammals, ~is.character(.)) #pull all characters
+select_if(mammals, is.character)
+```
+
+**To select all columns that are *not* a class of data, you need to add a `~`.**
+```{r}
+select_if(fish, ~!is.numeric(.)) #Look across (~) into fish data and don't pull out numeric (! = not)
+```
+
+### Other
+**Imported data frames often have a mix of lower and uppercase column names. Use `toupper()` or `tolower()` to fix this issue**
+```{r}
+select_all(mammals, tolower)
+```
+
+```{r}
+clean_names(mammals) #janitor package
+```
+
+**When naming columns, blank spaces are often added (don't do this, please). Here is a trick to remove these**
+```{r}
+#select_all(mammals, ~str_replace(., " ", "_"))
+```
+
+
+
+### filter
+**`filter()` allows us to extract data that meet specific criteria within a variable**
+```{r}
+filter(fish, lakeid == "AL") #Look in fish data and pull out all observations that correspond with lakeid "AL" Note: needs to be two equal signs (==)
+```
+
+```{r}
+filter(fish, length >= 350)
+```
+
+**>, >=, <, <=, != (not equal), and == (equal)** 
+
+**`!` operator allows for the exclusion of specific observations**
+```{r}
+not_AL <- filter(fish, lakeid != "AL") #Pull out all fish not "AL" 
+```
+
+**Filtering multiple values within the same variable requires the `%in%`**   
+```{r}
+filter(fish, length %in% c(167, 175)) #Pull out all the fish within the length 167 to 175 (%in%); for multiple values within dataset
+```
+
+**Alternatively, you can use `between` if you are looking for a range of specific values**
+```{r}
+filter(fish, between(scalelength, 2.5, 2.55)) #Pull fish with scale length of 2.5 and 2.55
+```
+
+**You can also extract observations "near" a certain value but you need to specify a tolerance**
+```{r}
+filter(fish, near(radii_length_mm, 2, tol = 0.2)) #Pull data near a certain value, near 2 within 0.2 tolerance 
+```
+
+**Use `filter()` to extract data based on multiple conditions. Below we extract only the fish that have lakeid "AL" and length >350**
+```{r}
+filter(fish, lakeid == "AL" & length > 350) #"And" filter = exclusive
+```
+
+**Notice that the `|` operator generates a different result**
+```{r}
+filter(fish, lakeid == "AL" | length > 350) #Stands for "or" = inclusive
+```
+
+**In this case, we filter out the fish with a length over 400 and a scale length over 11 or a radii length over 8**
+```{r}
+filter(fish, length > 400, (scalelength > 11 | radii_length_mm > 8))
+```
+
+### Filter Rules 
++ `filter(condition1, condition2)` will return rows where both conditions are met.  
++ `filter(condition1, !condition2)` will return all rows where condition one is true but condition 2 is not.  
++ `filter(condition1 | condition2)` will return rows where condition 1 or condition 2 is met.  
++ `filter(xor(condition1, condition2)` will return all rows where only one of the conditions is met, and not when both conditions are met.  
+
+**Load the data into a new object called `homerange`.**
+```{r}
+homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Tamburelloetal_HomeRangeDatabase.csv")
+```
+
+**Change the class of the variables `taxon` and `order` to factors and display their levels**  
+```{r}
+homerange$taxon <- as.factor(homerange$taxon)
+levels(homerange$taxon)
+```
+
+```{r}
+homerange$order <- as.factor(homerange$order)
+levels(homerange$order)
+```
+
+**Example**
+```{r}
+owls <- filter(homerange, order=="strigiformes")
+owls_data <- select(owls, "mean.mass.g", "log10.mass", "family", "genus", "species", "common.name")
+filter(owls_data, mean.mass.g==61.32) 
+```
+
+## LAB 5
+Tidyverse is a library, dplyr is used to transform data, within dplyr filter and select are commands. Select is used to select variables (columns) of interest and filter is used to filter values (rows) of interest.
+
+**Rename the variables**
+```{r}
+mammals <- rename(mammals, genus="Genus", wean_mass="wean mass", max_life= "max. life", litter_size="litter size", litters_per_year="litters/year")
+```
+
+### Pipes `%>%` 
+**Start combining `select()`, `filter()`, and other functions. Pipes feed the output from one function into the input of another function. This helps us keep our code sequential and clean (Shift + command + m)**
+```{r}
+fish %>% #Work with the fish data 
+  select(lakeid, radii_length_mm) %>% #Pull out variables of interest
+  filter(lakeid=="AL" | lakeid=="AR") %>% #Only these lakes
+  filter(between(radii_length_mm, 2, 4)) %>% #Between 2 and 4
+  arrange(desc(radii_length_mm)) #Sort to make easier to read
+```
+
+**The `arrange()` command is default is ascending order**
+```{r}
+fish %>% 
+  select(lakeid, scalelength) %>% 
+  arrange(scalelength)
+```
+
+**To sort in decreasing order, wrap the variable name in `desc()`**
+```{r}
+fish %>% 
+  select(lakeid, scalelength) %>% 
+  arrange(desc(scalelength))
+```
+
+
+### mutate 
+**Allows us to create a new column from existing columns in a data frame  
+```{r}
+fish %>% 
+  mutate(length_mm = length*10) %>% 
+  select(fish_id, length, length_mm)
+```
+
+**`mutate_all()` is super helpful when cleaning data.** 
+```{r}
+mammals %>%
+  mutate_all(tolower)
+```
+
+```{r}
+mammals %>% 
+  mutate(across(c("order", "family"), tolower)) #use for changing names of specific variables
+```
+
+**`With `ifelse()`, you first specify a logical statement, afterwards what needs to happen if the statement returns `TRUE`, and lastly what needs to happen if it's  `FALSE`**
+```{r}
+mammals %>% 
+  select(genus, species, newborn) %>% #select only these columns of interest
+  mutate(newborn_new = ifelse(newborn == -999.00, NA, newborn))%>%  #replace those values with na, if else if newborn is -999.00 replace with na and if its not -999 leave it alone. always create a new variable to see changes
+  arrange(newborn)
+```
+
+## LAB 6
+```{r}
+superhero_info <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/heroes_information.csv", na = c("", "-99", "-"))
+superhero_powers <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/super_hero_powers.csv", na = c("", "-99", "-"))
+```
+
+**Data tidy**
+```{r}
+superhero_info <- clean_names(superhero_info)
+superhero_powers <- clean_names(superhero_powers)
+```
+
+### tabyl
+**The `janitor` package has its version of `table` which not only produces counts but also percentages**
+```{r}
+tabyl(superhero_info, alignment)
+```
+
+**Highest height to weight ratio**  
+```{r}
+height_weight_ratio <- superhero_info %>% 
+  select(name, height, weight)
+
+height_weight_ratio %>% 
+  mutate(ratio = height/weight) %>% 
+  arrange(desc(ratio)) 
+```
+
+**Combination of multiple data**
+```{r}
+superhero_powers %>% 
+  select(agility, stealth, super_strength, stamina) %>% 
+  filter(agility==T) %>% 
+  filter(stealth==T) %>% 
+  filter(super_strength==T) %>% 
+  filter(stamina==T) 
+```
+
+## LAB 7
+
+**msleep loaded in package**
+```{r}
+msleep <- msleep
+```
+
+### dplyr practice (exam question)
+Let's do a bit more practice to make sure that we understand `select()`, `filter()`, and `mutate()`. Start by building a new data frame `msleep24` from the `msleep` data that: contains the `name` and `vore` variables along with a new column called `sleep_total_24` which is the amount of time a species sleeps expressed as a proportion of a 24-hour day. Restrict the `sleep_total_24` values to less than or equal to 0.3. Arrange the output in descending order.  
+```{r}
+msleep24 <- msleep %>% 
+  mutate(sleep_total_24=sleep_total/24) %>% 
+  select(name, vore, sleep_total_24, sleep_total) %>% 
+  filter(sleep_total_24<=0.3) %>% 
+  arrange(desc(sleep_total_24))
+```
+
+**`skim()` as part of the `skimr` package**
+```{r}
+skim(msleep24)
+```
+
+### summarize
+**`summarize()` will produce summary statistics for a given variable in a data frame**
+```{r}
+head(msleep)
+large <- msleep %>% 
+  select(name, genus, bodywt, sleep_total) %>% 
+  filter(bodywt > 200) %>% 
+  arrange(desc(bodywt))
+```
+
+**Can accomplish the same task using the `summarize()` function to make things cleaner**
+```{r}
+msleep %>% 
+  filter(bodywt > 200) %>% 
+  summarize(mean_sleep_lg=mean(sleep_total))
+```
+
+```{r}
+msleep %>% 
+  filter(bodywt < 10) %>% 
+  summarize(sleep_total_sm=mean(sleep_total))
+```
+
+**Combine functions to make useful summaries for multiple variables**
+```{r}
+msleep %>% 
+  filter(bodywt>200) %>% 
+  summarize(mean_sleep_lg=mean(sleep_total),
+            min_sleep_lg=min(sleep_total),
+            max_sleep_lg=max(sleep_total),
+            sd_sleep_lg=sd(sleep_total),
+            total=n()) #tells you the total number of observations, 7 animals total
+```
+
+**Example:What is the mean, min, and max `bodywt` for the taxonomic order Primates? Provide the total number of observations.
+```{r}
+msleep %>% 
+  filter(order=="Primates") %>% 
+  summarize(mean_bodywt=mean(bodywt),
+            min_bodywt=min(bodywt),
+            max_bodywt=max(bodywt),
+            total=n())
+```
+
+### n_distinct
+**n_distinct() is a very handy way of cleanly presenting the number of distinct observations. Here we show the number of distinct genera over 100 in body weight**
+
+```{r}
+msleep %>% 
+  filter(bodywt > 100) #Notice that there are multiple genera with over 100 in body weight.
+```
+
+```{r}
+msleep %>% 
+  summarize(n_genera=n_distinct(genus)) #this is going to count the number of genera in msleep
+```
+
+**There are many other useful summary statistics, depending on your needs: sd(), min(), max(), median(), sum(), n() (returns the length of a column), first() (returns first value in a column), last() (returns last value in a column) and n_distinct() (number of distinct values in a column)**
+
+### group_by
+**The `summarize()` function is most useful when used in conjunction with `group_by()`. Although producing a summary of body weight for all of the mammals in the data set is helpful, what if we were interested in body weight by feeding ecology?**
+```{r}
+msleep %>%
+  group_by(vore) %>% #we are grouping by feeding ecology, a categorical variable
+  summarize(min_bodywt = min(bodywt),
+            max_bodywt = max(bodywt),
+            mean_bodywt = mean(bodywt),
+            total=n()) #group by and summarize work well together 
+```
+
+**Example**
+1. Calculate mean brain weight by taxonomic order in the msleep data.
+```{r}
+msleep %>% 
+  group_by(order) %>% 
+  summarize(mean_brain=mean(brainwt))
+```
+
+2. Try running the code again, but this time add `na.rm=TRUE`. What is the problem with Cetacea? Compare this to Carnivora. 
+```{r}
+msleep %>% 
+  group_by(order) %>% 
+  summarize(mean_brain=mean(brainwt, na.rm = T)) #Cetacea has a NaN
+```
+
+```{r}
+msleep %>% 
+  filter(order=="Cetacea") %>% 
+  select(order, genus, brainwt)
+```
+
+**As biologists, a good question that we may ask is how do the measured variables differ by island on average (on which island has the greatest body weight)**
+```{r}
+penguins %>% 
+  group_by(island) %>% 
+  summarize(mean_mass=mean(body_mass_g),
+            mean_bill=mean(bill_length_mm),
+            total=n())
+```
+
+```{r}
+penguins %>% 
+  filter(!is.na(body_mass_g)) %>% #pull out all observations with a number (no NA)
+  group_by(island) %>% 
+  summarize(mean_mass=mean(body_mass_g),
+            mean_bill=mean(bill_length_mm),
+            total=n())
+```
+
+**Interested in the number of observations (penguins) by species and island**
+```{r}
+penguins %>% 
+  group_by(species, island) %>% 
+  summarize(n=n(), .groups= 'keep') #the .groups argument here just prevents a warning message
+```
+
+### count
+**`count()` is an easy way of determining how many observations you have within a column. It acts like a combination of `group_by()` and `n()`**
+```{r}
+penguins %>% 
+  count(island, sort = T) #sort=T sorts the column in descending order
+```
+
+**Compare this with `summarize()` and `group_by()`**
+```{r}
+penguins %>% 
+  group_by(island) %>% 
+  summarize(n=n()) 
+```
+
+**Use `count()` across multiple variables (can also use tabyl**
+```{r}
+penguins %>% 
+  count(island, species, sort = T) # sort=T will arrange in descending order
+```
+
+
+**Example**
+1. How does the mean of `bill_length_mm` compare between penguin species?
+```{r}
+penguins %>% 
+  group_by(species) %>% 
+  summarize(mean_bill=mean(bill_length_mm, na.rm = T))
+```
+
+2. For some penguins, their sex is listed as NA. Where do these penguins occur?
+```{r}
+penguins %>% 
+  count(sex, island)
+```
+
+```{r}
+penguins %>% 
+  group_by(sex) %>%
+  summarize(number_NA=sum(is.na(sex)))
+```
+
+### across
+**There is a function in dplyr called `across()` which is designed to work across multiple variables** 
+
+**What if we wanted to apply `summarize()` in order to produce distinct counts over multiple variables; i.e. species, island, and sex? Although this isn't a lot of coding you can image that with a lot of variables it would be cumbersome**
+```{r}
+penguins %>%
+  summarize(distinct_species = n_distinct(species),
+            distinct_island = n_distinct(island),
+            distinct_sex = n_distinct(sex))
+```
+
+**By using `across()` we can reduce the clutter and make things cleaner**
+```{r}
+penguins %>%
+  summarize(across(c(species, island, sex), n_distinct)) #summarize across species, island, and sex
+```
+
+**This is very helpful for continuous variables**
+```{r}
+penguins %>%
+  summarize(across(contains("mm"), mean, na.rm=T))
+```
+
+```{r}
+penguins %>%
+  summarize(across(contains("mm"), \(x) mean(x, na.rm = TRUE))) #use this to correct the error
+```
+
+**`group_by` also works**
+```{r}
+penguins %>%
+  group_by(sex) %>% 
+  summarize(across(contains("mm"), mean, na.rm=T))
+```
+
+**Here we summarize across all variables**
+```{r}
+penguins %>%
+  summarise_all(mean, na.rm=T)
+```
+
+**Operators can also work, here I am summarizing across all variables except `species`, `island`, `sex`, and `year`**
+```{r}
+penguins %>%
+  summarise(across(!c(species, island, sex, year), 
+                   mean, na.rm=T))
+```
+
+**All variables that include "bill"...all of the other dplyr operators also work**
+```{r}
+penguins %>%
+  summarise(across(starts_with("bill"), mean, na.rm=T))
+```
+

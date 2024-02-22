@@ -1,0 +1,587 @@
+---
+title: "Lab Homework 1-6 Answer Key"
+author: "Lejla Becirevic"
+date: "2024-02-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library("tidyverse")
+library("janitor")
+library("skimr")
+library("palmerpenguins")
+```
+
+# LAB 1
+
+## Instructions
+Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.  
+
+Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
+
+**1. Please complete the [class survey](https://forms.gle/AHHXd3aobaAdkkFg9) if you have not already done so.**
+
+**2. What is the difference between R and RStudio? What is GitHub and why is it useful to programmers?**  
+R is an open-source [programming language](https://www.r-project.org/about.html) that is focused on statistics and graphics. RStudio is a GUI that makes interacting with R easier.  
+
+Github is a website where programmers store and share code in repositories. It is also a place where scientists upload code such that the calculations they make are open and repeatable.  
+
+**3. Navigate to my [BIS15L](https://github.com/jmledford3115/BIS15LW2021_jledford) repository on GitHub. Notice that near the bottom there is a nice, clean description of the repository. You want this on your repository! It is built by making edits to the `README.md` file using the RMarkdown conventions. Edit your repository's `README.md` file so that you have a clean informative description, including your email address. Be creative! You don't need to just copy mine. There are lots of examples online.**  
+
+**4. Calculate the following expressions. Be sure to include each one in a separate code chunk.**  
+```{r}
+5 - 3 * 2  
+```
+
+```{r}
+8 / 2 ** 2 
+```
+
+**5. Did any of the results in #4 surprise you? Write two programs that calculate each expression such that the result for the first example is 4 and the second example is 16.**    
+I notice that order of operations for mathematical expression applies.  
+```{r}
+(5 - 3) * 2 
+```
+
+```{r}
+(8 / 2) * 2 
+```
+
+**6. `Objects` in R are a way in which we can store data or operations. We will talk more about objects next week. For now, make a new object `pi` as 3.14159265359 by running the following code chunk. You should now see the object `pi` in the environment window in the top right.**  
+```{r}
+pi <- 3.14159265359
+```
+
+**7. Let's say we want to multiply `pi` by 2. Using the same arithmetic principles that we just learned, write a code chunk that performs this operation using the object we created.**  
+
+```{r}
+pi*2
+```
+
+**8. In order to get help with any command in R, just type a `?` in front the command of interest. Practice this by running the following code chunk.**  
+```{r}
+?mean
+```
+
+**9. Let's calculate the mean for the numbers 2, 8, 6, 4, 9, 10. I have built an object `x` for you below so all you need to do is run the first code chunk and then create a second code chunk that shows the calculation. Give it a try!**  
+```{r}
+x <- c(2, 8, 6, 6, 7, 4, 9, 9, 9, 10)
+```
+
+```{r}
+mean(x)
+```
+
+**10. Repeat the procedure above, but this time calculate the median.**  
+```{r}
+median(x)
+```
+
+
+# LAB 2
+
+
+## Instructions
+Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.  
+
+Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
+
+1. What is a vector in R?  
+_A vector in R is a type of data structure that is ordered and consists of elements, usually of the same class._  
+
+2. What is a data matrix in R?  
+_A data matrix is a series of stacked vectors arranged like a data table._  
+
+3. Below are data collected by three scientists (Jill, Steve, Susan in order) measuring temperatures of eight hot springs. Run this code chunk to create the vectors.  
+```{r}
+spring_1 <- c(36.25, 35.40, 35.30)
+spring_2 <- c(35.15, 35.35, 33.35)
+spring_3 <- c(30.70, 29.65, 29.20)
+spring_4 <- c(39.70, 40.05, 38.65)
+spring_5 <- c(31.85, 31.40, 29.30)
+spring_6 <- c(30.20, 30.65, 29.75)
+spring_7 <- c(32.90, 32.50, 32.80)
+spring_8 <- c(36.80, 36.45, 33.15)
+```
+
+4. Build a data matrix that has the springs as rows and the columns as scientists.  
+```{r}
+springs <- c(spring_1, spring_2, spring_3, spring_4, spring_5, spring_6, spring_7, spring_8)
+springs
+```
+
+```{r}
+springs_matrix <- matrix(springs, nrow=8, byrow = T)
+springs_matrix
+```
+
+5. The names of the springs are 1.Bluebell Spring, 2.Opal Spring, 3.Riverside Spring, 4.Too Hot Spring, 5.Mystery Spring, 6.Emerald Spring, 7.Black Spring, 8.Pearl Spring. Name the rows and columns in the data matrix. Start by making two new vectors with the names, then use `colnames()` and `rownames()` to name the columns and rows.
+```{r}
+scientists <- c("Jill", "Steve", "Susan")
+```
+
+```{r}
+springs <- c("Bluebell Spring", "Opal Spring", "Riverside Spring", "Too Hot Spring", "Mystery Spring", "Emerald Spring", "Black Spring", "Pearl Spring")
+```
+
+```{r}
+colnames(springs_matrix) <- scientists
+rownames(springs_matrix) <- springs
+springs_matrix
+```
+
+6. Calculate the mean temperature of all eight springs.
+```{r}
+mean_vector <- rowMeans(springs_matrix)
+mean_vector
+```
+
+7. Add this as a new column in the data matrix.  
+```{r}
+springs_matrix2 <- cbind(springs_matrix, mean_vector)
+springs_matrix2
+```
+
+8. Show Susan's value for Opal Spring only.
+```{r}
+springs_matrix2[2,3]
+```
+
+9. Calculate the mean for Jill's column only.  
+```{r}
+Jill <- springs_matrix2[ ,1]
+mean(Jill)
+```
+
+10. Use the data matrix to perform one calculation or operation of your interest.
+
+
+# LAB 3
+
+
+## Instructions
+Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.  
+
+Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
+
+## Load the tidyverse
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+### Mammals Sleep  
+1. For this assignment, we are going to use built-in data on mammal sleep patterns. From which publication are these data taken from? Since the data are built-in you can use the help function in R. The name of the data is `msleep`.  
+```{r}
+?msleep
+```
+
+2. Store these data into a new data frame `sleep`.  
+```{r}
+sleep <- msleep
+is.data.frame(msleep)
+```
+
+3. What are the dimensions of this data frame (variables and observations)? How do you know? Please show the *code* that you used to determine this below.  
+```{r}
+glimpse(sleep)
+```
+
+4. Are there any NAs in the data? How did you determine this? Please show your code.  
+```{r}
+anyNA(sleep)
+```
+
+5. Show a list of the column names is this data frame.
+```{r}
+names(sleep)
+```
+
+6. How many herbivores are represented in the data?  
+```{r}
+table(sleep$vore)
+```
+
+7. We are interested in two groups; small and large mammals. Let's define small as less than or equal to 1kg body weight and large as greater than or equal to 200kg body weight. Make two new dataframes (large and small) based on these parameters.
+```{r}
+small <- filter(sleep, bodywt<=1)
+large <- filter(sleep, bodywt>=200)
+```
+
+8. What is the mean weight for both the small and large mammals?
+```{r}
+mean(small$bodywt, na.rm = T)
+```
+
+```{r}
+mean(large$bodywt, na.rm = T)
+```
+
+9. Using a similar approach as above, do large or small animals sleep longer on average?  
+
+_Small animals have a sleep_total average of 12.65_
+```{r}
+mean(large$sleep_total, na.rm = T)
+```
+
+```{r}
+mean(small$sleep_total, na.rm = T)
+```
+
+10. Which animal is the sleepiest among the entire dataframe?
+```{r}
+max(sleep$sleep_total)
+```
+
+```{r}
+filter(sleep, sleep_total==19.9)
+```
+
+
+# LAB 6
+
+## Instructions
+For the second part of lab today, we are going to spend time practicing the dplyr functions we have learned and add a few new ones. This lab doubles as your homework. Please complete the lab and push your final code to GitHub.  
+
+
+## Load the superhero data
+These are data taken from comic books and assembled by fans. The include a good mix of categorical and continuous data.  Data taken from: https://www.kaggle.com/claudiodavi/superhero-set  
+```{r}
+getwd()
+```
+
+Check out the way I am loading these data. If I know there are NAs, I can take care of them at the beginning. But, we should do this very cautiously. At times it is better to keep the original columns and data intact.  
+```{r}
+superhero_info <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab5/data/heroes_information.csv", na = c("", "-99", "-"))
+superhero_powers <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab5/data/super_hero_powers.csv", na = c("", "-99", "-"))
+```
+
+## Data tidy
+1. Some of the names used in the `superhero_info` data are problematic so you should rename them here. Before you do anything, first have a look at the names of the variables. You can use `rename()` or `clean_names()`.    
+```{r}
+names(superhero_info)
+```
+
+```{r}
+names(superhero_powers)
+```
+
+```{r}
+superhero_powers <- clean_names(superhero_powers)
+```
+
+```{r}
+superhero_info <- clean_names(superhero_info)
+```
+
+## `tabyl`
+The `janitor` package has many awesome functions that we will explore. Here is its version of `table` which not only produces counts but also percentages. Very handy! Let's use it to explore the proportion of good guys and bad guys in the `superhero_info` data.  
+```{r}
+tabyl(superhero_info, alignment)
+```
+
+1. Who are the publishers of the superheros? Show the proportion of superheros from each publisher. Which publisher has the highest number of superheros?  
+```{r}
+tabyl(superhero_info, publisher)
+```
+
+2. Notice that we have some neutral superheros! Who are they? List their names below.  
+```{r}
+neutral <- superhero_info %>% filter(alignment=="neutral")
+```
+
+```{r}
+neutral$name
+```
+
+## `superhero_info`
+3. Let's say we are only interested in the variables name, alignment, and "race". How would you isolate these variables from `superhero_info`?
+```{r}
+superhero_info %>% select("name", "alignment", "race")
+```
+
+## Not Human
+4. List all of the superheros that are not human.
+```{r}
+not_human <- superhero_info %>% filter(race!="Human")
+```
+
+```{r}
+not_human$name
+```
+
+## Good and Evil
+5. Let's make two different data frames, one focused on the "good guys" and another focused on the "bad guys".
+```{r}
+good_guys <- 
+  superhero_info %>% 
+  filter(alignment=="good")
+```
+
+```{r}
+bad_guys <- 
+  superhero_info %>% 
+  filter(alignment=="bad")
+```
+
+6. For the good guys, use the `tabyl` function to summarize their "race".
+```{r}
+good_guys %>% tabyl(race)
+```
+
+7. Among the good guys, Who are the Vampires?
+```{r}
+good_guys %>% filter(race=="Vampire")
+```
+
+8. Among the bad guys, who are the male humans over 200 inches in height?
+```{r}
+bad_guys %>% filter(race=="Human" & gender=="Male" & height>=150)
+```
+
+9. Are there more good guys or bad guys with green hair?  
+```{r}
+good_guys %>% 
+  filter(hair_color=="Green")
+```
+
+```{r}
+bad_guys %>% 
+  filter(hair_color=="Green")
+```
+
+```{r}
+table(superhero_info$hair_color, superhero_info$alignment)
+```
+
+```{r}
+superhero_info %>% 
+  tabyl(hair_color, alignment)
+```
+
+```{r}
+superhero_info %>% 
+  filter(hair_color=="Green") %>% 
+  group_by(alignment) %>% 
+  summarise(n=n())
+```
+
+```{r}
+superhero_info %>% 
+  filter(hair_color=="Green") %>% 
+  count(hair_color, alignment)
+```
+
+10. Let's explore who the really small superheros are. In the `superhero_info` data, which have a weight less than 50? Be sure to sort your results by weight lowest to highest.  
+```{r}
+superhero_info %>% 
+  filter(weight<50) %>% 
+  arrange(weight)
+```
+
+11. Let's make a new variable that is the ratio of height to weight. Call this variable `height_weight_ratio`.    
+```{r}
+superhero_info <- 
+  superhero_info %>% 
+  mutate(height_weight_ratio=height/weight)
+```
+
+12. Who has the highest height to weight ratio?  
+```{r}
+superhero_info %>% 
+  arrange(desc(height_weight_ratio))
+```
+
+## `superhero_powers`
+Have a quick look at the `superhero_powers` data frame.  
+
+13. How many superheros have a combination of agility, stealth, super_strength, stamina?
+```{r}
+superhero_powers %>%
+  filter(agility & stealth & super_strength & stamina) %>%
+  select(hero_names, agility, stealth, super_strength, stamina)
+```
+
+```{r}
+superhero_powers %>% 
+  select(hero_names, agility, stealth, super_strength, stamina) %>% 
+  filter(agility==TRUE & stealth==TRUE & super_strength==TRUE & stamina==TRUE)
+```
+
+## Your Favorite
+14. Pick your favorite superhero and let's see their powers!  
+```{r}
+superhero_powers %>%
+  filter(hero_names == "Darth Vader") %>%
+  select_if(all)  # Selects all columns where all values are TRUE
+```
+
+15. Can you find your hero in the superhero_info data? Show their info!  
+```{r}
+superhero_info %>% 
+  filter(name=="Darth Vader")
+```
+
+
+# LAB 7
+
+For this assignment we are going to work with a large data set from the [United Nations Food and Agriculture Organization](http://www.fao.org/about/en/) on world fisheries. These data are pretty wild, so we need to do some cleaning. First, load the data.  
+
+Load the data `FAO_1950to2012_111914.csv` as a new object titled `fisheries`.
+```{r}
+fisheries <- readr::read_csv(file = "/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab7/data/FAO_1950to2012_111914.csv")
+```
+
+1. Do an exploratory analysis of the data (your choice). What are the names of the variables, what are the dimensions, are there any NA's, what are the classes of the variables?  
+```{r}
+glimpse(fisheries)
+```
+
+```{r}
+head(fisheries)
+```
+
+```{r}
+tail(fisheries)
+```
+
+```{r}
+str(fisheries)
+```
+
+2. Use `janitor` to rename the columns and make them easier to use. As part of this cleaning step, change `country`, `isscaap_group_number`, `asfis_species_number`, and `fao_major_fishing_area` to data class factor. 
+```{r}
+fisheries <- janitor::clean_names(fisheries)
+names(fisheries)
+```
+
+```{r}
+fisheries$country <- as.factor(fisheries$country)
+fisheries$isscaap_group_number <- as.factor(fisheries$isscaap_group_number)
+fisheries$asfis_species_number <- as.factor(fisheries$asfis_species_number)
+fisheries$fao_major_fishing_area <- as.factor(fisheries$fao_major_fishing_area)
+```
+
+Here is a nice alternate way to change classes using dplyr.  
+```{r}
+fisheries <- 
+  fisheries %>% mutate(across(c(country, isscaap_group_number, asfis_species_number, fao_major_fishing_area), as_factor))
+```
+
+We need to deal with the years because they are being treated as characters and start with an X. We also have the problem that the column names that are years actually represent data. We haven't discussed tidy data yet, so here is some help. You should run this ugly chunk to transform the data for the rest of the homework. It will only work if you have used janitor to rename the variables in question 2!  
+```{r}
+fisheries_tidy <- fisheries %>% 
+  pivot_longer(-c(country,common_name,isscaap_group_number,isscaap_taxonomic_group,asfis_species_number,asfis_species_name,fao_major_fishing_area,measure),
+               names_to = "year",
+               values_to = "catch",
+               values_drop_na = TRUE) %>% 
+  mutate(year= as.numeric(str_replace(year, 'x', ''))) %>% 
+  mutate(catch= str_replace(catch, c(' F'), replacement = '')) %>% 
+  mutate(catch= str_replace(catch, c('...'), replacement = '')) %>% 
+  mutate(catch= str_replace(catch, c('-'), replacement = '')) %>% 
+  mutate(catch= str_replace(catch, c('0 0'), replacement = ''))
+
+fisheries_tidy$catch <- as.numeric(fisheries_tidy$catch)
+```
+
+3. How many countries are represented in the data? Provide a count and list their names.
+```{r}
+fisheries_tidy %>% 
+  summarize(ncountries = n_distinct(country))
+```
+
+```{r}
+levels(fisheries_tidy$country)
+```
+
+4. Refocus the data only to include country, isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year, catch.
+```{r}
+fisheries_tidy_focused <- fisheries_tidy %>% 
+  select(country, isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year, catch)
+fisheries_tidy_focused
+```
+
+5. Based on the asfis_species_number, how many distinct fish species were caught as part of these data?
+```{r}
+fisheries_tidy_focused %>% 
+  summarize(n_taxa=n_distinct(asfis_species_number))
+```
+
+6. Which country had the largest overall catch in the year 2000?
+```{r}
+fisheries_tidy_focused %>% 
+  filter(year==2000) %>%
+  group_by(country) %>% 
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total))
+```
+
+7. Which country caught the most sardines (_Sardina pilchardus_) between the years 1990-2000?
+```{r}
+fisheries_tidy_focused %>% 
+  filter(asfis_species_name== "Sardina pilchardus") %>% 
+  filter(year>=1990 & year<=2000) %>% 
+  group_by(country) %>% 
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total))
+```
+
+Double check
+```{r}
+sardines1 <- fisheries_tidy_focused %>% 
+  filter(stringr::str_detect(asfis_species_name, "Sardina")) %>% 
+  filter(year>=1990 & year<=2000)
+```
+
+```{r}
+sardines1 %>% 
+  group_by(country) %>% 
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total))
+```
+
+Triple check
+```{r}
+sardines2 <- fisheries_tidy_focused %>% 
+  filter(stringr::str_detect(isscaap_taxonomic_group, "sardines")) %>% 
+  filter(year>=1990 & year<=2000)
+```
+
+```{r}
+sardines2 %>% 
+  group_by(country) %>% 
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total))
+```
+
+8. Which five countries caught the most cephalopods between 2008-2012?
+```{r}
+fisheries_tidy_focused %>% 
+  filter(str_detect(isscaap_taxonomic_group, "Squids")) %>% 
+  filter(year>=2008 & year<=2012) %>% 
+  group_by(country) %>% 
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total))
+```
+
+```{r}
+fisheries_tidy_focused %>% 
+  filter(isscaap_taxonomic_group=="Squids, cuttlefishes, octopuses") %>% 
+  count(asfis_species_name, sort=T)
+```
+
+9. Which species had the highest catch total between 2008-2012? (hint: Osteichthyes is not a species)
+```{r}
+fisheries_tidy_focused %>% 
+  filter(year>=2008 & year<=2012)%>% 
+  group_by(asfis_species_name) %>% 
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total))
+```
+
+10. Use the data to do at least one analysis of your choice.
+
