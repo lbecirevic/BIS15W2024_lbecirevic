@@ -13,7 +13,7 @@ getwd()
 ```
 
 ```
-## [1] "/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/midterm_notes/m2"
+## [1] "/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/midterm_notes/m2"
 ```
 
 
@@ -27,6 +27,13 @@ library(naniar)
 library(visdat)
 library(here)
 library(palmerpenguins)
+library(RColorBrewer)
+library(paletteer)
+```
+
+
+```r
+options(scipen=999) #cancels the use of scientific notation for the session
 ```
 
 ## LAB 8
@@ -220,7 +227,7 @@ getwd()
 ```
 
 ```
-## [1] "/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/midterm_notes/m2"
+## [1] "/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/midterm_notes/m2"
 ```
 
 **Load the mammals life history data and clean the names**
@@ -439,14 +446,14 @@ cites %>%
 vis_dat(life_history) #classes of data
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 
 ```r
 vis_miss(life_history)
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 ### Dealing with NA's in advance
 **If you are sure that you know how NA's are treated in the data, then you can deal with them in advance using `na()` as part of the `readr` package.**
@@ -1126,7 +1133,7 @@ ggplot(data=iris, #specify the data
        mapping=aes(x=Species, y=Petal.Length)) #map the aesthetics
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
 
 Notice that we have a nice background, labeled axes, and even a value range of our variables on the y-axis- but no plot. This is because we need to tell ggplot how we want our data represented. This is called the geometry or `geom()`. There are many types of `geom`, see the ggplot [cheatsheet](https://posit.co/resources/cheatsheets/).
 
@@ -1138,7 +1145,7 @@ ggplot(data=iris, #specify the data
   geom_boxplot() #add the plot type
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
 
 
 Use the iris data to build a scatterplot that compares sepal length vs. sepal width. Use the cheat sheet for help to find the correct `geom_` for a scatterplot.
@@ -1158,7 +1165,7 @@ ggplot(data=iris,
   geom_point()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-59-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
 
 
 ### Scatter Plots
@@ -1245,7 +1252,7 @@ ggplot(data=homerange, #specify the data
   geom_point() #add the plot type
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-63-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-64-1.png)<!-- -->
 
 In big data sets with lots of overlapping values, over-plotting can be an issue. `geom_jitter()` is similar to `geom_point()` but it helps with over plotting by adding some random noise to the data and separating some of the individual points.
 
@@ -1254,7 +1261,7 @@ ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
   geom_jitter() #if you have really big data set (over plotting) => adds some random noise
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-64-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
 
 To add a regression (best of fit) line, we just add another layer.
 
@@ -1268,7 +1275,7 @@ ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-66-1.png)<!-- -->
 
 
 ```r
@@ -1277,7 +1284,7 @@ life_history %>%
   geom_jitter(na.rm = T) #prevents over plotting 
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-66-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-67-1.png)<!-- -->
 
 
 ```r
@@ -1288,7 +1295,7 @@ life_history %>%
   scale_y_log10()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-67-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-68-1.png)<!-- -->
 
 **Examples**
 What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
@@ -1304,7 +1311,7 @@ ggplot(data=homerange,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-68-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-69-1.png)<!-- -->
 
 ### Bar Plot: geom_bar
 The simplest type of bar plot counts the number of observations in a categorical variable. In this case, we want to know how many observations are present in the variable `trophic.guild`. Notice that we do not specify a y-axis because it is count by default.  
@@ -1351,7 +1358,7 @@ homerange %>%
   geom_bar() #good for counts and categorical data not continuous 
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-72-1.png)<!-- -->
 
 
 ```r
@@ -1366,7 +1373,7 @@ life_history %>%
   coord_flip()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-73-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-74-1.png)<!-- -->
 
 ### Bar Plot: geom_col
 Unlike `geom_bar()`, `geom_col()` allows us to specify an x-axis and a y-axis.
@@ -1379,7 +1386,7 @@ homerange %>%
   geom_col()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-74-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-75-1.png)<!-- -->
 
 `geom_bar()` with `stat="identity"`
 `stat="identity"` allows us to map a variable to the y-axis so that we aren't restricted to counts.
@@ -1391,7 +1398,7 @@ homerange %>%
   geom_bar(stat="identity") #only use when you want a count
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-75-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-76-1.png)<!-- -->
 
 
 
@@ -1408,7 +1415,7 @@ life_history %>%
   coord_flip()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-77-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
 
 
 ```r
@@ -1420,7 +1427,7 @@ life_history %>%
   coord_flip()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
 
 There are a few problems here. First, the y-axis is in scientific notation. We can fix this by adjusting the options for the session.
 
@@ -1440,7 +1447,7 @@ life_history %>%
   scale_y_log10()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-80-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-81-1.png)<!-- -->
 
 Lastly, we can adjust the x-axis labels to make them more readable. We do this using `reorder`.
 
@@ -1454,7 +1461,7 @@ life_history %>%
   scale_y_log10()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-81-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
 
 **Examples**
 Filter the `homerange` data to include `mammals` only.
@@ -1496,7 +1503,7 @@ homerange %>%
   geom_bar()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-83-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-84-1.png)<!-- -->
 
 Make a bar plot that shows the masses of the top 10 smallest mammals.
 
@@ -1509,7 +1516,7 @@ homerange %>%
   coord_flip()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-84-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-85-1.png)<!-- -->
 
 **Examples**
 
@@ -1560,7 +1567,7 @@ penguins %>%
   geom_col()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-87-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-88-1.png)<!-- -->
 
 
 ```r
@@ -1582,7 +1589,7 @@ penguins %>%
   geom_col()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-89-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-90-1.png)<!-- -->
 
 
 ```r
@@ -1591,7 +1598,7 @@ penguins %>%
   geom_bar()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-90-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-91-1.png)<!-- -->
 
 How about average bill length by sex?
 
@@ -1604,7 +1611,7 @@ penguins %>%
   geom_col()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-91-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-92-1.png)<!-- -->
 
 ### Box Plots
 For the next series of examples, we will use the `homerange` data.  
@@ -1643,7 +1650,7 @@ homerange %>%
   geom_boxplot()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-94-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-95-1.png)<!-- -->
 
 **Examples**
 There are more herbivores than carnivores in the homerange data, but how do their masses compare? Make a summary and boxplot that compares their masses. Use `log10.mass`.
@@ -1655,7 +1662,7 @@ homerange %>%
   geom_boxplot()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-95-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-96-1.png)<!-- -->
 
 Now use a boxplot to visualize the range of log10.mass by family of mammalian carnivore.
 
@@ -1667,7 +1674,7 @@ homerange %>%
   coord_flip()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-96-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-97-1.png)<!-- -->
 
 
 ```r
@@ -1678,7 +1685,7 @@ life_history %>%
   scale_y_log10()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-97-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-98-1.png)<!-- -->
 
 ## LAB 11
 
@@ -1712,7 +1719,7 @@ elephants %>%
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
 
 The plot looks clean, but it is incomplete. A reader unfamiliar with the data might have a difficult time interpreting the labels. To add custom labels, we use the `labs` command.
 
@@ -1730,7 +1737,7 @@ elephants %>%
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-101-1.png)<!-- -->
 
 We can improve the plot further by adjusting the size and face of the text. We do this using `theme()`. The `rel()` option changes the relative size of the title to keep things consistent. Adding `hjust` allows control of title position.
 
@@ -1749,7 +1756,7 @@ elephants %>%
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-101-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-102-1.png)<!-- -->
 
 ### Other Aesthetics
 There are lots of options for aesthetics. An aesthetic can be assigned to either numeric or categorical data. `fill` is a common grouping option; notice that an appropriate key is displayed when you use one of these options.
@@ -1760,7 +1767,7 @@ elephants %>%
   geom_bar()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-102-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
 
 `size` adjusts the size of points relative to a continuous variable.
 
@@ -1770,7 +1777,7 @@ life_history %>%
   geom_point(na.rm=T)
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-104-1.png)<!-- -->
 
 
 ```r
@@ -1802,7 +1809,7 @@ Play with point size by adjusting the `size` argument.
 p + geom_point(size=0.25) #adjust the size of the dots
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-106-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-107-1.png)<!-- -->
 
 We can color the points by a categorical variable.
 
@@ -1810,7 +1817,7 @@ We can color the points by a categorical variable.
 p + geom_point(aes(color=thermoregulation), size=1.00) #for scatter plots, color is the same as fill in bar plots
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-107-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-108-1.png)<!-- -->
 
 We can also map shapes to another categorical variable.
 
@@ -1818,7 +1825,7 @@ We can also map shapes to another categorical variable.
 p + geom_point(aes(color=thermoregulation, shape=thermoregulation), size=2.00)
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-108-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-109-1.png)<!-- -->
 
 ### Barplots and multiple variables
 At this point you should be comfortable building bar plots that show counts of observations using `geom_bar()`. Last time we explored the `fill` option as a way to bring color to the plot; i.e. we filled by the same variable that we were plotting. What happens when we fill by a different categorical variable?  
@@ -1855,7 +1862,7 @@ homerange %>%
        x="Taxonomic group")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-110-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-111-1.png)<!-- -->
 
 By specifying `fill=trophic.guild` we build a stacked bar plot that shows the proportion of a given taxonomic group that is an herbivore or carnivore.
 
@@ -1868,7 +1875,7 @@ homerange %>%
        x="Taxonomic group")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-111-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-112-1.png)<!-- -->
 
 
 ```r
@@ -1880,7 +1887,7 @@ homerange %>%
        x="Taxonomic group")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-112-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-113-1.png)<!-- -->
 
 We can also have counts of each trophic guild within taxonomic group shown side-by-side by specifying `position="dodge"`.
 
@@ -1893,7 +1900,7 @@ homerange %>%
        x="Taxonomic group")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-113-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-114-1.png)<!-- -->
 
 Here is the same plot oriented vertically.
 
@@ -1906,7 +1913,7 @@ homerange %>%
        x="Taxonomic group")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-114-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-115-1.png)<!-- -->
 
 We can also scale all bars to a percentage.
 
@@ -1918,7 +1925,7 @@ homerange %>%
   coord_flip()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-115-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-116-1.png)<!-- -->
 
 **Examples**
 Make a bar plot that shows counts of individuals by island. Fill by species, and try both a stacked bar plot and `position="dodge"`.
@@ -1932,7 +1939,7 @@ penguins %>%
        y="Count")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-116-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-117-1.png)<!-- -->
 
 
 ```r
@@ -1944,7 +1951,7 @@ penguins %>%
        y="Count")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-117-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-118-1.png)<!-- -->
 
 
 ```r
@@ -1972,7 +1979,7 @@ penguins %>%
        y="Count")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-119-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-120-1.png)<!-- -->
 
 
 ```r
@@ -1985,7 +1992,7 @@ penguins %>%
        y="Count")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-120-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-121-1.png)<!-- -->
 
 
 ```r
@@ -1998,7 +2005,7 @@ penguins %>%
        y="Count")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-121-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-122-1.png)<!-- -->
 
 
 ```r
@@ -2050,7 +2057,7 @@ penguins %>%
        y="Count")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-124-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-125-1.png)<!-- -->
 
 ### group
 In addition to `fill`, `group` is an aesthetic that accomplishes the same function but does not add color.
@@ -2063,7 +2070,7 @@ homerange %>%
   geom_boxplot() #use for range
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-125-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-126-1.png)<!-- -->
 
 I use `group` to make individual box plots for each taxon within class.
 
@@ -2073,7 +2080,7 @@ homerange %>%
   geom_boxplot()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-126-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-127-1.png)<!-- -->
 
 I can also use `fill` to associate the different taxa with a color coded key.
 
@@ -2083,7 +2090,7 @@ homerange %>%
   geom_boxplot(alpha=0.5) #adds transparency 
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-127-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-128-1.png)<!-- -->
 
 
 ## LAB 12
@@ -2146,7 +2153,7 @@ deserts %>%
        y="n")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-131-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-132-1.png)<!-- -->
 
 ### Histograms
 Histograms are frequently used by biologists; they show the distribution of continuous variables. As students, you have seen histograms of grade distributions. A histogram `bins` the data and you specify the number of bins that encompass a range of observations. For something like grades, this is easy because the number of bins corresponds to the grades A-F. By default, R uses a formula to calculate the number of bins but some adjustment may be required.  
@@ -2160,7 +2167,7 @@ homerange %>%
   labs(title = "Distribution of Body Mass")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-132-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-133-1.png)<!-- -->
 
 Let's play with the colors. This shows all 657 of R's built-in colors. Notice that `color` and `fill` do different things!
 
@@ -2177,7 +2184,7 @@ homerange %>%
   labs(title = "Distribution of Body Mass")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-134-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-135-1.png)<!-- -->
 
 ### Density plots  
 Density plots are similar to histograms but they use a smoothing function to make the distribution more even and clean looking. They do not use bins.
@@ -2189,7 +2196,7 @@ homerange %>%
   labs(title = "Distribution of Body Mass")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-135-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-136-1.png)<!-- -->
 
 I like to see both the histogram and the density curve so I often plot them together. Note that I assign the density plot a different color.
 
@@ -2201,7 +2208,7 @@ homerange %>%
   labs(title = "Distribution of Body Mass")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-136-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-137-1.png)<!-- -->
 
 **Examples**
 1. Make a histogram of `log10.hra`. Make sure to add a title.
@@ -2217,7 +2224,7 @@ homerange %>%
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-137-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-138-1.png)<!-- -->
 
 2. Now plot the same variable using `geom_density()`.
 
@@ -2228,7 +2235,7 @@ homerange %>%
   labs(title = "Histogram of Homerange")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-138-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-139-1.png)<!-- -->
 
 3. Combine them both!
 
@@ -2244,7 +2251,7 @@ homerange %>%
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-139-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-140-1.png)<!-- -->
 
 ### Create Categories with mutate and case_when() **ON MIDTERM 2**
 `case_when()` is a very handy function from `dplyr` which allows us to calculate a new variable from other variables. We use `case_when()` within `mutate()` to do this.`case_when()` allows us to specify multiple conditions. Let's reclassify the body mass variable into a new factor variable with small, medium, and large animals. In this case, we are making a continuous variable into a categorical variable.  
@@ -2344,7 +2351,7 @@ homerange %>% #ON MIDTERM 2
   geom_bar(position = "dodge")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-144-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-145-1.png)<!-- -->
 
 **Examples**
 1. Use case_when() to make a new column `range_category` that breaks down `log10.hra` into very small, small, medium, and large classes based on quartile.
@@ -2419,7 +2426,7 @@ homerange %>%
   geom_bar(position = "dodge", alpha=0.6, color="black")
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-149-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-150-1.png)<!-- -->
 
 3. Isolate the small `range_category` and plot the range of `log10.mass` by taxonomic class.
 
@@ -2434,16 +2441,7 @@ homerange %>%
   geom_boxplot()
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-150-1.png)<!-- -->
-
-
-## Data
-For this tutorial, we will use:  
-[Homerange](http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1). The data are from: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211. http://dx.doi.org/10.1086/682070.  
-
-```r
-homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv", na = c("", "NA", "\\"))
-```
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-151-1.png)<!-- -->
 
 ### ggplot themes
 There are many options to change the theme of your plots within ggplot. Have a look [here]https://ggplot2.tidyverse.org/reference/ggtheme.html) for a list of the themes.  
@@ -2522,10 +2520,6 @@ There are many packages that include additional themes, one of which is [ggtheme
 library(ggthemes)
 ```
 
-```
-## Warning: package 'ggthemes' was built under R version 4.3.2
-```
-
 Here is a list of the `ggthemes`
 
 ```r
@@ -2570,11 +2564,6 @@ Access the help for `RColorBrewer`.
 ```r
 ?RColorBrewer #There are 3 types of palettes, sequential, diverging, and qualitative
 ```
-
-```
-## No documentation for 'RColorBrewer' in specified packages and libraries:
-## you could try '??RColorBrewer'
-```
 1. Sequential palettes are suited to ordered data that progress from low to high. Lightness steps dominate the look of these schemes, with light colors for low data values to dark colors for high data values.
 2. Diverging palettes put equal emphasis on mid-range critical values and extremes at both ends of the data range. The critical class or break in the middle of the legend is emphasized with light colors and low and high extremes are emphasized with dark colors that have contrasting hues.
 3. Qualitative palettes do not imply magnitude differences between legend classes, and hues are used to create the primary visual differences between classes. Qualitative schemes are best suited to representing nominal or categorical data.
@@ -2582,8 +2571,10 @@ The thing to notice is that there are three different color palettes: 1) sequent
 
 
 ```r
-#display.brewer.pal(9,"BuPu") #sequential palette
+display.brewer.pal(9,"BuPu") #sequential palette
 ```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-163-1.png)<!-- -->
 
 The [R Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website is very helpful for getting an idea of the color palettes. To make things easy, use these two guidelines:
 
@@ -2652,40 +2643,58 @@ colors
 Now we can display the palettes. Assign the palette to `my_palette` and then build this base R bar plot. There are a lot of options; `paleteer` is a collection of popular palettes. I really like the [`ggsci` package] (https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html)
 
 ```r
-#my_palette <- paletteer_d("ggsci::default_igv")
+my_palette <- paletteer_d("vangogh::SunflowersMunich") 
 ```
 
 
 ```r
-#barplot(rep(1,6), axes=FALSE, col=my_palette)
+barplot(rep(1,6), axes=FALSE, col=my_palette)
 ```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-169-1.png)<!-- -->
 
 Now we just identify `my_palette` as part of `scale_fill_manual()`
 
 ```r
-#p+scale_fill_manual(values=my_palette)+
-  #theme(legend.position = "bottom",
-        #axis.text.x = element_text(angle = 60, hjust=1))+
-  #labs(title = "Observations by Taxon in Homerange Data",
-       #x = NULL,
-       #y= "n",
-       #fill= "Trophic Guild")
+p+scale_fill_manual(values=my_palette)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
 ```
 
-## Practice
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-170-1.png)<!-- -->
+
+**Example**
 1. Keep using the `same `q` plot, but test out one of `paleteer` themes.
 
 ```r
-#q+theme_classic()+scale_colour_manual(values=my_palette)+
-  #theme(legend.position = "bottom",
-        #axis.text.x = element_text(angle = 60, hjust=1))+
-  #labs(title = "Observations by Taxon in Homerange Data",
-       #x = NULL,
-       #y= "n",
-       #fill= "Trophic Guild")
+my_palette2 <- paletteer_d("ggsci::springfield_simpsons") 
 ```
 
-## Faceting
+
+```r
+barplot(rep(1,6), axes=FALSE, col=my_palette2)
+```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-172-1.png)<!-- -->
+
+
+```r
+q+theme_classic()+scale_colour_manual(values=my_palette2)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-173-1.png)<!-- -->
+
+### Faceting
 [Faceting](https://ggplot2-book.org/facet.html) is one of the amazing features of ggplot. It allows us to make multi-panel plots for easy comparison.  Here is a boxplot that shows the range of log10.mass by taxon.
 
 ```r
@@ -2696,20 +2705,63 @@ homerange %>%
   theme(axis.text.x = element_text(angle = 60, hjust=1))
 ```
 
-![](midterm2_master_notes_files/figure-html/unnamed-chunk-172-1.png)<!-- -->
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-174-1.png)<!-- -->
 
 There are other categorical variables that might be interesting to overlay. `facet_wrap()` makes a ribbon of panels by a specified categorical variable and allows you to control how you want them arranged.  
 
+```r
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_wrap(~trophic.guild, ncol=2)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-175-1.png)<!-- -->
 
 `facet_grid()` allows control over the faceted variable; it can be arranged in rows or columns. rows~columns. 
 
+```r
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_grid(trophic.guild~.)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-176-1.png)<!-- -->
 
 `facet_grid()` will also allow the comparison of two categorical variables, just remember a~b where a is rows and b is columns.  
 
+```r
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_grid(trophic.guild~thermoregulation)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+```
 
-## Practice
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-177-1.png)<!-- -->
+
+**Examples**
 1. Use facet_wrap to compare the distribution of `log10.mass` by `thermoregulation`.
 
+```r
+homerange %>% 
+  ggplot(aes(x=log10.mass))+
+  geom_density(fill="steelblue", alpha=0.3)+
+  facet_wrap(~thermoregulation)
+```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-178-1.png)<!-- -->
 
 2. Use facet_grid to compare the distribution of `log10.mass` by `locomotion`.
 
+```r
+homerange %>% 
+  ggplot(aes(x=log10.hra))+
+  geom_density(fill="steelblue", alpha=0.3)+
+  facet_grid(.~locomotion)
+```
+
+![](midterm2_master_notes_files/figure-html/unnamed-chunk-179-1.png)<!-- -->

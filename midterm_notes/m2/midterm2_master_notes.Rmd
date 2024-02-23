@@ -23,8 +23,13 @@ library(naniar)
 library(visdat)
 library(here)
 library(palmerpenguins)
-
+library(RColorBrewer)
+library(paletteer)
 ``` 
+
+```{r}
+options(scipen=999) #cancels the use of scientific notation for the session
+```
 
 ## LAB 8
 
@@ -1196,14 +1201,6 @@ homerange %>%
   geom_boxplot()
 ```
 
-
-## Data
-For this tutorial, we will use:  
-[Homerange](http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1). The data are from: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211. http://dx.doi.org/10.1086/682070.  
-```{r message=FALSE, warning=FALSE}
-homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv", na = c("", "NA", "\\"))
-```
-
 ### ggplot themes
 There are many options to change the theme of your plots within ggplot. Have a look [here]https://ggplot2.tidyverse.org/reference/ggtheme.html) for a list of the themes.  
 
@@ -1304,7 +1301,7 @@ Access the help for `RColorBrewer`.
 The thing to notice is that there are three different color palettes: 1) sequential, 2) diverging, and 3) qualitative. Within each of these there are several selections. You can bring up the colors by using `display.brewer.pal()`. Specify the number of colors that you want and the palette name.
 
 ```{r}
-#display.brewer.pal(9,"BuPu") #sequential palette
+display.brewer.pal(9,"BuPu") #sequential palette
 ```
 
 The [R Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website is very helpful for getting an idea of the color palettes. To make things easy, use these two guidelines:
@@ -1348,37 +1345,45 @@ colors
 
 Now we can display the palettes. Assign the palette to `my_palette` and then build this base R bar plot. There are a lot of options; `paleteer` is a collection of popular palettes. I really like the [`ggsci` package] (https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html)
 ```{r}
-#my_palette <- paletteer_d("ggsci::default_igv")
+my_palette <- paletteer_d("vangogh::SunflowersMunich") 
 ```
 
 ```{r}
-#barplot(rep(1,6), axes=FALSE, col=my_palette)
+barplot(rep(1,6), axes=FALSE, col=my_palette)
 ```
 
 Now we just identify `my_palette` as part of `scale_fill_manual()`
 ```{r}
-#p+scale_fill_manual(values=my_palette)+
-  #theme(legend.position = "bottom",
-        #axis.text.x = element_text(angle = 60, hjust=1))+
-  #labs(title = "Observations by Taxon in Homerange Data",
-       #x = NULL,
-       #y= "n",
-       #fill= "Trophic Guild")
+p+scale_fill_manual(values=my_palette)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
 ```
 
-## Practice
+**Example**
 1. Keep using the `same `q` plot, but test out one of `paleteer` themes.
 ```{r}
-#q+theme_classic()+scale_colour_manual(values=my_palette)+
-  #theme(legend.position = "bottom",
-        #axis.text.x = element_text(angle = 60, hjust=1))+
-  #labs(title = "Observations by Taxon in Homerange Data",
-       #x = NULL,
-       #y= "n",
-       #fill= "Trophic Guild")
+my_palette2 <- paletteer_d("ggsci::springfield_simpsons") 
 ```
 
-## Faceting
+```{r}
+barplot(rep(1,6), axes=FALSE, col=my_palette2)
+```
+
+```{r}
+q+theme_classic()+scale_colour_manual(values=my_palette2)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+### Faceting
 [Faceting](https://ggplot2-book.org/facet.html) is one of the amazing features of ggplot. It allows us to make multi-panel plots for easy comparison.  Here is a boxplot that shows the range of log10.mass by taxon.
 ```{r}
 homerange %>% 
@@ -1390,26 +1395,44 @@ homerange %>%
 
 There are other categorical variables that might be interesting to overlay. `facet_wrap()` makes a ribbon of panels by a specified categorical variable and allows you to control how you want them arranged.  
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_wrap(~trophic.guild, ncol=2)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
 ```
 
 `facet_grid()` allows control over the faceted variable; it can be arranged in rows or columns. rows~columns. 
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_grid(trophic.guild~.)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
 ```
 
 `facet_grid()` will also allow the comparison of two categorical variables, just remember a~b where a is rows and b is columns.  
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_grid(trophic.guild~thermoregulation)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
 ```
 
-## Practice
+**Examples**
 1. Use facet_wrap to compare the distribution of `log10.mass` by `thermoregulation`.
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x=log10.mass))+
+  geom_density(fill="steelblue", alpha=0.3)+
+  facet_wrap(~thermoregulation)
 ```
 
 2. Use facet_grid to compare the distribution of `log10.mass` by `locomotion`.
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x=log10.hra))+
+  geom_density(fill="steelblue", alpha=0.3)+
+  facet_grid(.~locomotion)
 ```
