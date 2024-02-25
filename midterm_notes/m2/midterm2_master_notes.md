@@ -2216,7 +2216,7 @@ homerange %>%
 ```r
 homerange %>% 
   ggplot(aes(x=log10.hra)) + #only need to specify x
-  geom_histogram(color = "black", fill = "salmon")+
+  geom_histogram(color = "black", fill = "darkolivegreen")+
   labs(title = "Histogram of Homerange")
 ```
 
