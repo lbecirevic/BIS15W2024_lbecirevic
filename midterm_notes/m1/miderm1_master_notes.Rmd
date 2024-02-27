@@ -282,7 +282,7 @@ write.csv(hbirds, "hbirds_data.csv", row.names = FALSE) #comma separated value
 
 ### Loading the data from files
 ```{r}
-hot_springs <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv")
+hot_springs <- read_csv("/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv")
 ```
 
 **Count the number of rows and number of columns**
@@ -328,11 +328,11 @@ Data matrix has one class of data and a data frame have multiple classes of data
 
 ### Load the data
 ```{r}
-fish <- readr::read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Gaeta_etal_CLC_data.csv") #readr means read package
+fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv") #readr means read package
 ```
 
 ```{r}
-mammals <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/mammal_lifehistories_v2.csv")
+mammals <- read_csv("data/mammal_lifehistories_v2.csv")
 ```
 
 ### dplyr
@@ -461,7 +461,7 @@ filter(fish, length > 400, (scalelength > 11 | radii_length_mm > 8))
 
 **Load the data into a new object called `homerange`.**
 ```{r}
-homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Tamburelloetal_HomeRangeDatabase.csv")
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 **Change the class of the variables `taxon` and `order` to factors and display their levels**  
@@ -544,8 +544,8 @@ mammals %>%
 
 ## LAB 6
 ```{r}
-superhero_info <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/heroes_information.csv", na = c("", "-99", "-"))
-superhero_powers <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/super_hero_powers.csv", na = c("", "-99", "-"))
+superhero_info <- read_csv("data/heroes_information.csv", na = c("", "-99", "-"))
+superhero_powers <- read_csv("data/super_hero_powers.csv", na = c("", "-99", "-"))
 ```
 
 **Data tidy**

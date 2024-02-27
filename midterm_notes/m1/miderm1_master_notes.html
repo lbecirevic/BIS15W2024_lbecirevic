@@ -367,7 +367,7 @@ library(&quot;palmerpenguins&quot;)</code></pre>
 manage and share their code.</p>
 <p><strong>Check current working director</strong></p>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/midterm_notes&quot;</code></pre>
+<pre><code>## [1] &quot;/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/midterm_notes/m1&quot;</code></pre>
 <p><strong>Making a vector and calculate mean, median, and standard
 deviation</strong></p>
 <pre class="r"><code>x &lt;- c(1, 2, 3, 4, 5)</code></pre>
@@ -576,36 +576,22 @@ provide the dimension of the dataframe</strong></p>
 ##  $ weight: num  2.9 4 3.1</code></pre>
 <p><strong>Use lowercase names when we create the data
 frame</strong></p>
-<pre class="r"><code>hbirds &lt;- data_frame(sex=Sex, length=Length, weight_g=Weight)</code></pre>
-<pre><code>## Warning: `data_frame()` was deprecated in tibble 1.1.0.
-## ℹ Please use `tibble()` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
+<pre class="r"><code>hbirds &lt;- data.frame(sex=Sex, length=Length, weight_g=Weight)</code></pre>
 <pre class="r"><code>hbirds</code></pre>
-<pre><code>## # A tibble: 3 × 3
-##   sex    length weight_g
-##   &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1 male      3.2      2.9
-## 2 female    3.7      4  
-## 3 male      3.4      3.1</code></pre>
+<pre><code>##      sex length weight_g
+## 1   male    3.2      2.9
+## 2 female    3.7      4.0
+## 3   male    3.4      3.1</code></pre>
 </div>
 <div id="accessing-data-frame-columns-and-rows" class="section level3">
 <h3>Accessing Data Frame Columns and Rows</h3>
 <p><strong>The first row</strong></p>
 <pre class="r"><code>hbirds[1,]</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   sex   length weight_g
-##   &lt;chr&gt;  &lt;dbl&gt;    &lt;dbl&gt;
-## 1 male     3.2      2.9</code></pre>
+<pre><code>##    sex length weight_g
+## 1 male    3.2      2.9</code></pre>
 <p><strong>The third column</strong></p>
 <pre class="r"><code>hbirds[ ,3]</code></pre>
-<pre><code>## # A tibble: 3 × 1
-##   weight_g
-##      &lt;dbl&gt;
-## 1      2.9
-## 2      4  
-## 3      3.1</code></pre>
+<pre><code>## [1] 2.9 4.0 3.1</code></pre>
 <p><strong>Select values in an entire column using the <code>$</code>
 sign</strong></p>
 <pre class="r"><code>w &lt;- hbirds$weight_g
@@ -621,7 +607,7 @@ out</strong></p>
 </div>
 <div id="loading-the-data-from-files" class="section level3">
 <h3>Loading the data from files</h3>
-<pre class="r"><code>hot_springs &lt;- read_csv(&quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv&quot;)</code></pre>
+<pre class="r"><code>hot_springs &lt;- read_csv(&quot;/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv&quot;)</code></pre>
 <pre><code>## Rows: 9 Columns: 4
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -687,7 +673,7 @@ observation is in its own row and each cell had one value = tidy data
 (lab4_1</strong></p>
 <div id="load-the-data" class="section level3">
 <h3>Load the data</h3>
-<pre class="r"><code>fish &lt;- readr::read_csv(&quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Gaeta_etal_CLC_data.csv&quot;) #readr means read package</code></pre>
+<pre class="r"><code>fish &lt;- readr::read_csv(&quot;data/Gaeta_etal_CLC_data.csv&quot;) #readr means read package</code></pre>
 <pre><code>## Rows: 4033 Columns: 6
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -696,7 +682,7 @@ observation is in its own row and each cell had one value = tidy data
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>mammals &lt;- read_csv(&quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/mammal_lifehistories_v2.csv&quot;)</code></pre>
+<pre class="r"><code>mammals &lt;- read_csv(&quot;data/mammal_lifehistories_v2.csv&quot;)</code></pre>
 <pre><code>## Rows: 1440 Columns: 13
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1106,7 +1092,7 @@ are met.</li>
 </ul>
 <p><strong>Load the data into a new object called
 <code>homerange</code>.</strong></p>
-<pre class="r"><code>homerange &lt;- read_csv(&quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Tamburelloetal_HomeRangeDatabase.csv&quot;)</code></pre>
+<pre class="r"><code>homerange &lt;- read_csv(&quot;data/Tamburelloetal_HomeRangeDatabase.csv&quot;)</code></pre>
 <pre><code>## Rows: 569 Columns: 24
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1303,7 +1289,7 @@ data.</strong></p>
 </div>
 <div id="lab-6" class="section level2">
 <h2>LAB 6</h2>
-<pre class="r"><code>superhero_info &lt;- read_csv(&quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/heroes_information.csv&quot;, na = c(&quot;&quot;, &quot;-99&quot;, &quot;-&quot;))</code></pre>
+<pre class="r"><code>superhero_info &lt;- read_csv(&quot;data/heroes_information.csv&quot;, na = c(&quot;&quot;, &quot;-99&quot;, &quot;-&quot;))</code></pre>
 <pre><code>## Rows: 734 Columns: 10
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1312,7 +1298,7 @@ data.</strong></p>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>superhero_powers &lt;- read_csv(&quot;/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/super_hero_powers.csv&quot;, na = c(&quot;&quot;, &quot;-99&quot;, &quot;-&quot;))</code></pre>
+<pre class="r"><code>superhero_powers &lt;- read_csv(&quot;data/super_hero_powers.csv&quot;, na = c(&quot;&quot;, &quot;-99&quot;, &quot;-&quot;))</code></pre>
 <pre><code>## Rows: 667 Columns: 168
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;

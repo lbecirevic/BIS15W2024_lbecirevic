@@ -28,7 +28,7 @@ getwd()
 ```
 
 ```
-## [1] "/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/midterm_notes"
+## [1] "/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/midterm_notes/m1"
 ```
 
 **Making a vector and calculate mean, median, and standard deviation**
@@ -471,15 +471,7 @@ str(hbirds)
 **Use lowercase names when we create the data frame**
 
 ```r
-hbirds <- data_frame(sex=Sex, length=Length, weight_g=Weight)
-```
-
-```
-## Warning: `data_frame()` was deprecated in tibble 1.1.0.
-## ℹ Please use `tibble()` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
+hbirds <- data.frame(sex=Sex, length=Length, weight_g=Weight)
 ```
 
 
@@ -488,12 +480,10 @@ hbirds
 ```
 
 ```
-## # A tibble: 3 × 3
-##   sex    length weight_g
-##   <chr>   <dbl>    <dbl>
-## 1 male      3.2      2.9
-## 2 female    3.7      4  
-## 3 male      3.4      3.1
+##      sex length weight_g
+## 1   male    3.2      2.9
+## 2 female    3.7      4.0
+## 3   male    3.4      3.1
 ```
 
 ### Accessing Data Frame Columns and Rows 
@@ -504,10 +494,8 @@ hbirds[1,]
 ```
 
 ```
-## # A tibble: 1 × 3
-##   sex   length weight_g
-##   <chr>  <dbl>    <dbl>
-## 1 male     3.2      2.9
+##    sex length weight_g
+## 1 male    3.2      2.9
 ```
 
 **The third column** 
@@ -517,12 +505,7 @@ hbirds[ ,3]
 ```
 
 ```
-## # A tibble: 3 × 1
-##   weight_g
-##      <dbl>
-## 1      2.9
-## 2      4  
-## 3      3.1
+## [1] 2.9 4.0 3.1
 ```
 
 **Select values in an entire column using the `$` sign**
@@ -546,7 +529,7 @@ write.csv(hbirds, "hbirds_data.csv", row.names = FALSE) #comma separated value
 ### Loading the data from files
 
 ```r
-hot_springs <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv")
+hot_springs <- read_csv("/Users/lbecirev/Desktop/BIS15W2024_lbecirevic/lab3/hsprings_data.csv")
 ```
 
 ```
@@ -663,7 +646,7 @@ Data matrix has one class of data and a data frame have multiple classes of data
 ### Load the data
 
 ```r
-fish <- readr::read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Gaeta_etal_CLC_data.csv") #readr means read package
+fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv") #readr means read package
 ```
 
 ```
@@ -679,7 +662,7 @@ fish <- readr::read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/la
 
 
 ```r
-mammals <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/mammal_lifehistories_v2.csv")
+mammals <- read_csv("data/mammal_lifehistories_v2.csv")
 ```
 
 ```
@@ -1211,7 +1194,7 @@ filter(fish, length > 400, (scalelength > 11 | radii_length_mm > 8))
 **Load the data into a new object called `homerange`.**
 
 ```r
-homerange <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab4/data/Tamburelloetal_HomeRangeDatabase.csv")
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 ```
@@ -1471,7 +1454,7 @@ mammals %>%
 ## LAB 6
 
 ```r
-superhero_info <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/heroes_information.csv", na = c("", "-99", "-"))
+superhero_info <- read_csv("data/heroes_information.csv", na = c("", "-99", "-"))
 ```
 
 ```
@@ -1486,7 +1469,7 @@ superhero_info <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic
 ```
 
 ```r
-superhero_powers <- read_csv("/Users/lejla.becirevic/Desktop/BIS15W2024_lbecirevic/lab6/data/super_hero_powers.csv", na = c("", "-99", "-"))
+superhero_powers <- read_csv("data/super_hero_powers.csv", na = c("", "-99", "-"))
 ```
 
 ```
